@@ -1,0 +1,346 @@
+<project basedir="." default="report" name="localtest.xml">
+
+	<property file="./localtest.conf" />
+	
+	<taskdef resource="net/sf/antcontrib/antlib.xml">
+		<classpath>
+			 <pathelement location="${databaseinit.root}/lib/ant-contrib.jar" />
+		</classpath>
+	</taskdef>
+	
+	<!-- Common Properties -->
+  	<property environment="env"/>
+	<property name="java.home" value="${env.JAVA_HOME}"/>
+	<property name="ant.home"  value="${env.ANT_HOME}"/> 
+	<property name="project.name" value="localtest"/>
+	<property name="project.version" value="1.0"/>
+	<property name="debug" value="on"/>
+	<property name="encoding" value="UTF-8"/>
+	
+	<!-- properties for beidou-api  -->
+	<property name="beidou-api.src.dir" value="${beidou-api.root}/src" />
+	<property name="beidou-api.libtest.dir" value="${beidou-api.root}/lib-test" />
+	<property name="beidou-api.qa.dir" value="${beidou-api.root}/qa" />
+	<property name="beidou-core.src.dir" value="${beidou-core.root}/src" />
+		  	 
+	<!-- Properties for Beidou-api localbuild dir-->
+	<property name="beidou-api.localbuild.dir" value="${beidou-api.root}/localbuild" />
+	<property name="beidou-api.localbuild.classes.dir" value="${beidou-api.localbuild.dir}/WEB-INF/classes" />
+	<property name="beidou-api.localbuild.lib.dir" value="${beidou-api.localbuild.dir}/WEB-INF/lib" />
+	<property name="beidou-api.localbuild.core.dir" value="${beidou-api.localbuild.dir}/WEB-INF/core" />
+	<property name="beidou-api.localbuild.cobertura.dir" value="${beidou-api.localbuild.dir}/WEB-INF/cobertura" />
+		 
+	<!-- Properties for RD UT Testcases -->
+	<property name="beidou-api.ut.src.dir" value="${beidou-api.root}/test" />
+	<property name="beidou-api.ut.bin.dir" value="${beidou-api.localbuild.dir}/ut" /> 
+			
+	<!-- Properties for report -->
+	<property name="beidou-api.report.dir" value="${beidou-api.root}/report" />
+	<property name="beidou-api.report.junit.dir" value="${beidou-api.root}/report/junit" />
+	<property name="beidou-api.report.cobertura.dir" value="${beidou-api.root}/report/cobertura" />
+	
+	<!-- Properties for cobertura -->    
+	<path id="instrument-core.path">
+	    <pathelement location="${beidou-api.localbuild.core.dir}" />
+		<pathelement location="${beidou-api.localbuild.lib.dir}" />
+	</path> 
+	<path id="instrument-api.path">
+	    <pathelement location="${beidou-api.localbuild.classes.dir}" />
+		<pathelement location="${beidou-api.localbuild.lib.dir}" />
+	</path> 
+	<path id="cobertura.lib" >
+		<fileset dir="${beidou-api.qa.dir}/lib">
+			<include name="*.jar" />
+		</fileset>
+	</path>
+	
+	
+	<!--     findbugs   
+	<property name="findbugs.home" value="/home/work/software/findbugs-1.3.9" />
+	 -->
+	<path id="findbugs.path" >  
+		<fileset  dir ="${findbugs.home}">  
+			<include  name ="**/*.jar"/>  
+		</fileset>  
+	</path>  
+	
+	<taskdef classpathref="cobertura.lib" resource="tasks.properties"/>
+	<!-- 
+	<taskdef name="FindBugs" classname="edu.umd.cs.findbugs.anttask.FindBugsTask" />
+	-->
+	
+	
+	<!-- Step 1 : Build The Beidou-core And Beidou-api With RD build.xml -->
+	<target  name="compile_rd"> 
+		<if>
+		 	<equals arg1="${runRdCompile}" arg2="true" />
+			<then> 
+				<ant antfile="./build.xml" dir="${beidou-core.root}"/>
+				<ant antfile="./build.xml" dir="${beidou-api.root}"/>   
+			</then>
+			<else>
+				<echo message="[RunRdCompile=False] : The Rd Compiling Process Is Turned OFF! " />
+			</else>
+		</if> 
+	</target>
+	
+	
+	
+	<!-- Step 2 : Initial the database, inflate the war, and do the qa replacement -->
+	<target  name="init"  depends="compile_rd"> 
+		<!-- Initialize the localbuild dir -->
+		<delete dir="${beidou-api.localbuild.dir}"/>
+		<mkdir dir="${beidou-api.localbuild.dir}"/>
+		<mkdir dir="${beidou-api.localbuild.core.dir}"/>  
+		<mkdir dir="${beidou-api.ut.bin.dir}"/> 
+		<delete dir="${beidou-api.report.dir}"/>
+		<mkdir dir="${beidou-api.report.dir}" />
+		<mkdir dir="${beidou-api.report.junit.dir}" />
+		<mkdir dir="${beidou-api.report.cobertura.dir}" />
+		<!-- Database Init -->
+		<if>
+		 	<equals arg1="${runDatabaseInit}" arg2="true" />
+			<then>
+				<echo message="Run DatabseInit" />
+				<ant antfile="./dbinit.xml" dir="${databaseinit.root}"/>
+			</then>
+			<else>
+				<echo message="[RunDatabsaeInit=False] : The DatabseInit Has Been Turned Off! " />
+			</else>
+		</if> 
+		<!-- Inflating War and jar-->
+		<unzip src="${beidou-api.output.war}" dest="${beidou-api.localbuild.dir}">
+		</unzip> 
+		
+		<!--
+		<unzip src="${beidou-api.localbuild.lib.dir}/beidou-core.jar" dest="${beidou-api.localbuild.core.dir}">
+		</unzip>  
+		<delete file="${beidou-api.localbuild.lib.dir}/beidou-core.jar" />
+		-->
+		 
+		<!-- Replace the QA Config -->
+		<if>
+		 	<equals arg1="${replaceQaConfig}" arg2="true" />
+			<then>
+				<echo message="[replaceQaConfig=true] : Replacing Qa Config" />
+				<!-- Do The QA Modifications for beidou-core  --> 	 
+				<for param="line"> 
+				  	<tokens> 
+				    	<file file="${replaceconfig.root}/beidou-core.rep" /> 
+				  	</tokens> 
+				  	<sequential> 
+				  		<var name="rep.file.path" unset="true"/>
+				  		<var name="rep.source" unset="true"/>
+				  		<var name="rep.destination" unset="true"/> 
+				    	<echo>Processing ConfigReplace For Beidou-core: @{line} </echo>
+				  	    <propertyregex property="rep.file.path" input="@{line}"  regexp="(.*)\t(.*)\t(.*)" select="\1" casesensitive="false" /> 
+				  		<propertyregex property="rep.source" input="@{line}"  regexp="(.*)\t(.*)\t(.*)" select="\2" casesensitive="false" /> 
+				  		<propertyregex property="rep.destination" input="@{line}"  regexp="(.*)\t(.*)\t(.*)" select="\3" casesensitive="false" /> 
+				  	  	<replaceregexp file="${beidou-api.localbuild.core.dir}/${rep.file.path}"
+			  	                         match="${rep.source}"
+			  	                         replace="${rep.destination}"
+			  	                         byline="true"/> 
+				  	</sequential> 
+				</for> 
+			 	<for param="line"> 
+				  	<tokens> 
+				    	<file file="${replaceconfig.root}/beidou-api.rep" /> 
+				  	</tokens> 
+				  	<sequential> 
+				  		<var name="rep.file.path" unset="true"/>
+				  		<var name="rep.source" unset="true"/>
+				  		<var name="rep.destination" unset="true"/> 
+				    	<echo>Processing ConfigReplace For Beidou-api: @{line} </echo>
+				  	    <propertyregex property="rep.file.path" input="@{line}"  regexp="(.*)\t(.*)\t(.*)" select="\1" casesensitive="false" /> 
+				  		<propertyregex property="rep.source" input="@{line}"  regexp="(.*)\t(.*)\t(.*)" select="\2" casesensitive="false" /> 
+				  		<propertyregex property="rep.destination" input="@{line}"  regexp="(.*)\t(.*)\t(.*)" select="\3" casesensitive="false" /> 
+				  	  	<replaceregexp file="${beidou-api.localbuild.classes.dir}/${rep.file.path}"
+			  	                         match="${rep.source}"
+			  	                         replace="${rep.destination}"
+			  	                         byline="true"/> 
+				  	</sequential> 
+				</for> 
+			</then>
+			<else>
+				<echo message="[replaceQaConfig=False] : The Config Replacing Task Has Been Turned Off! " />
+			</else>
+		</if>  
+		
+		<!-- Do the covearge Stubbing -->
+		<if>
+		 	<equals arg1="${runEMMA}" arg2="true" />
+			<then>
+				<echo message="[runEMMA=true] : Do EMMA Stubbing task" /> 
+				<!-- Stubbing the beidou-core -->
+				<delete dir="${beidou-api.localbuild.cobertura.dir}"/>
+				<mkdir dir="${beidou-api.localbuild.cobertura.dir}"/>
+				
+				<cobertura-instrument datafile="${beidou-api.report.cobertura.dir}/cobertura.ser">
+					<ignore regex="org.apache.log4j.*" />
+					<fileset dir="${beidou-api.localbuild.core.dir}"> 
+						<exclude name="**/*Test.class" />
+						<exclude name="*.vo.*" />
+			   			<exclude name="*.bo.*" />
+			   			<exclude name="*.constant.*" /> 
+						<exclude name="*.bean.*" />
+					</fileset>
+				</cobertura-instrument>
+				
+				<!-- Stubbing the beidou-api -->
+				<delete dir="${beidou-api.localbuild.cobertura.dir}"/>
+				<mkdir dir="${beidou-api.localbuild.cobertura.dir}"/>
+				<cobertura-instrument datafile="${beidou-api.report.cobertura.dir}/cobertura.ser">
+					<ignore regex="org.apache.log4j.*" />
+					<fileset dir="${beidou-api.localbuild.classes.dir}"> 
+						<exclude name="**/*Test.class" />
+						<exclude name="*.vo.*" />
+			   			<exclude name="*.bo.*" />
+			   			<exclude name="*.constant.*" /> 
+						<exclude name="*.bean.*" />
+					</fileset>
+				</cobertura-instrument>
+			</then>
+			<else>
+				<echo message="[runEMMA=False] : The EMMA coverage has been turned Off! " />
+			</else>
+		</if> 
+	</target>
+	
+	<!--copy src class文件 -->
+			<target name="cp_classes" depends="init">
+				<mkdir dir="${beidou-api.root}/classes_to_find" />
+				<copy todir="${beidou-api.root}/classes_to_find">
+					  <fileset dir="${beidou-api.localbuild.classes.dir}">
+					  </fileset>
+				</copy>
+			</target>
+	<!-- 
+			<target name="FindBugs" depends="cp_classes">
+						<FindBugs home="${findbugs.home}" output="xml" outputFile="findbugs.xml"> 
+							<class location="${beidou-api.localbuild.classes.dir}" /> 
+						</FindBugs> 
+			</target>	
+			-->
+	
+	<!-- Step3: Build and Run the UT Case --> 
+	<target depends="cp_classes" name="runRdCase"> 
+		<if>
+		 	<equals arg1="${runRdCase}" arg2="true" />
+			<then>
+				<echo message="[runRdCase=true] : Compile And Run Unit Test Cases" /> 
+				<!-- compile the UT Test Code --> 
+				<javac destdir="${beidou-api.ut.bin.dir}" deprecation="true" encoding="${encoding}" debug="${debug}">
+					<src path="${beidou-api.ut.src.dir}" />
+					<classpath>
+						<pathelement location="${beidou-api.localbuild.core.dir}" />
+						<pathelement location="${beidou-api.localbuild.classes.dir}" />
+						<fileset dir="${beidou-api.localbuild.lib.dir}">
+							<include name="**/*.jar" />
+						</fileset>
+						<fileset dir="${beidou-api.libtest.dir}">
+													<include name="**/*.jar" />
+						</fileset>
+					</classpath>
+				</javac>
+				<copy overwrite="true" todir="${beidou-api.ut.bin.dir}">
+					<fileset dir="${beidou-api.ut.src.dir}" />
+				</copy>
+				<!-- run ut case -->
+				<junit printsummary="yes" haltonerror="no" haltonfailure="no" fork="yes">  
+					
+					<sysproperty key="net.sourceforge.cobertura.datafile"  file="${beidou-api.report.cobertura.dir}/cobertura.ser" />
+
+					<formatter type="plain" usefile="false" />
+					<formatter type="xml" />
+					<batchtest todir="${beidou-api.report.junit.dir}">
+						<fileset dir="${beidou-api.ut.bin.dir}">
+							<include name="**/InternalTestSuite.java" />
+							<include name="**/ExternalTestSuite.java" />
+						</fileset>
+					</batchtest>
+					<classpath>
+						<pathelement location="${beidou-api.ut.bin.dir}" />
+						<pathelement location="${beidou-api.localbuild.core.dir}" />
+						<pathelement location="${beidou-api.localbuild.classes.dir}" />
+						<fileset dir="${beidou-api.libtest.dir}">
+							<include name="**/*.jar" />
+						</fileset>
+						<fileset dir="${beidou-api.localbuild.lib.dir}">
+							<include name="**/*.jar" />
+						</fileset>
+					</classpath>
+					<classpath refid="cobertura.lib" />
+				</junit> 
+			</then>
+			<else>
+				<echo message="[runRdCase=False] : Unit Testcases has been turned Off! " />
+			</else>
+		</if> 
+	</target>
+	 
+  
+	
+	<!-- generate the report for test result  -->
+	<target name="report" depends="runRdCase">
+		<!-- generate html junit report --> 
+		<junitreport todir="${beidou-api.report.junit.dir}">
+			<fileset dir="${beidou-api.report.junit.dir}">
+				<include name="TEST-*.xml" />
+			</fileset>
+			<report todir="${beidou-api.report.junit.dir}" />
+		</junitreport>
+		
+		<!-- generate EMMA result -->
+		<if>
+		 	<equals arg1="${runEMMA}" arg2="true" />
+			<then>
+				<echo message="[runEMMA=True] : Generate the cobertura report! " />
+				
+
+				<mkdir dir="${beidou-api.report.cobertura.dir}/html" />
+				<cobertura-report format="html" destdir="${beidou-api.report.cobertura.dir}/html" 
+							datafile="${beidou-api.report.cobertura.dir}/cobertura.ser">
+				    <fileset dir="${beidou-core.src.dir}">
+				        <include name="**/*.java" />
+				    </fileset>
+					<fileset dir="${beidou-api.src.dir}">
+				        <include name="**/*.java" />
+				    </fileset>
+				</cobertura-report>
+				
+				<cobertura-report format="xml" destdir="${beidou-api.report.cobertura.dir}" 
+							datafile="${beidou-api.report.cobertura.dir}/cobertura.ser">
+				    <fileset dir="${beidou-core.src.dir}">
+				        <include name="**/*.java" />
+				    </fileset>
+					<fileset dir="${beidou-api.src.dir}">
+				        <include name="**/*.java" />
+				    </fileset>
+				</cobertura-report>
+				
+			</then>
+			<else>
+				<echo message="[runEMMA=False] : Emma report has been turned Off! " />
+			</else>
+		</if> 
+		
+		
+	</target> 
+	
+	
+</project>
+
+
+<!-- then checkout the corresponding Beidou_Tester --> 
+<!--
+<path id="svnant.lib">
+	<fileset dir="./svnlib">
+          <include name="svn*.jar"/>
+     </fileset>
+</path> 
+<taskdef name="svn" classname="org.tigris.subversion.svnant.SvnTask"  classpathref="svnant.lib" />  
+<target depends="init" name="svntinfo"> 
+ 	<svn>
+ 	   <checkout url="https://svn.baidu.com/app-test/ecom/cpweb/trunk/beidou" destPath="./backup" />
+ 	</svn>
+</target>-->

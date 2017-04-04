@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mappings xmlns="http://dozer.sourceforge.net"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://dozer.sourceforge.net
+          http://dozer.sourceforge.net/schema/beanmapping.xsd">
+
+	<mapping>
+		<class-a>
+			com.baidu.beidou.api.external.user.vo.AccountInfoType
+		</class-a>
+		<class-b>com.baidu.beidou.user.bo.User</class-b>
+		<field>
+			<a>userId</a>
+			<b>userid</b>
+		</field>
+		<field>
+			<a>userName</a>
+			<b>username</b>
+		</field>
+
+	</mapping>
+</mappings>

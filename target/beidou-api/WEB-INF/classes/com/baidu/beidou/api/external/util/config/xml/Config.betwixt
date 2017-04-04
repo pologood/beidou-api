@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<info>
+	<element name="service-list">
+		<element name="sleep-time" property="sleepTime" />
+		<element name="wait-time" property="waitTimes" />
+		<element name="app-threshold" property="appThreshold" />
+		<element name="user-threshold" property="userThreshold" />
+		<element name="function" property="items" />
+		<addDefaults/>
+	</element>
+</info>

@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN 2.0//EN" "http://www.springframework.org/dtd/spring-beans-2.0.dtd">
+
+<!--
+	- Application context definition for "springapp" DispatcherServlet.
+-->
+
+<beans>
+    <!-- add by caichao 13-9-10 -->
+   <bean id="statToolServiceSupport" class="com.baidu.beidou.api.external.tool.service.StatToolServiceSupport">
+   		<property name="userMgr">
+   			<ref bean="userMgr"/>
+   		</property>	
+   		<property name="cproPlanMgr">
+   			<ref bean="cproPlanMgr"/>
+   		</property>
+   		<property name="cproGroupMgr">
+   			<ref bean="cproGroupMgr"/>
+   		</property>
+   		<property name="cproUnitMgr">
+   			<ref bean="unitMgr"/>
+   		</property> 
+	</bean>
+	<bean id="accountStatToolService" class="com.baidu.beidou.api.external.tool.service.AccountStatToolServiceImpl" parent="statToolServiceSupport">
+	</bean>
+	<bean id="planStatToolService" class="com.baidu.beidou.api.external.tool.service.PlanStatToolServiceImpl" parent="statToolServiceSupport">
+	</bean>
+	<bean id="groupStatToolService" class="com.baidu.beidou.api.external.tool.service.GroupStatToolServiceImpl" parent="statToolServiceSupport">
+	</bean>
+	<bean id="unitStatToolService" class="com.baidu.beidou.api.external.tool.service.UnitStatToolServiceImpl" parent="statToolServiceSupport">
+	</bean>
+	
+	<bean id="apiToolReportValidator" class="com.baidu.beidou.api.external.tool.validator.ApiReportValidator">
+	<property name="beidouStartDateYYYY" value="${beidouStartDateYYYY}" />
+   		<property name="beidouStartDateMM" value="${beidouStartDateMM}" />
+   		<property name="beidouStartDateDD" value="${beidouStartDateDD}" />
+		<property name="userMgr">
+   			<ref bean="userMgr"/>
+   		</property>	
+   		<property name="cproPlanMgr">
+   			<ref bean="cproPlanMgr"/>
+   		</property>
+   		<property name="cproGroupMgr">
+   			<ref bean="cproGroupMgr"/>
+   		</property>
+   		<property name="cproUnitMgr">
+   			<ref bean="unitMgr"/>
+   		</property>
+   	</bean>
+   	<!-- end -->
+
+	<bean id="toolService" class="com.baidu.beidou.api.external.tool.exporter.impl.ToolServiceImpl">
+		<property name="unitMgr">
+            <ref bean="unitMgr" />
+        </property>
+        <property name="fcFacade">
+            <ref bean="fcFacade" />
+        </property>
+        <property name="wordPackMgr">
+            <ref bean="wordPackMgr" />
+        </property>
+        <property name="groupPackMgr">
+            <ref bean="groupPackMgr" />
+        </property>
+        <property name="wordPackKeywordMgr">
+            <ref bean="wordPackKeywordMgr" />
+        </property>
+        <property name="userMgr">
+            <ref bean="userMgr"/>
+        </property>
+        <property name="optHistoryMgr">
+            <ref bean="optHistoryMgr"/>
+        </property>
+        <property name="apiReportValidator">
+            <ref bean="apiToolReportValidator"/>
+        </property>
+        <property name="accountStatToolService">
+            <ref bean="accountStatToolService"/>
+        </property>
+        <property name="planStatToolService">
+            <ref bean="planStatToolService"/>
+        </property>
+        <property name="groupStatToolService">
+            <ref bean="groupStatToolService"/>
+        </property>
+        <property name="unitStatToolService">
+            <ref bean="unitStatToolService"/>
+        </property>
+		<property name="adIdsMax">
+			<value>300</value>
+		</property>
+		<property name="gpidsMax">
+			<value>100</value>
+		</property>
+		<property name="sitesMax">
+			<value>1000</value>
+		</property>
+		<property name="fcUnitIdsMax">
+			<value>100</value>
+		</property>
+		<property name="getKeywordPackByIdMax">
+			<value>100</value>
+		</property>
+		<property name="getAdvancedPackByIdMax">
+			<value>100</value>
+		</property>
+	</bean>
+
+	<!-- 代理定义 -->
+	<bean id="toolProxy" parent="apiExternalProxyBase">
+		<property name="target" ref="toolService"></property>
+		<property name="proxyInterfaces"
+			value="com.baidu.beidou.api.external.tool.exporter.ToolService">
+		</property>
+		<property name="interceptorNames">
+			<list merge="true">
+				<value>adPrivilegeAdvisor</value>
+			</list>
+		</property>
+	</bean>
+	
+	<!-- rpc定义 -->
+	<bean class="com.baidu.rpc.server.RpcExporter"
+		scope="singleton">
+		<property name="serviceInterfaceName" value="com.baidu.beidou.api.external.tool.exporter.ToolService"/>
+		<property name="serviceBean">
+			<ref bean="toolProxy"/>
+		</property>
+	</bean>
+	
+   
+</beans>

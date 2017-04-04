@@ -1,0 +1,407 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{360B2264-2760-4604-B391-9BE5618BCC05}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>com.baidu.api.sem.nms.v2</RootNamespace>
+    <AssemblyName>NMSAPI-2.0.0</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="lib\HeaderUtil.cs" />
+    <Compile Include="lib\ImageUtils.cs" />
+    <Compile Include="lib\ObjectDumper.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Service References\AccountFileService\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Service References\AccountService\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Service References\AdService\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Service References\CampaignService\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Service References\CodeService\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Service References\FCService\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Service References\GroupConfigService\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Service References\GroupService\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Service References\InterestService\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Service References\PeopleService\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Service References\ReportService\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="v2\AccountServiceExamples.cs" />
+    <Compile Include="v2\AdServiceExamples.cs" />
+    <Compile Include="v2\CampaignServiceExamples.cs" />
+    <Compile Include="v2\AccountFileServiceExamples.cs" />
+    <Compile Include="v2\CodeServiceExamples.cs" />
+    <Compile Include="v2\FCServiceExamples.cs" />
+    <Compile Include="v2\GroupConfigServiceExamples.cs" />
+    <Compile Include="v2\GroupServiceExamples.cs" />
+    <Compile Include="v2\InterestServiceExamples.cs" />
+    <Compile Include="v2\PeopleServiceExamples.cs" />
+    <Compile Include="v2\ReportServiceExamples.cs" />
+    <Compile Include="v2\SandboxAccountServiceExamples.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="ClassDiagram1.cd" />
+    <None Include="Service References\AccountFileService\AccountFileService.wsdl" />
+    <None Include="Service References\AccountFileService\com.baidu.api.sem.nms.v2.AccountFileService.ResHeader.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\AccountFileService\Common.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\AccountService\AccountService.wsdl" />
+    <None Include="Service References\AccountService\com.baidu.api.sem.nms.v2.AccountService.AccountInfoType.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\AccountService\com.baidu.api.sem.nms.v2.AccountService.ResHeader1.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\AccountService\Common.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\AdService\AdService1.wsdl" />
+    <None Include="Service References\AdService\com.baidu.api.sem.nms.v2.AdService.AdType1.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\AdService\com.baidu.api.sem.nms.v2.AdService.ResHeader1.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\AdService\Common1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\CampaignService\CampaignService1.wsdl" />
+    <None Include="Service References\CampaignService\com.baidu.api.sem.nms.v2.CampaignService.CampaignType1.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\CampaignService\com.baidu.api.sem.nms.v2.CampaignService.ResHeader1.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\CampaignService\Common1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\CodeService\CodeService1.wsdl" />
+    <None Include="Service References\CodeService\com.baidu.api.sem.nms.v2.CodeService.CategoryType1.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\CodeService\com.baidu.api.sem.nms.v2.CodeService.RegionType1.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\CodeService\com.baidu.api.sem.nms.v2.CodeService.ResHeader1.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\CodeService\Common1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\FCService\com.baidu.api.sem.nms.v2.FCService.FCCampaignType.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\FCService\com.baidu.api.sem.nms.v2.FCService.FCUnitType.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\FCService\com.baidu.api.sem.nms.v2.FCService.ResHeader.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\FCService\Common.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\FCService\FCService.wsdl" />
+    <None Include="Service References\GroupConfigService\com.baidu.api.sem.nms.v2.GroupConfigService.ExcludeIpType1.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\GroupConfigService\com.baidu.api.sem.nms.v2.GroupConfigService.ExcludeSiteType1.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\GroupConfigService\com.baidu.api.sem.nms.v2.GroupConfigService.InterestInfoType.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\GroupConfigService\com.baidu.api.sem.nms.v2.GroupConfigService.KeywordType.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\GroupConfigService\com.baidu.api.sem.nms.v2.GroupConfigService.RegionConfigType1.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\GroupConfigService\com.baidu.api.sem.nms.v2.GroupConfigService.ResHeader1.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\GroupConfigService\com.baidu.api.sem.nms.v2.GroupConfigService.SiteConfigType1.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\GroupConfigService\com.baidu.api.sem.nms.v2.GroupConfigService.SiteUrlType1.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\GroupConfigService\com.baidu.api.sem.nms.v2.GroupConfigService.TargetInfoType1.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\GroupConfigService\com.baidu.api.sem.nms.v2.GroupConfigService.TradeSitePriceType1.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\GroupConfigService\Common1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\GroupConfigService\GroupConfigService1.wsdl" />
+    <None Include="Service References\GroupService\com.baidu.api.sem.nms.v2.GroupService.GroupType1.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\GroupService\com.baidu.api.sem.nms.v2.GroupService.ResHeader1.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\GroupService\Common1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\GroupService\GroupService1.wsdl" />
+    <None Include="Service References\InterestService\com.baidu.api.sem.nms.v2.InterestService.CustomInterestType.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\InterestService\com.baidu.api.sem.nms.v2.InterestService.InterestType.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\InterestService\com.baidu.api.sem.nms.v2.InterestService.ResHeader.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\InterestService\Common.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\InterestService\InterestService.wsdl" />
+    <None Include="Service References\PeopleService\com.baidu.api.sem.nms.v2.PeopleService.PeopleType1.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PeopleService\com.baidu.api.sem.nms.v2.PeopleService.ResHeader1.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PeopleService\Common1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\PeopleService\PeopleService1.wsdl" />
+    <None Include="Service References\ReportService\com.baidu.api.sem.nms.v2.ReportService.ResHeader1.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ReportService\ReportService1.wsdl" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadataStorage Include="Service References\AccountFileService\" />
+    <WCFMetadataStorage Include="Service References\AccountService\" />
+    <WCFMetadataStorage Include="Service References\AdService\" />
+    <WCFMetadataStorage Include="Service References\CampaignService\" />
+    <WCFMetadataStorage Include="Service References\CodeService\" />
+    <WCFMetadataStorage Include="Service References\FCService\" />
+    <WCFMetadataStorage Include="Service References\GroupConfigService\" />
+    <WCFMetadataStorage Include="Service References\GroupService\" />
+    <WCFMetadataStorage Include="Service References\InterestService\" />
+    <WCFMetadataStorage Include="Service References\PeopleService\" />
+    <WCFMetadataStorage Include="Service References\ReportService\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\AccountService\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\AccountService\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\AccountService\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\AdService\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\AdService\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\AdService\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\ReportService\Common1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\ReportService\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\ReportService\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\ReportService\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\GroupService\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\GroupService\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\GroupService\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\GroupConfigService\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\GroupConfigService\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\GroupConfigService\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\CampaignService\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\CampaignService\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\CampaignService\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\CodeService\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\CodeService\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\CodeService\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\PeopleService\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\PeopleService\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\PeopleService\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="data\160_600.jpg" />
+    <Content Include="data\60_60.jpg" />
+    <Content Include="data\960_90.swf" />
+    <Content Include="docs\Readme.txt" />
+    <Content Include="LICENSE.txt" />
+    <None Include="Service References\InterestService\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Service References\InterestService\configuration.svcinfo" />
+    <None Include="Service References\InterestService\configuration91.svcinfo" />
+    <None Include="Service References\AccountFileService\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Service References\AccountFileService\configuration.svcinfo" />
+    <None Include="Service References\AccountFileService\configuration91.svcinfo" />
+    <None Include="Service References\FCService\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Service References\FCService\configuration.svcinfo" />
+    <None Include="Service References\FCService\configuration91.svcinfo" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

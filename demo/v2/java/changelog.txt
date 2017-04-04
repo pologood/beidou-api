@@ -1,0 +1,67 @@
+************************************************中文*****************************************************
+
+Ver 1.1.8 @ 2011-10-28:
+
+增加最近更新打包下载和按需要下载接口。
+AccountService增加getSelectedObjects, getSelectedObjectsPath, getChangedScale, getAllChangedObjects, getAllChangedObjectsPath
+对于老用户，只需要更新api-gateway-1.x.x.jar 到 api-gateway-1.1.8.jar并用新的baidu-clientlib-1.1.8.jar替换原来的jar。 
+
+Ver 1.1.6 @ 2011-06-28:
+
+增加关键词推荐二期的接口。
+KRService增加getKRbySeedUrl, getSeedWord, getSeedUrl, getKRCustom
+对于老用户，只需要更新api-gateway-1.x.x.jar 到 api-gateway-1.1.6.jar并用新的baidu-clientlib-1.1.6.jar替换原来的jar。 
+
+Ver 1.1.5 @ 2011-04-20:
+
+增加质量度和状态的接口。
+KeywordService增加activateKeyword, getKeywordQuality, getKeywordQualityZip, getKeywordStatus, getKeywordStatusZip 
+CreativeService增加activateCreative, getCreativeStatus, getCreativeStatusZip
+
+Ver 1.1.0 @ 2011-03-08:
+
+增加对整帐户下载的支持。看AccountServiceExamples.java
+对于老用户，只需要更新api-gateway-1.0.4.jar 到 api-gateway-1.0.5.jar并用新的baidu-clientlib-1.1.0.jar替换原来的baidu-clientlib-1.0.0.jar。
+
+Ver 1.0.0 @ 2011-01-07:
+
+增加对关键词推荐的支持。看KRServiceExamples.java
+对于老用户，只需要更新api-gateway-1.0.3.jar 到 api-gateway-1.0.4.jar并用新的baidu-clientlib-1.0.0.jar替换原来的jar。
+
+***********************************************English***********************************************************
+
+Ver 1.1.8 @ 2011-10-28:
+
+Add more support to Account Service. See AccountServiceExamples.java
+AccountService add five more methods: getSelectedObjects, getSelectedObjectsPath, getChangedScale, getAllChangedObjects, getAllChangedObjectsPath
+For old users, replace api-gateway-1.x.x.jar with api-gateway-1.1.8.jar
+and replace baidu-clientlib-1.x.x.jar with the new baidu-clientlib-1.1.8.jar
+
+Ver 1.1.6 @ 2011-06-28:
+
+Add more support to Keyword Recommendation Service. See KRServiceExamples.java
+KRService add four more methods: getKRbySeedUrl, getSeedWord, getSeedUrl, getKRCustom
+For old users, replace api-gateway-1.x.x.jar with api-gateway-1.1.6.jar
+and replace baidu-clientlib-1.x.x.jar with the new baidu-clientlib-1.1.6.jar
+
+Ver 1.1.5 @ 2011-04-20:
+
+Add support to get Creative and Keyword Status and Quality.
+For KeywordService added activateKeyword, getKeywordQuality, getKeywordQualityZip, getKeywordStatus, getKeywordStatusZip 
+For CreativeService added activateCreative, getCreativeStatus, getCreativeStatusZip
+
+Ver 1.1.0 @ 2011-03-08:
+
+Add support to Account download. See AccountServiceExamples.java
+For old users, replace api-gateway-1.0.4.jar with api-gateway-1.0.5.jar
+and replace baidu-clientlib-1.0.0.jar with the new baidu-clientlib-1.1.0.jar
+
+Ver 1.0.0 @ 2011-01-07:
+
+Add support to Keyword Recommendation Service. See KRServiceExamples.java
+For old users, replace api-gateway-1.0.3.jar with api-gateway-1.0.4.jar
+and replace baidu-clientlib-1.0.0.jar with the new one.
+
+------------------------------------------------------------------------------------------------------------------
+Copyright 2010 Baidu.com Inc.
+Baidu API Team

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<info primitiveTypes="element">
+	<element name="item">
+		<attribute name="id" property="id"/>
+		<attribute name="name" property="name"/>
+		<element name="filename" property="filename"/>
+		<element name="handler-bean" property="handlerBean"/>
+		<element name="header" property="header"/>	
+		<addDefaults/>
+	</element>
+</info>

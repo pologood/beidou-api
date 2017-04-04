@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:amq="http://activemq.apache.org/schema/core" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+  http://activemq.apache.org/schema/core http://activemq.apache.org/schema/core/activemq-core.xsd">
+
+	<!--  lets create an embedded ActiveMQ Broker -->
+	<amq:broker useJmx="true" persistent="false" useShutdownHook="true"
+		brokerName="broker-api" xmlns="http://activemq.apache.org/schema/core">
+		<persistenceAdapter>
+			<amq:kahaDB directory="activemq-data-api" ></amq:kahaDB>
+		</persistenceAdapter>
+		<plugins>
+			<simpleAuthenticationPlugin>
+				<users>
+					<authenticationUser username="beidou" password="beidou_yjcsxdl_mq"
+						groups="users" />
+					<authenticationUser username="guest" password="guestpw"
+						groups="guests" />
+				</users>
+			</simpleAuthenticationPlugin>
+			<!--  lets configure a destination based authorization mechanism -->
+			<authorizationPlugin>
+				<map>
+					<authorizationMap>
+						<authorizationEntries>
+							<authorizationEntry queue=">" read="admins"
+								write="admins" admin="admins" />
+							<authorizationEntry queue="USERS.>" read="users"
+								write="users" admin="users" />
+							<authorizationEntry queue="GUEST.>" read="guests"
+								write="guests,users" admin="guests,users" />
+
+							<authorizationEntry topic=">" read="admins"
+								write="admins" admin="admins" />
+							<authorizationEntry topic="USERS.>" read="users"
+								write="users" admin="users" />
+							<authorizationEntry topic="GUEST.>" read="guests"
+								write="guests,users" admin="guests,users" />
+
+							<authorizationEntry topic="ActiveMQ.Advisory.>"
+								read="guests,users" write="guests,users" admin="guests,users" />
+						</authorizationEntries>
+
+					</authorizationMap>
+				</map>
+			</authorizationPlugin>
+		</plugins>
+		<transportConnectors>
+			<transportConnector uri="tcp://localhost:10662" />
+		</transportConnectors>
+	</amq:broker>
+
+	<amq:queue id="queueDestinationApiReport" physicalName="USERS.APIREPORT"></amq:queue>
+	
+	<amq:queue id="queueDestinationApiAccountFile" physicalName="USERS.APIACCOUNTFILE"></amq:queue>
+	
+	<bean id="listenerContainer"
+		class="org.springframework.jms.listener.DefaultMessageListenerContainer">
+		<property name="concurrentConsumers" value="6" />
+		<property name="connectionFactory" ref="jmsFactory" />
+		<property name="destination" ref="queueDestination" />
+		<property name="messageListener" ref="optHistoryMessageListener" />
+	</bean>
+	
+	<import resource="classpath*:/applicationContext-core-jms.xml"/>
+	<import resource="classpath*:/com/baidu/beidou/api/external/report/applicationContext-jms.xml"/>
+	<import resource="classpath*:/com/baidu/beidou/api/external/accountfile/applicationContext-jms.xml"/>
+	<import resource="classpath*:/com/baidu/beidou/api/external/accountfile/applicationContext-rabbitmq.xml"/>
+
+</beans>

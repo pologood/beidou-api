@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<info primitiveTypes="element">
+	<element name="function">
+		<attribute name="id" property="id"/>
+		<attribute name="name" property="name"/>
+		<element name="threshold" property="threshold"/>
+		<addDefaults/>
+	</element>
+</info>

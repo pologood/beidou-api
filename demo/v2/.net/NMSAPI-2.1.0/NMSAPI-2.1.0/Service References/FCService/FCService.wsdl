@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="https://api.baidu.com/sem/nms/v2" xmlns:common="http://api.baidu.com/sem/common/v2" name="FCService" targetNamespace="https://api.baidu.com/sem/nms/v2" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <xsd:schema targetNamespace="https://api.baidu.com/sem/nms/v2">
+      <xsd:import schemaLocation="http://tc-un-db64-02.tc:8222/sem/nms/v2/FCService?xsd=../../Common.xsd" namespace="http://api.baidu.com/sem/common/v2" />
+      <xsd:complexType name="FCCampaignType">
+        <xsd:sequence>
+          <xsd:element name="campaignId" type="xsd:long" />
+          <xsd:element name="campaignName" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="FCUnitType">
+        <xsd:sequence>
+          <xsd:element name="unitId" type="xsd:long" />
+          <xsd:element name="unitName" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:element name="getFCCampaignRequest">
+        <xsd:complexType>
+          <xsd:sequence />
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="getFCCampaignResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" maxOccurs="unbounded" name="campaigns" type="tns:FCCampaignType" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="getFCCampaignIdRequest">
+        <xsd:complexType>
+          <xsd:sequence />
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="getFCCampaignIdResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" maxOccurs="unbounded" name="campaignIds" type="xsd:long" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="getFCCampaignByFCCampaignIdRequest">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="1" maxOccurs="unbounded" name="campaignIds" type="xsd:long" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="getFCCampaignByFCCampaignIdResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" maxOccurs="unbounded" name="campaigns" type="tns:FCCampaignType" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="getFCUnitByFCCampaignIdRequest">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="1" name="campaignId" type="xsd:long" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="getFCUnitByFCCampaignIdResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" maxOccurs="unbounded" name="units" type="tns:FCUnitType" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="getFCUnitIdByFCCampaignIdRequest">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="1" name="campaignId" type="xsd:long" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="getFCUnitIdByFCCampaignIdResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" maxOccurs="unbounded" name="unitIds" type="xsd:long" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="getFCUnitByFCUnitIdRequest">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="1" maxOccurs="unbounded" name="unitIds" type="xsd:long" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="getFCUnitByFCUnitIdResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" maxOccurs="unbounded" name="units" type="tns:FCUnitType" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="getFCUnitIdByFCCampaignIdRequest">
+    <wsdl:part name="parameters" element="tns:getFCUnitIdByFCCampaignIdRequest" />
+  </wsdl:message>
+  <wsdl:message name="getFCCampaignIdResponse">
+    <wsdl:part name="parameters" element="tns:getFCCampaignIdResponse" />
+  </wsdl:message>
+  <wsdl:message name="getFCUnitByFCUnitIdResponse">
+    <wsdl:part name="parameters" element="tns:getFCUnitByFCUnitIdResponse" />
+  </wsdl:message>
+  <wsdl:message name="getFCUnitByFCCampaignIdResponse">
+    <wsdl:part name="parameters" element="tns:getFCUnitByFCCampaignIdResponse" />
+  </wsdl:message>
+  <wsdl:message name="getFCUnitIdByFCCampaignIdResponse">
+    <wsdl:part name="parameters" element="tns:getFCUnitIdByFCCampaignIdResponse" />
+  </wsdl:message>
+  <wsdl:message name="getFCCampaignByFCCampaignIdRequest">
+    <wsdl:part name="parameters" element="tns:getFCCampaignByFCCampaignIdRequest" />
+  </wsdl:message>
+  <wsdl:message name="ResHeader">
+    <wsdl:part name="ResHeader" element="common:ResHeader" />
+  </wsdl:message>
+  <wsdl:message name="getFCCampaignByFCCampaignIdResponse">
+    <wsdl:part name="parameters" element="tns:getFCCampaignByFCCampaignIdResponse" />
+  </wsdl:message>
+  <wsdl:message name="getFCCampaignIdRequest">
+    <wsdl:part name="parameters" element="tns:getFCCampaignIdRequest" />
+  </wsdl:message>
+  <wsdl:message name="getFCCampaignRequest">
+    <wsdl:part name="parameters" element="tns:getFCCampaignRequest" />
+  </wsdl:message>
+  <wsdl:message name="getFCUnitByFCUnitIdRequest">
+    <wsdl:part name="parameters" element="tns:getFCUnitByFCUnitIdRequest" />
+  </wsdl:message>
+  <wsdl:message name="AuthHeader">
+    <wsdl:part name="AuthHeader" element="common:AuthHeader" />
+  </wsdl:message>
+  <wsdl:message name="getFCCampaignResponse">
+    <wsdl:part name="parameters" element="tns:getFCCampaignResponse" />
+  </wsdl:message>
+  <wsdl:message name="getFCUnitByFCCampaignIdRequest">
+    <wsdl:part name="parameters" element="tns:getFCUnitByFCCampaignIdRequest" />
+  </wsdl:message>
+  <wsdl:portType name="FCService">
+    <wsdl:operation name="getFCCampaign">
+      <wsdl:input message="tns:getFCCampaignRequest" />
+      <wsdl:output message="tns:getFCCampaignResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getFCCampaignId">
+      <wsdl:input message="tns:getFCCampaignIdRequest" />
+      <wsdl:output message="tns:getFCCampaignIdResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getFCCampaignByFCCampaignId">
+      <wsdl:input message="tns:getFCCampaignByFCCampaignIdRequest" />
+      <wsdl:output message="tns:getFCCampaignByFCCampaignIdResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getFCUnitByFCCampaignId">
+      <wsdl:input message="tns:getFCUnitByFCCampaignIdRequest" />
+      <wsdl:output message="tns:getFCUnitByFCCampaignIdResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getFCUnitIdByFCCampaignId">
+      <wsdl:input message="tns:getFCUnitIdByFCCampaignIdRequest" />
+      <wsdl:output message="tns:getFCUnitIdByFCCampaignIdResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getFCUnitByFCUnitId">
+      <wsdl:input message="tns:getFCUnitByFCUnitIdRequest" />
+      <wsdl:output message="tns:getFCUnitByFCUnitIdResponse" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="FCServiceSOAP" type="tns:FCService">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="getFCCampaign">
+      <soap:operation soapAction="https://api.baidu.com/sem/nms/v2/FCService/getFCCampaign" />
+      <wsdl:input>
+        <soap:header message="tns:AuthHeader" part="AuthHeader" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:header message="tns:ResHeader" part="ResHeader" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getFCCampaignId">
+      <soap:operation soapAction="https://api.baidu.com/sem/nms/v2/FCService/getFCCampaignId" />
+      <wsdl:input>
+        <soap:header message="tns:AuthHeader" part="AuthHeader" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:header message="tns:ResHeader" part="ResHeader" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getFCCampaignByFCCampaignId">
+      <soap:operation soapAction="https://api.baidu.com/sem/nms/v2/FCService/getFCCampaignByFCCampaignId" />
+      <wsdl:input>
+        <soap:header message="tns:AuthHeader" part="AuthHeader" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:header message="tns:ResHeader" part="ResHeader" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getFCUnitByFCCampaignId">
+      <soap:operation soapAction="https://api.baidu.com/sem/nms/v2/FCService/getFCUnitByFCCampaignId" />
+      <wsdl:input>
+        <soap:header message="tns:AuthHeader" part="AuthHeader" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:header message="tns:ResHeader" part="ResHeader" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getFCUnitIdByFCCampaignId">
+      <soap:operation soapAction="https://api.baidu.com/sem/nms/v2/FCService/getFCUnitIdByFCCampaignId" />
+      <wsdl:input>
+        <soap:header message="tns:AuthHeader" part="AuthHeader" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:header message="tns:ResHeader" part="ResHeader" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getFCUnitByFCUnitId">
+      <soap:operation soapAction="https://api.baidu.com/sem/nms/v2/FCService/getFCUnitByFCUnitId" />
+      <wsdl:input>
+        <soap:header message="tns:AuthHeader" part="AuthHeader" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:header message="tns:ResHeader" part="ResHeader" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="FCService">
+    <wsdl:port name="FCService" binding="tns:FCServiceSOAP">
+      <soap:address location="http://tc-un-db64-02.tc:8222/sem/nms/v2/FCService" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

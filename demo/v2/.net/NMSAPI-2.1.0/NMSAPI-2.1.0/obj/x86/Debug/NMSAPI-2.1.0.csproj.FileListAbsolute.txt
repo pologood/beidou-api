@@ -1,0 +1,6 @@
+D:\work\visual studio 2010\Projects\NMSAPI-2.1.0\NMSAPI-2.1.0\bin\Debug\NMSAPI-2.0.0.exe.config
+D:\work\visual studio 2010\Projects\NMSAPI-2.1.0\NMSAPI-2.1.0\bin\Debug\NMSAPI-2.0.0.exe
+D:\work\visual studio 2010\Projects\NMSAPI-2.1.0\NMSAPI-2.1.0\bin\Debug\NMSAPI-2.0.0.pdb
+D:\work\visual studio 2010\Projects\NMSAPI-2.1.0\NMSAPI-2.1.0\obj\x86\Debug\ResolveAssemblyReference.cache
+D:\work\visual studio 2010\Projects\NMSAPI-2.1.0\NMSAPI-2.1.0\obj\x86\Debug\NMSAPI-2.0.0.exe
+D:\work\visual studio 2010\Projects\NMSAPI-2.1.0\NMSAPI-2.1.0\obj\x86\Debug\NMSAPI-2.0.0.pdb

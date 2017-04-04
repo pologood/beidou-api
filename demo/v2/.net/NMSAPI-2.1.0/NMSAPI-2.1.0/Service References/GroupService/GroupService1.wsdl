@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="https://api.baidu.com/sem/nms/v2" xmlns:common="http://api.baidu.com/sem/common/v2" name="GroupService" targetNamespace="https://api.baidu.com/sem/nms/v2" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <xsd:schema targetNamespace="https://api.baidu.com/sem/nms/v2">
+      <xsd:import schemaLocation="http://tc-un-db64-02.tc:8222/sem/nms/v2/GroupService?xsd=../../Common.xsd" namespace="http://api.baidu.com/sem/common/v2" />
+      <xsd:complexType name="GroupType">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="1" name="groupId" type="xsd:long" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="campaignId" type="xsd:long" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="groupName" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="price" type="xsd:int" />
+          <xsd:element minOccurs="0" name="type">
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:int" />
+            </xsd:simpleType>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="status">
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:int" />
+            </xsd:simpleType>
+          </xsd:element>
+          <xsd:element minOccurs="0" maxOccurs="1" name="excludeGender" type="xsd:int" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:element name="addGroupRequest">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="1" maxOccurs="unbounded" name="groupTypes" type="tns:GroupType" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="addGroupResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" maxOccurs="unbounded" name="groupTypes" type="tns:GroupType" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="getGroupByGroupIdRequest">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="1" maxOccurs="unbounded" name="groupIds" type="xsd:long" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="getGroupByGroupIdResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" maxOccurs="unbounded" name="groupTypes" type="tns:GroupType" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="getGroupByCampaignIdRequest">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="campaignId" type="xsd:long" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="getGroupByCampaignIdResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" maxOccurs="unbounded" name="groupTypes" type="tns:GroupType" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="getGroupIdByCampaignIdRequest">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="campaignId" type="xsd:long" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="getGroupIdByCampaignIdResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" maxOccurs="unbounded" name="groupIds" type="xsd:long" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="updateGroupRequest">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="1" maxOccurs="unbounded" name="groupTypes" type="tns:GroupType" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="updateGroupResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" maxOccurs="unbounded" name="groupTypes" type="tns:GroupType" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="getGroupByCampaignIdRequest">
+    <wsdl:part name="parameters" element="tns:getGroupByCampaignIdRequest" />
+  </wsdl:message>
+  <wsdl:message name="getGroupByGroupIdResponse">
+    <wsdl:part name="parameters" element="tns:getGroupByGroupIdResponse" />
+  </wsdl:message>
+  <wsdl:message name="getGroupIdByCampaignIdResponse">
+    <wsdl:part name="parameters" element="tns:getGroupIdByCampaignIdResponse" />
+  </wsdl:message>
+  <wsdl:message name="getGroupByGroupIdRequest">
+    <wsdl:part name="parameters" element="tns:getGroupByGroupIdRequest" />
+  </wsdl:message>
+  <wsdl:message name="addGroupResponse">
+    <wsdl:part name="parameters" element="tns:addGroupResponse" />
+  </wsdl:message>
+  <wsdl:message name="getGroupByCampaignIdResponse">
+    <wsdl:part name="parameters" element="tns:getGroupByCampaignIdResponse" />
+  </wsdl:message>
+  <wsdl:message name="updateGroupRequest">
+    <wsdl:part name="parameters" element="tns:updateGroupRequest" />
+  </wsdl:message>
+  <wsdl:message name="addGroupRequest">
+    <wsdl:part name="parameters" element="tns:addGroupRequest" />
+  </wsdl:message>
+  <wsdl:message name="ResHeader">
+    <wsdl:part name="ResHeader" element="common:ResHeader" />
+  </wsdl:message>
+  <wsdl:message name="updateGroupResponse">
+    <wsdl:part name="parameters" element="tns:updateGroupResponse" />
+  </wsdl:message>
+  <wsdl:message name="AuthHeader">
+    <wsdl:part name="AuthHeader" element="common:AuthHeader" />
+  </wsdl:message>
+  <wsdl:message name="getGroupIdByCampaignIdRequest">
+    <wsdl:part name="parameters" element="tns:getGroupIdByCampaignIdRequest" />
+  </wsdl:message>
+  <wsdl:portType name="GroupService">
+    <wsdl:operation name="addGroup">
+      <wsdl:input message="tns:addGroupRequest" />
+      <wsdl:output message="tns:addGroupResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getGroupByGroupId">
+      <wsdl:input message="tns:getGroupByGroupIdRequest" />
+      <wsdl:output message="tns:getGroupByGroupIdResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getGroupByCampaignId">
+      <wsdl:input message="tns:getGroupByCampaignIdRequest" />
+      <wsdl:output message="tns:getGroupByCampaignIdResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getGroupIdByCampaignId">
+      <wsdl:input message="tns:getGroupIdByCampaignIdRequest" />
+      <wsdl:output message="tns:getGroupIdByCampaignIdResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="updateGroup">
+      <wsdl:input message="tns:updateGroupRequest" />
+      <wsdl:output message="tns:updateGroupResponse" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="GroupServiceSOAP" type="tns:GroupService">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="addGroup">
+      <soap:operation soapAction="https://api.baidu.com/sem/nms/v2/GroupService/addGroup" />
+      <wsdl:input>
+        <soap:header message="tns:AuthHeader" part="AuthHeader" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:header message="tns:ResHeader" part="ResHeader" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getGroupByGroupId">
+      <soap:operation soapAction="https://api.baidu.com/sem/nms/v2/GroupService/getGroupByGroupId" />
+      <wsdl:input>
+        <soap:header message="tns:AuthHeader" part="AuthHeader" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:header message="tns:ResHeader" part="ResHeader" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getGroupByCampaignId">
+      <soap:operation soapAction="https://api.baidu.com/sem/nms/v2/GroupService/getGroupByCampaignId" />
+      <wsdl:input>
+        <soap:header message="tns:AuthHeader" part="AuthHeader" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:header message="tns:ResHeader" part="ResHeader" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getGroupIdByCampaignId">
+      <soap:operation soapAction="https://api.baidu.com/sem/nms/v2/GroupService/getGroupIdByCampaignId" />
+      <wsdl:input>
+        <soap:header message="tns:AuthHeader" part="AuthHeader" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:header message="tns:ResHeader" part="ResHeader" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="updateGroup">
+      <soap:operation soapAction="https://api.baidu.com/sem/nms/v2/GroupService/updateGroup" />
+      <wsdl:input>
+        <soap:header message="tns:AuthHeader" part="AuthHeader" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:header message="tns:ResHeader" part="ResHeader" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="GroupService">
+    <wsdl:port name="GroupService" binding="tns:GroupServiceSOAP">
+      <soap:address location="http://tc-un-db64-02.tc:8222/sem/nms/v2/GroupService" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

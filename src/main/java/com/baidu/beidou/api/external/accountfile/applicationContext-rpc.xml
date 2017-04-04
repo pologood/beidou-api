@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN 2.0//EN" "http://www.springframework.org/dtd/spring-beans-2.0.dtd">
+
+<!--
+	- Application context definition for "springapp" DispatcherServlet.
+-->
+
+<beans>
+	
+	<bean class="com.baidu.beidou.api.external.accountfile.constant.AccountFileWebConstants">
+		<property name="DOWNLOAD_FILE_URL" value="${ACCOUNTFILE.DOWNLOAD_URL_PREFIX}"></property>
+		<property name="DOWNLOAD_FILE_SAVE_PATH" value="${ACCOUNTFILE.DOWNLOAD_FILE_SAVEPATH}"></property>
+		<property name="TMP_SAVE_PATH" value="${ACCOUNTFILE.TEMP_FILE_SAVEPATH}"></property>
+		<property name="MAX_PLANIDS" value="${AccountFileWebConstants.MAX_PLANIDS}"></property>
+		<property name="TASK_TIMEOUT_MINUTES" value="${AccountFileWebConstants.TASK_TIMEOUT_MINUTES}"></property>
+		<property name="ENABLE_THROTTLE" value="${AccountFileWebConstants.ENABLE_THROTTLE}"></property>
+		<property name="CONCURRENT_TASKS_PER_USER" value="${AccountFileWebConstants.CONCURRENT_TASKS_PER_USER}"></property>
+		<property name="ENABLE_HASH_LOCK" value="${AccountFileWebConstants.ENABLE_HASH_LOCK}"></property>
+		<property name="EXPIRE_TIME_OF_HASH_LOCK" value="${AccountFileWebConstants.EXPIRE_TIME_OF_HASH_LOCK}"></property>
+		<property name="ENABLE_INIT_ATOMICITY" value="${AccountFileWebConstants.ENABLE_INIT_ATOMICITY}"></property>
+	</bean>
+		
+	<bean id="initAccountFileUndoneTaskMgr" class="com.baidu.beidou.api.external.accountfile.system.InitUndoneTasks">
+		<property name="accountFileFacade">
+			<ref bean="accountFileFacade"/>
+		</property>
+		<property name="apiAccountFileTaskMgr">
+			<ref bean="apiAccountFileTaskMgr"/>
+		</property>
+	</bean>
+	
+	<bean id="accountFileConfigService"  class="com.baidu.beidou.api.external.accountfile.config.impl.AccountFileConfigServiceImpl" >
+	</bean>
+
+	<bean id="accountFileOutputFacade" 
+		class="com.baidu.beidou.api.external.accountfile.facade.impl.AccountFileOutputFacadeImpl" >
+		<property name="accountFileConfigService" ref="accountFileConfigService"></property>
+	</bean>
+
+	<bean id="apiAccountFileTaskMgr" 
+		class="com.baidu.beidou.api.external.accountfile.service.impl.ApiAccountFileTaskMgrImpl" >
+		<property name="apiAccountFileTaskDao" ref="apiAccountFileTaskDao"></property>
+	</bean>
+	
+	<bean id="accountFileMgr" 
+		class="com.baidu.beidou.api.external.accountfile.service.impl.AccountFileMgrImpl" >
+		<property name="apiAccountFileTaskMgr" ref="apiAccountFileTaskMgr"></property>
+		<property name="accountFileOutputFacade" ref="accountFileOutputFacade"></property>
+		<property name="userMgr" ref="userMgr"></property>
+		<property name="cproPlanMgr" ref="cproPlanMgr"></property>
+		<property name="cproGroupMgr" ref="cproGroupMgr"></property>
+	</bean>
+	
+	<!-- 服务定义 -->
+	<bean id="accountFileService" class="com.baidu.beidou.api.external.accountfile.exporter.impl.AccountFileServiceImpl">
+		<property name="userMgr">
+			<ref bean="userMgr"/>
+		</property>
+		<property name="accountFileFacade">
+			<ref bean="accountFileFacade"/>
+		</property>
+		<property name="apiAccountFileTaskMgr">
+			<ref bean="apiAccountFileTaskMgr"/>
+		</property>
+	</bean>
+	
+	<!-- 权限代理定义 -->
+	<bean abstract="true" id="accountIdDataPrivilegeInterceptor" class="com.baidu.beidou.api.external.accountfile.interceptor.AccountIdDataPrivilege">
+		<property name="planMgr" ref="cproPlanMgr"></property>
+	</bean>
+	
+	<bean id="accountFilePrivilegeAdvisor" class="org.springframework.aop.aspectj.AspectJExpressionPointcutAdvisor">
+		<property name="advice">
+			<bean parent="accountIdDataPrivilegeInterceptor">
+				<property name="ognlExp">
+					<list>
+						<value>accountFileRequestType.campaignIds</value>
+					</list>
+				</property>
+			</bean>
+		</property>
+		<property name="expression" 
+			value="((execution(* *.getAccountFileId(..))))"></property>
+	</bean>
+	
+	<!--  节流阀代理定义-->
+	<bean abstract="true" id="accountFileLoadControlInterceptor" class="com.baidu.beidou.api.external.accountfile.interceptor.LoadControlInterceptor">
+		<property name="userMgr">
+			<ref bean="userMgr"/>
+		</property>
+		<property name="apiAccountFileTaskMgr">
+			<ref bean="apiAccountFileTaskMgr"/>
+		</property>
+	</bean>
+	
+	<bean id="accountFileLoadControlAdvisor" class="org.springframework.aop.aspectj.AspectJExpressionPointcutAdvisor">
+		<property name="advice">
+			<bean parent="accountFileLoadControlInterceptor">
+			</bean>
+		</property>
+		<property name="expression" 
+			value="((execution(* *.getAccountFileId(..))))"></property>
+	</bean>
+	
+	<!-- 哈希锁代理定义 -->
+	<bean abstract="true" id="accountFileHashLockInterceptor" class="com.baidu.beidou.api.external.accountfile.interceptor.HashLockInterceptor">
+	</bean>
+	
+	<bean id="accountFileHashLockAdvisor" class="org.springframework.aop.aspectj.AspectJExpressionPointcutAdvisor">
+		<property name="advice">
+			<bean parent="accountFileHashLockInterceptor">
+			</bean>
+		</property>
+		<property name="expression" 
+			value="((execution(* *.getAccountFileId(..))))"></property>
+	</bean>
+	
+	<!-- 代理配置 -->
+	<bean id="accountFileProxy"  parent="apiExternalProxyBase">
+		<property name="target" ref="accountFileService"></property>
+		<property name="proxyInterfaces" value="com.baidu.beidou.api.external.accountfile.exporter.AccountFileService"></property>
+		<property name="interceptorNames">
+			<list merge="true">
+				<value>accountFilePrivilegeAdvisor</value>
+				<value>accountFileLoadControlAdvisor</value>
+				<value>accountFileHashLockAdvisor</value>
+			</list>
+		</property>
+	</bean>
+	
+	<!-- rpc定义 -->
+	<bean class="com.baidu.rpc.server.RpcExporter"
+		scope="singleton">
+		<property name="serviceInterfaceName" value="com.baidu.beidou.api.external.accountfile.exporter.AccountFileService"/>
+		<property name="serviceBean">
+			<ref bean="accountFileProxy"/>
+		</property>
+	</bean>
+	
+	<import resource="classpath*:/com/baidu/beidou/api/external/accountfile/applicationContext-hibernate.xml"/>
+	<import resource="classpath*:/com/baidu/beidou/api/external/accountfile/applicationContext-handler.xml"/>
+
+</beans>

@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<service-list>
+
+	<!-- 流量控制模块主要参数：sleep的时间以及wait的次数 -->
+	<sleep-time>2000</sleep-time>
+	<wait-time>5</wait-time>
+	
+	<!-- 整个应用程序总操作量配置 -->
+	<app-threshold>10000000</app-threshold>
+	
+	<!-- 单个用户总操作量配置 -->
+    <user-threshold>100000</user-threshold>
+    
+	<!-- ************************** -->
+	<!-- UserAccountService操作量配置 -->
+    <function id="100" name="getAccountInfo" >
+    	<threshold>100</threshold>
+    </function>
+
+	<!-- ************************** -->    
+    <!-- CampaignService操作量配置 -->
+    <function id="200" name="addCampaign" >
+    	<threshold>1000</threshold>
+    </function>
+    <function id="201" name="updateCampaign" >
+    	<threshold>1000</threshold>
+    </function>
+
+	<!-- ************************** -->    
+    <!-- GroupService操作量配置 -->
+    <function id="300" name="addGroup" >
+    	<threshold>1000</threshold>
+    </function>
+    <function id="301" name="updateGroup" >
+    	<threshold>1000</threshold>
+    </function>
+
+	<!-- ************************** -->    
+    <!-- GroupConfigService操作量配置 -->
+    <!-- 新增接口 -->
+    <function id="310" name="addVtPeople" >
+    	<threshold>1000</threshold>
+    </function>
+    <function id="311" name="addSite" >
+    	<threshold>10000</threshold>
+    </function>
+    <function id="312" name="addKeyword" >
+    	<threshold>5000</threshold>
+    </function>
+    <function id="314" name="addRtRelation" >
+    	<threshold>5000</threshold>
+    </function>
+    <function id="315" name="addTrade" >
+    	<threshold>10000</threshold>
+    </function>
+    <function id="316" name="addRegion" >
+    	<threshold>10000</threshold>
+    </function>
+    <function id="317" name="addExcludeIp" >
+    	<threshold>5000</threshold>
+    </function>
+    <function id="318" name="addExcludeSite" >
+    	<threshold>5000</threshold>
+    </function>
+    <function id="319" name="addInterestInfo" >
+    	<threshold>5000</threshold>
+    </function>
+    <function id="320" name="addSitePrice" >
+    	<threshold>5000</threshold>
+    </function>
+    <function id="321" name="addTradePrice" >
+    	<threshold>5000</threshold>
+    </function>
+    
+    <!-- 删除接口 -->
+    <function id="330" name="deleteKeyword" >
+    	<threshold>5000</threshold>
+    </function>
+    <function id="331" name="deleteRtRelation" >
+    	<threshold>5000</threshold>
+    </function>
+    <function id="332" name="deleteVtPeople" >
+    	<threshold>1000</threshold>
+    </function>
+    <function id="333" name="deleteSite" >
+    	<threshold>5000</threshold>
+    </function>
+    <function id="334" name="deleteTrade" >
+    	<threshold>5000</threshold>
+    </function>
+    <function id="335" name="deleteRegion" >
+    	<threshold>5000</threshold>
+    </function>
+    <function id="336" name="deleteExcludeIp" >
+    	<threshold>5000</threshold>
+    </function>
+    <function id="337" name="deleteExcludeSite" >
+    	<threshold>5000</threshold>
+    </function>
+    <function id="338" name="deleteInterestInfo" >
+    	<threshold>5000</threshold>
+    </function>
+    <function id="339" name="deleteSitePrice" >
+    	<threshold>5000</threshold>
+    </function>
+    <function id="340" name="deleteTradePrice" >
+    	<threshold>5000</threshold>
+    </function>
+    
+    <!-- 覆盖接口 -->
+    <function id="350" name="setTargetInfo" >
+    	<threshold>5000</threshold>
+    </function>
+    <function id="351" name="setExcludeIp" >
+    	<threshold>500</threshold>
+    </function>
+    <function id="352" name="setRegionConfig" >
+    	<threshold>2000</threshold>
+    </function>        
+    <function id="353" name="setSiteConfig" >
+    	<threshold>10000</threshold>
+    </function>
+    <function id="354" name="setExcludeSite" >
+    	<threshold>10000</threshold>
+    </function>
+    <function id="355" name="setTradeSitePrice" >
+    	<threshold>10000</threshold>
+    </function>  
+    <function id="356" name="setSiteUrl" >
+    	<threshold>10000</threshold>
+    </function>      
+    <function id="357" name="setInterestInfo" >
+    	<threshold>10000</threshold>
+    </function>  
+     
+    <!-- ************************** -->    
+    <!-- AdService操作量配置 -->
+    <function id="400" name="deleteAd" >
+    	<threshold>2000</threshold>
+    </function>
+    <function id="401" name="setAdStatus" >
+    	<threshold>2000</threshold>
+    </function>
+    <function id="402" name="updateAd" >
+    	<threshold>1000</threshold>
+    </function>  
+    <function id="403" name="replaceAd" >
+    	<threshold>2000</threshold>
+    </function>   
+    <function id="404" name="copyAd" >
+    	<threshold>1000</threshold>
+    </function>   
+    <function id="405" name="getAdByAdId" >
+    	<threshold>500</threshold>
+    </function> 
+    <function id="406" name="getAdIdByGroupId" >
+    	<threshold>500</threshold>
+    </function> 
+    <function id="407" name="getAdByGroupId" >
+    	<threshold>500</threshold>
+    </function>
+    <function id="408" name="addAd" >
+    	<threshold>500</threshold>
+    </function> 
+    
+    <function id="501" name="getReportState" >
+    	<threshold>5</threshold>
+    </function>   
+    <function id="502" name="getReportFileUrl" >
+    	<threshold>5</threshold>
+    </function> 
+        
+</service-list>

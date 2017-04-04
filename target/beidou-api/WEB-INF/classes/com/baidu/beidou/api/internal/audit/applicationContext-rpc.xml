@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN 2.0//EN" "http://www.springframework.org/dtd/spring-beans-2.0.dtd">
+
+<!--
+	- Application context definition for "springapp" DispatcherServlet.
+-->
+
+<beans>
+
+	<!-- rpc begin -->
+	<bean id="riskMgtAuditDriverProxy" class="com.baidu.beidou.util.McpackProxyFactoryBean">
+		<property name="serviceInterface">
+			<value>com.baidu.beidou.api.internal.audit.rpc.RiskMgtAuditDriverProxy</value>	
+		</property>
+		<property name="serviceUrl" value="${RISKMGT_AUDIT_SERVICE_URL}" />	
+		<property name="servers" value="${RISKMGT_AUDIT_SERVER}" />	
+		<property name="encoding" value="UTF-8" />
+		<property name="connectionTimeout" value="${RISKMGT_AUDIT_CONNECTION_TIMEOUT}" />
+		<property name="readTimeout" value="${RISKMGT_AUDIT_READ_TIMEOUT}" />
+	</bean>
+	
+	<bean id="riskMgtAuditService" class="com.baidu.beidou.api.internal.audit.rpc.service.impl.RiskMgtAuditServiceImpl">
+		<constructor-arg index="0" value="${RISKMGT_AUDIT_SYSCODE}"/>
+		<constructor-arg index="1" value="${RISKMGT_AUDIT_PRODID}"/>
+		<property name="riskMgtAuditDriverProxy" ref="riskMgtAuditDriverProxy" />
+	</bean>
+	<!-- rpc end -->
+	
+	<!-- related service begin -->
+	<bean id="userInfoService" class="com.baidu.beidou.api.internal.audit.service.impl.UserInfoServiceImpl">
+		<property name="userDao" ref="userDao"/>
+    </bean>
+    
+    <bean id="unitAuditInfoService" class="com.baidu.beidou.api.internal.audit.service.impl.UnitAuditInfoServiceImpl">
+		<property name="unitMgr" ref="unitMgr"/>
+		<property name="unitAuditDao" ref="unitAuditDao"/>
+		<property name="unitAuditDaoOnMultiAddb" ref="unitAuditDaoOnMultiAddb"/>
+		<property name="unitDao" ref="unitDao"/>
+		<property name="smartIdeaTemplateConfMgr" ref="smartIdeaTemplateConfMgr"/>
+		<property name="ubmcService" ref="ubmcService"/>
+    </bean>
+    
+    <bean id="reauditInfoService" class="com.baidu.beidou.api.internal.audit.service.impl.ReauditInfoServiceImpl">
+		<property name="unitAuditDao" ref="unitAuditDao"/>
+		<property name="unitAuditDaoOnMultiAddb" ref="unitAuditDaoOnMultiAddb"/>
+		<property name="userDao" ref="userDao"/>
+    </bean>
+    
+    <bean id="auditOptService" class="com.baidu.beidou.api.internal.audit.service.impl.AuditOptServiceImpl">
+		<property name="unitMgr" ref="unitMgr"/>
+		<property name="unitDao" ref="unitDao"/>
+		<property name="onlineUnitDao" ref="onlineUnitDao"/>
+		<property name="tradeCache" ref="tradeCache"/>
+		<property name="ubmcService" ref="ubmcService"/>
+		<property name="delMaterDao" ref="delMaterDao"/>
+		<property name="riskMgtAuditService" ref="riskMgtAuditService"/>
+		<property name="unitTagMgr" ref="unitTagMgr" />
+    </bean>
+    
+    <bean id="productInfoService" class="com.baidu.beidou.api.internal.audit.service.impl.ProductInfoServiceImpl">
+		<property name="smartIdeaProductFilterMgr" ref="smartIdeaProductFilterMgr"/>
+		<property name="smartIdeaTemplateConfMgr" ref="smartIdeaTemplateConfMgr"/>
+		<property name="smartIdeaService" ref="smartIdeaService"/>
+		<property name="unitDao" ref="unitDao"/>
+		<property name="unitMgr" ref="unitMgr"/>
+		<property name="siConfService" ref="siConfService" />
+    </bean>
+    
+    <bean id="userAuditService" class="com.baidu.beidou.api.internal.audit.exporter.impl.UserAuditServiceImpl">
+		<property name="userInfoService" ref="userInfoService"/>
+		<property name="reauditInfoService" ref="reauditInfoService"/>
+    </bean>
+    
+    <bean id="unitAuditService" class="com.baidu.beidou.api.internal.audit.exporter.impl.UnitAuditServiceImpl">
+		<property name="auditOptService" ref="auditOptService"/>
+		<property name="unitAuditInfoService" ref="unitAuditInfoService"/>
+		<property name="userMgr" ref="userMgr"/>
+		<property name="tradeCache" ref="tradeCache"/>
+		<property name="productInfoService" ref="productInfoService"/>
+    </bean>
+
+	<bean id="beidouAuditService" class="com.baidu.beidou.api.internal.audit.exporter.impl.BeidouAuditServiceImpl">
+		<property name="auditOptService" ref="auditOptService" />
+		<property name="unitAuditInfoService" ref="unitAuditInfoService" />
+		<property name="userMgr" ref="userMgr" />
+		<property name="tradeCache" ref="tradeCache" />
+		<property name="productInfoService" ref="productInfoService" />
+		<property name="unitMgr" ref="unitMgr"/>
+		<property name="ubmcService" ref="ubmcService"/>
+		<property name="reauditInfoService" ref="reauditInfoService"/>
+	</bean>
+	<!-- related service end -->
+	
+	<!-- proxy && interceptor begin -->
+	<!-- 如果无需经过拦截器记录信息，则不配置proxy，对外暴露的RpcExporter直接注入service即可 -->
+	<bean id="auditOptHistoryInterceptor"
+		class="com.baidu.beidou.api.internal.audit.interceptor.AuditOptHistoryInterceptor">
+		<property name="optHisFacade">
+			<ref bean="optHistoryFacade" />
+		</property>
+	</bean>
+	
+	<bean id="auditOptHistoryAdvisor"
+		class="org.springframework.aop.aspectj.AspectJExpressionPointcutAdvisor">
+		<property name="advice" ref="auditOptHistoryInterceptor"></property>
+		<property name="expression"
+			value="(execution(* *.pass*(..)))||(execution(* *.refuse*(..)))||(execution(* *.modifyTrade*(..)))||(execution(* *.auditResult*(..)))">
+		</property>
+	</bean>
+	
+	<bean id="userAuditServiceProxy" parent="apiInternalProxyBase">
+		<property name="target" ref="userAuditService"></property>
+		<property name="proxyInterfaces"
+			value="com.baidu.beidou.api.internal.audit.exporter.UserAuditService">
+		</property>
+	</bean>
+	
+	<bean id="unitAuditServiceProxy" parent="apiInternalProxyBase">
+		<property name="target" ref="unitAuditService"></property>
+		<property name="proxyInterfaces"
+			value="com.baidu.beidou.api.internal.audit.exporter.UnitAuditService">
+		</property>
+		<property name="interceptorNames">
+			<list merge="true">
+				<value>auditOptHistoryAdvisor</value>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="beidouAuditServiceProxy" parent="apiInternalProxyBase">
+		<property name="target" ref="beidouAuditService"></property>
+		<property name="proxyInterfaces"
+			value="com.baidu.beidou.api.internal.audit.exporter.BeidouAuditService">
+		</property>
+		<property name="interceptorNames">
+			<list merge="true">
+				<value>auditOptHistoryAdvisor</value>
+			</list>
+		</property>
+	</bean>
+	<!-- proxy && interceptor end -->
+	
+	<!-- RpcExporter begin -->
+	<bean class="com.baidu.rpc.server.RpcExporter" scope="singleton">
+		<property name="serviceInterfaceName" value="com.baidu.beidou.api.internal.audit.exporter.UserAuditService"/>
+		<property name="serviceBean">
+			<ref bean="userAuditServiceProxy"/>
+		</property>
+	</bean>
+	
+	<bean class="com.baidu.rpc.server.RpcExporter" scope="singleton">
+		<property name="serviceInterfaceName" value="com.baidu.beidou.api.internal.audit.exporter.UnitAuditService"/>
+		<property name="serviceBean">
+			<ref bean="unitAuditServiceProxy"/>
+		</property>
+	</bean>
+	
+	<bean class="com.baidu.rpc.server.RpcExporter" scope="singleton">
+		<property name="serviceInterfaceName" value="com.baidu.beidou.api.internal.audit.exporter.BeidouAuditService"/>
+		<property name="serviceBean">
+			<ref bean="beidouAuditServiceProxy"/>
+		</property>
+	</bean>
+	<!-- RpcExporter end -->
+	
+	<import resource="classpath*:/com/baidu/beidou/api/internal/audit/applicationContext-hibernate.xml"/>
+	 
+</beans>

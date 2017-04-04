@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN 2.0//EN" "http://www.springframework.org/dtd/spring-beans-2.0.dtd">
+
+<!--
+	- Application context definition for "springapp" DispatcherServlet.
+-->
+
+<beans>
+	<!-- service begin -->
+	<bean id="userAccountInfoService"
+		class="com.baidu.beidou.api.external.user.exporter.impl.UserAccountServiceImpl">
+		<property name="userMgr" ref="userMgr" />
+		<property name="mfcService" ref="mfcService" />
+	</bean>
+
+	<bean id="payCalculaterService"
+		class="com.baidu.beidou.api.external.user.exporter.impl.PayCalculaterServiceImpl">
+		<property name="accountMgr" ref="accountService"></property>
+	</bean>
+	<!-- service end -->
+	
+
+	<!-- proxy && interceptor begin -->
+	<!-- 如果无需经过拦截器记录信息，则不配置proxy，对外暴露的RpcExporter直接注入service即可 -->
+	<bean id="userAccountProxy" parent="apiExternalProxyBase">
+		<property name="target" ref="userAccountInfoService"></property>
+		<property name="proxyInterfaces"
+			value="com.baidu.beidou.api.external.user.exporter.UserAccountService">
+		</property>
+	</bean>
+	<bean id="payCalculaterProxy" parent="apiExternalProxyBase">
+		<property name="target" ref="payCalculaterService"></property>
+		<property name="proxyInterfaces"
+			value="com.baidu.beidou.api.external.user.exporter.PayCalculaterService">
+		</property>
+	</bean>
+	<!-- proxy && interceptor end -->
+
+
+	<!-- RpcExporter begin -->
+	<bean class="com.baidu.rpc.server.RpcExporter" scope="singleton">
+		<property name="serviceInterfaceName"
+			value="com.baidu.beidou.api.external.user.exporter.UserAccountService" />
+		<property name="serviceBean">
+			<ref bean="userAccountProxy" />
+		</property>
+	</bean>
+
+	<bean class="com.baidu.rpc.server.RpcExporter" scope="singleton">
+		<property name="serviceInterfaceName"
+			value="com.baidu.beidou.api.external.user.exporter.PayCalculaterService" />
+		<property name="serviceBean">
+			<ref bean="payCalculaterService" />  <!-- 此处必须使用service，而不是proxy，因此dr的调用不需要验证权限 -->
+		</property>
+	</bean>
+	<!-- RpcExporter end -->
+
+</beans>

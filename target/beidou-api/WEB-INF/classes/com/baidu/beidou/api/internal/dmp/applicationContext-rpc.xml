@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN 2.0//EN" "http://www.springframework.org/dtd/spring-beans-2.0.dtd">
+
+<!--
+	- Application context definition for "springapp" DispatcherServlet.
+-->
+
+<beans>
+	
+	<!-- service begin -->
+	<bean id="dmpSupportService" class="com.baidu.beidou.api.internal.dmp.exporter.impl.DmpSupportServiceImpl">
+		<property name="cproPlanMgr" ref="cproPlanMgr"/>
+		<property name="vtPeopleMgr" ref="vtPeopleMgr"/>
+		<property name="vtCodeMgr" ref="vtCodeMgr"/>
+    </bean>
+	<!-- service end --> 
+	
+	<!-- proxy && interceptor begin -->
+	<!-- 如果无需经过拦截器记录信息，则不配置proxy，对外暴露的RpcExporter直接注入service即可 -->
+	<bean id="apiDmpDupportServiceProxy" parent="apiInternalProxyBase">
+		<property name="target" ref="dmpSupportService"></property>
+		<property name="proxyInterfaces"
+			value="com.baidu.beidou.api.internal.dmp.exporter.DmpSupportService">
+		</property>
+	</bean>
+	<!-- proxy && interceptor end -->
+	
+	<!-- RpcExporter begin -->
+	<bean class="com.baidu.rpc.server.RpcExporter"
+		scope="singleton">
+		<property name="serviceInterfaceName" value="com.baidu.beidou.api.internal.dmp.exporter.DmpSupportService"/>
+		<property name="serviceBean">
+			<ref bean="apiDmpDupportServiceProxy"/>
+		</property>
+	</bean>
+	<!-- RpcExporter end -->
+	 
+</beans>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mappings xmlns="http://dozer.sourceforge.net"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://dozer.sourceforge.net
+          http://dozer.sourceforge.net/schema/beanmapping.xsd">
+	
+	<mapping>
+		<class-a>
+			com.baidu.beidou.api.external.tool.vo.AdInfo
+		</class-a>
+		<class-b>com.baidu.beidou.cprounit.vo.UnitInfoView</class-b>
+		<field>
+			<a>adId</a>
+			<b>unitid</b>
+		</field>
+		<field>
+			<a>status</a>
+			<b>stateView.viewState</b>
+		</field>
+		<field>
+			<a>refuseReason</a>
+			<b>stateView.refuseRease</b>
+		</field>
+	</mapping>
+
+	
+</mappings>

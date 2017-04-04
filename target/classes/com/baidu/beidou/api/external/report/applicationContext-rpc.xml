@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN 2.0//EN" "http://www.springframework.org/dtd/spring-beans-2.0.dtd">
+
+<!--
+	- Application context definition for "springapp" DispatcherServlet.
+-->
+
+<beans>
+	
+	<bean class="com.baidu.beidou.api.external.report.constant.ReportWebConstants">
+		<property name="DOWNLOAD_FILE_URL" value="${API_REPORT.DOWNLOAD_URL_PREFIX}"></property>
+		<property name="DOWNLOAD_FILE_SAVE_PATH" value="${API_REPORT.DOWNLOAD_FILE_SAVEPATH}"></property>
+		<property name="MAX_STATIDS" value="${ReportWebConstants.MAX_STATIDS}"></property>
+		<property name="MAX_RETRY" value="${ReportWebConstants.MAX_RETRY}"></property>
+		<property name="TASK_TIMEOUT_MINUTES" value="${ReportWebConstants.TASK_TIMEOUT_MINUTES}"></property>
+		<property name="ENABLE_THROTTLE" value="${ReportWebConstants.ENABLE_THROTTLE}"></property>
+		<property name="CONCURRENT_TASKS_PER_USER" value="${ReportWebConstants.CONCURRENT_TASKS_PER_USER}"></property>
+		<property name="ENABLE_HASH_CACHE" value="${ReportWebConstants.ENABLE_HASH_CACHE}"></property>
+		<property name="EXPIRE_TIME_OF_HASH_CACHE" value="${ReportWebConstants.EXPIRE_TIME_OF_HASH_CACHE}"></property>
+		<property name="ENABLE_INIT_ATOMICITY" value="${ReportWebConstants.ENABLE_INIT_ATOMICITY}"></property>
+		<property name="showSecondDomainSiteList" 
+			value="${ReportWebConstants.showSecondDomainSiteList}" />
+	</bean>
+
+	<bean id="accountStatService" 
+		class="com.baidu.beidou.api.external.report.service.impl.AccountStatServiceImpl" 
+		parent="baseStatService" scope="prototype" >
+	</bean>
+	
+	<bean id="planStatService" 
+		class="com.baidu.beidou.api.external.report.service.impl.PlanStatServiceImpl" 
+		parent="baseStatService" scope="prototype" >
+	</bean>
+	
+	<bean id="groupStatService" 
+		class="com.baidu.beidou.api.external.report.service.impl.GroupStatServiceImpl" 
+		parent="baseStatService" scope="prototype" >
+	</bean>
+	
+	<bean id="unitStatService" 
+		class="com.baidu.beidou.api.external.report.service.impl.UnitStatServiceImpl" 
+		parent="baseStatService" scope="prototype" >
+	</bean>
+	
+	<bean id="shownSiteStatService" 
+		class="com.baidu.beidou.api.external.report.service.impl.ShownSiteStatServiceImpl" 
+		parent="baseStatService" scope="prototype" >
+	</bean>
+	
+	<bean id="groupKeywordStatService" 
+		class="com.baidu.beidou.api.external.report.service.impl.GroupKeywordStatServiceImpl" 
+		parent="baseStatService" scope="prototype" >
+	</bean>
+	
+	<bean id="packKeywordStatService" 
+		class="com.baidu.beidou.api.external.report.service.impl.PackKeywordStatServiceImpl" 
+		parent="baseStatService" scope="prototype" >
+	</bean>
+	
+	<bean id="packageStatService" 
+		class="com.baidu.beidou.api.external.report.service.impl.PackageStatServiceImpl" 
+		parent="baseStatService" scope="prototype" >
+	</bean>
+	
+	<bean id="regionStatService" 
+		class="com.baidu.beidou.api.external.report.service.impl.RegionStatServiceImpl" 
+		parent="baseStatService" scope="prototype" >
+	</bean>
+	
+	<bean id="genderStatService" 
+		class="com.baidu.beidou.api.external.report.service.impl.GenderStatServiceImpl" 
+		parent="baseStatService" scope="prototype" >
+	</bean>
+	
+	<bean id="interestStatService" 
+		class="com.baidu.beidou.api.external.report.service.impl.InterestStatServiceImpl" 
+		parent="baseStatService" scope="prototype" >
+	</bean>
+	
+	<bean id="chosenInterestStatService" 
+		class="com.baidu.beidou.api.external.report.service.impl.ChosenInterestStatServiceImpl" 
+		parent="baseStatService" scope="prototype" >
+	</bean>
+	
+	<bean id="chosenSiteStatService" 
+		class="com.baidu.beidou.api.external.report.service.impl.ChosenSiteStatServiceImpl" 
+		parent="baseStatService" scope="prototype" >
+	</bean>
+	
+	<bean id="chosenTradeStatService" 
+		class="com.baidu.beidou.api.external.report.service.impl.ChosenTradeStatServiceImpl" 
+		parent="baseStatService" scope="prototype" >
+	</bean>
+	
+	<bean id="appStatService"
+		class="com.baidu.beidou.api.external.report.service.impl.AppStatServiceImpl"
+		parent="baseStatService" scope="prototype" >
+	</bean>
+	
+	<bean id="deviceStatService"
+		class="com.baidu.beidou.api.external.report.service.impl.DeviceStatServiceImpl"
+		parent="baseStatService" scope="prototype" >
+	</bean>
+
+	<bean id="attachPhoneStatService"
+		  class="com.baidu.beidou.api.external.report.service.impl.AttachPhoneStatServiceImpl"
+		  parent="baseStatService" scope="prototype">
+	</bean>
+
+	<bean id="attachMessageStatService"
+		  class="com.baidu.beidou.api.external.report.service.impl.AttachMessageStatServiceImpl"
+		  parent="baseStatService" scope="prototype">
+	</bean>
+
+	<bean id="attachConsultStatService"
+		  class="com.baidu.beidou.api.external.report.service.impl.AttachConsultStatServiceImpl"
+		  parent="baseStatService" scope="prototype">
+	</bean>
+
+	<bean id="attachSubUrlStatService"
+		  class="com.baidu.beidou.api.external.report.service.impl.AttachSubUrlStatServiceImpl"
+		  parent="baseStatService" scope="prototype">
+	</bean>
+
+	<bean id="transReportFacade" class="com.baidu.beidou.api.external.report.facade.impl.TransReportFacadeImpl">
+   		<property name="holmesMgr">
+   			<ref bean="holmesMgr" />
+   		</property>
+   		<property name="signFlagMemcacheExpireTimeInMinute" value="10" />
+   	</bean>
+   	
+	<bean id="baseStatService" class="com.baidu.beidou.api.external.report.service.impl.GenericStatServiceImpl" abstract="true" >
+		<property name="size">
+			<value>100000</value>
+		</property>
+   		<property name="userMgr">
+   			<ref bean="userMgr"/>
+   		</property>	
+   		<property name="cproPlanMgr">
+   			<ref bean="cproPlanMgr"/>
+   		</property>
+   		<property name="cproGroupMgr">
+   			<ref bean="cproGroupMgr"/>
+   		</property>
+   		<property name="cproUnitMgr">
+   			<ref bean="unitMgr"/>
+   		</property>
+   		<property name="cproITFacade">
+   			<ref bean="cproITFacade"/>
+   		</property>
+   		<property name="cproKeywordMgr">
+   			<ref bean="cproKeywordMgr"/>
+   		</property>
+   		<property name="groupPackFacade">
+   			<ref bean="groupPackFacade"/>
+   		</property>	
+	</bean>
+	
+	<bean id="apiReportTaskMgr" 
+		class="com.baidu.beidou.api.external.report.service.impl.ApiReportTaskMgrImpl" >
+		<property name="apiReportTaskDao" ref="apiReportTaskDao"></property>
+	</bean>
+	
+	<!-- 通过Lookup方法注入来实现在单例中注入多例的bean  -->
+	<bean id="apiReportMgr" 
+		class="com.baidu.beidou.api.external.report.service.impl.ApiReportMgrImpl" >
+		<property name="apiReportTaskMgr" ref="apiReportTaskMgr"></property>
+		<lookup-method name="getAccountStatService" bean="accountStatService"/>  
+		<lookup-method name="getPlanStatService" bean="planStatService"/>  
+		<lookup-method name="getGroupStatService" bean="groupStatService"/>  
+		<lookup-method name="getUnitStatService" bean="unitStatService"/>  
+		<lookup-method name="getGroupKeywordStatService" bean="groupKeywordStatService"/> 
+		<lookup-method name="getShownSiteStatService" bean="shownSiteStatService"/>
+		<lookup-method name="getPackageStatService" bean="packageStatService"/>
+		<lookup-method name="getPackKeywordStatService" bean="packKeywordStatService"/>
+		<lookup-method name="getRegionStatService" bean="regionStatService"/>
+		<lookup-method name="getGenderStatService" bean="genderStatService"/>
+		<lookup-method name="getInterestStatService" bean="interestStatService"/>
+		<lookup-method name="getChosenInterestStatService" bean="chosenInterestStatService"/>
+		<lookup-method name="getChosenSiteStatService" bean="chosenSiteStatService"/>
+		<lookup-method name="getChosenTradeStatService" bean="chosenTradeStatService"/>
+		<lookup-method name="getAppStatService" bean="appStatService"/>
+		<lookup-method name="getDeviceStatService" bean="deviceStatService"/>
+		<lookup-method name="getAttachPhoneStatService" bean="attachPhoneStatService"/>
+		<lookup-method name="getAttachMessageStatService" bean="attachMessageStatService"/>
+		<lookup-method name="getAttachConsultStatService" bean="attachConsultStatService"/>
+		<lookup-method name="getAttachSubUrlStatService" bean="attachSubUrlStatService"/>
+
+
+	</bean>
+	
+	
+	<bean id="apiReportValidator" class="com.baidu.beidou.api.external.report.validator.ApiReportValidator">
+		<property name="ktStartDateYYYY" value="${ktStartDateYYYY}" />
+   		<property name="ktStartDateMM" value="${ktStartDateMM}" />
+   		<property name="ktStartDateDD" value="${ktStartDateDD}" />
+		<property name="qtStartDateYYYY" value="${qtStartDateYYYY}" />
+   		<property name="qtStartDateMM" value="${qtStartDateMM}" />
+   		<property name="qtStartDateDD" value="${qtStartDateDD}" />
+   		<property name="beidouStartDateYYYY" value="${beidouStartDateYYYY}" />
+   		<property name="beidouStartDateMM" value="${beidouStartDateMM}" />
+   		<property name="beidouStartDateDD" value="${beidouStartDateDD}" />
+		<property name="userMgr">
+   			<ref bean="userMgr"/>
+   		</property>	
+   		<property name="cproPlanMgr">
+   			<ref bean="cproPlanMgr"/>
+   		</property>
+   		<property name="cproGroupMgr">
+   			<ref bean="cproGroupMgr"/>
+   		</property>
+   		<property name="cproUnitMgr">
+   			<ref bean="unitMgr"/>
+   		</property>
+   		<property name="cproKeywordMgr">
+   			<ref bean="cproKeywordMgr"/>
+   		</property>
+	</bean>
+	
+	<!-- 服务定义 -->
+	<bean id="apiReportService" class="com.baidu.beidou.api.external.report.exporter.impl.ApiReportServiceImpl">
+		<property name="apiReportFacade">
+			<ref bean="apiReportFacade"/>
+		</property>
+		<property name="userMgr">
+			<ref bean="userMgr"/>
+		</property>
+		<property name="apiReportValidator">
+			<ref bean="apiReportValidator"/>
+		</property>
+		<property name="apiReportTaskMgr">
+			<ref bean="apiReportTaskMgr"/>
+		</property>
+		<property name="transReportFacade">
+			<ref bean="transReportFacade"/>
+		</property>
+	</bean>
+	
+	<!-- 代理定义 -->
+	<bean abstract="true" id="reportDataPrivilegeInterceptor" class="com.baidu.beidou.api.external.report.interceptor.StatIdDataPrivilege">
+	</bean>
+	<bean abstract="true" id="loadControlInterceptor" class="com.baidu.beidou.api.external.report.interceptor.LoadControlInterceptor">
+		<property name="userMgr">
+			<ref bean="userMgr"/>
+		</property>
+		<property name="apiReportTaskMgr">
+			<ref bean="apiReportTaskMgr"/>
+		</property>
+	</bean>
+	
+	<bean id="reportPrivilegeAdvisor" class="org.springframework.aop.aspectj.AspectJExpressionPointcutAdvisor">
+		<property name="advice">
+			<bean parent="reportDataPrivilegeInterceptor">
+			</bean>
+		</property>
+		<property name="expression" 
+			value="((execution(* *.getReportId(..))))"></property>
+	</bean>
+	<bean id="reportLoadControlAdvisor" class="org.springframework.aop.aspectj.AspectJExpressionPointcutAdvisor">
+		<property name="advice">
+			<bean parent="loadControlInterceptor">
+			</bean>
+		</property>
+		<property name="expression" 
+			value="((execution(* *.getReportId(..))))"></property>
+	</bean>
+	
+	<bean id="reportProxy"  parent="apiExternalProxyBase">
+		<property name="target" ref="apiReportService"></property>
+		<property name="proxyInterfaces" value="com.baidu.beidou.api.external.report.exporter.ApiReportService"></property>
+		<property name="interceptorNames">
+			<list merge="true">
+				<value>reportPrivilegeAdvisor</value>
+				<value>reportLoadControlAdvisor</value>
+			</list>
+		</property>
+	</bean>
+	
+	<!-- rpc定义 -->
+	<bean class="com.baidu.rpc.server.RpcExporter"
+		scope="singleton">
+		<property name="serviceInterfaceName" value="com.baidu.beidou.api.external.report.exporter.ApiReportService"/>
+		<property name="serviceBean">
+			<ref bean="reportProxy"/>
+		</property>
+	</bean>
+	
+	<import resource="classpath*:/com/baidu/beidou/api/external/report/stat/applicationContext.xml"/>
+	<import resource="classpath*:/com/baidu/beidou/api/external/report/applicationContext-hibernate.xml"/>
+
+</beans>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN 2.0//EN" "http://www.springframework.org/dtd/spring-beans-2.0.dtd">
+
+<!--
+	- Application context definition for "springapp" DispatcherServlet.
+-->
+
+<beans>
+	
+	<!-- service begin -->
+	<bean id="apiHolmesPeopleService" class="com.baidu.beidou.api.internal.holmes.exporter.impl.HolmesPeopleServiceImpl">
+		<property name="vtPeopleMgr" ref="vtPeopleMgr"/>
+		<property name="packFacade" ref="packFacade"/>
+    </bean>
+	<!-- service end --> 
+	
+	<!-- proxy && interceptor begin -->
+	<!-- 如果无需经过拦截器记录信息，则不配置proxy，对外暴露的RpcExporter直接注入service即可 -->
+	<bean id="apiHolmesPeopleServiceProxy" parent="apiInternalProxyBase">
+		<property name="target" ref="apiHolmesPeopleService"></property>
+		<property name="proxyInterfaces"
+			value="com.baidu.beidou.api.internal.holmes.exporter.HolmesPeopleService">
+		</property>
+	</bean>
+	<!-- proxy && interceptor end -->
+	
+	<!-- RpcExporter begin -->
+	<bean class="com.baidu.rpc.server.RpcExporter"
+		scope="singleton">
+		<property name="serviceInterfaceName" value="com.baidu.beidou.api.internal.holmes.exporter.HolmesPeopleService"/>
+		<property name="serviceBean">
+			<ref bean="apiHolmesPeopleServiceProxy"/>
+		</property>
+	</bean>
+	<!-- RpcExporter end -->
+	 
+</beans>

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN 2.0//EN" "http://www.springframework.org/dtd/spring-beans-2.0.dtd">
+
+<!--
+	- Application context definition for "springapp" DispatcherServlet.
+-->
+
+<beans>
+	<bean id="interestService" class="com.baidu.beidou.api.external.interest.exporter.impl.InterestServiceImpl">
+		<!--  <property name="interestFacade" ref="interestFacade"></property> -->
+		<property name="getCustomInterestIdMax">
+			<value>100</value>
+		</property>
+		<property name="interestMgr" ref="interestMgr"></property>
+		<property name="customITMgr" ref="customITMgr"></property>
+		<property name="cproGroupITMgr" ref="cproGroupITMgr"></property>
+	</bean>
+	
+	<!-- 权限拦截器未启用
+	<bean abstract="true" id="interestDataPrivilegeInterceptor" class="com.baidu.beidou.api.external.interest.interceptor.InterestDataPrivilege">
+	</bean>
+	
+	<bean id="interestPrivilegeAdvisor" class="org.springframework.aop.aspectj.AspectJExpressionPointcutAdvisor">
+		<property name="advice">
+			<bean parent="interestDataPrivilegeInterceptor">
+				<property name="ognlExp">
+					<list>
+						<value>customItIds</value> 
+					</list>
+				</property>
+			</bean>
+		</property>
+		<property name="expression" 
+			value="((execution(* *.getXXX(..))))"></property>
+	</bean>
+	-->
+	
+	<bean id="interestProxy"  parent="apiExternalProxyBase">
+		<property name="target" ref="interestService"></property>
+		<property name="proxyInterfaces" value="com.baidu.beidou.api.external.interest.exporter.InterestService"></property>
+		<property name="interceptorNames">
+			<list merge="true">
+			</list>
+		</property>
+	</bean>
+	 
+	<!-- rpc定义 -->
+	<bean class="com.baidu.rpc.server.RpcExporter"
+		scope="singleton">
+		<property name="serviceInterfaceName" value="com.baidu.beidou.api.external.interest.exporter.InterestService"/>
+		<property name="serviceBean">
+			<ref bean="interestProxy"/>
+		</property>
+	</bean>
+
+</beans>

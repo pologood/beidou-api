@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN 2.0//EN" "http://www.springframework.org/dtd/spring-beans-2.0.dtd">
+
+<!--
+	- Application context definition for "springapp" DispatcherServlet.
+-->
+
+<beans>
+
+	<!-- api黑名单 -->
+	<bean id="apiBlacklistDao"
+		class="com.baidu.beidou.api.external.util.dao.impl.ApiBlacklistDaoImpl"
+		parent="capdbBaseDao">
+	</bean>
+	
+	<!--  function和sleepTime关联数组配置文件加载器，用于负载控制 -->
+	<bean id="intensityControlMgr"
+		class="com.baidu.beidou.api.external.util.service.impl.IntensityControlMgrImpl">
+	</bean>
+	
+	<bean id="apiBlacklistMgr"
+		class="com.baidu.beidou.api.external.util.service.impl.ApiBlacklistMgrImpl">
+		<property name="apiBlacklistDao" ref="apiBlacklistDao"></property>
+	</bean>
+	
+    <bean id="refreshBlacklistCacheCTTask" class="com.baidu.beidou.api.external.util.task.RefreshBlacklistCTTask">
+    </bean>
+	
+	<!-- interceptor定义 -->
+	<bean id="privilegeInterceptor"
+		class="com.baidu.beidou.api.external.util.interceptor.PrivilegeInterceptor">
+		<property name="userMgr" ref="userMgr"></property>
+	</bean>
+	
+	<bean id="blacklistInterceptor"
+		class="com.baidu.beidou.api.external.util.interceptor.BlackListInterceptor">
+	</bean>
+	
+	<bean id="intensityControlInterceptor"
+		class="com.baidu.beidou.api.external.util.interceptor.IntensityControlInterceptor">
+	</bean>
+	
+	<bean id="accessLogInterceptor"
+		class="com.baidu.beidou.api.external.util.interceptor.AccessLogInterceptor">
+		<property name="accessLogSupport" ref="logThread"/>
+	</bean>
+	
+	<bean id="logThread" class="com.baidu.beidou.api.external.util.interceptor.AccessLogSupport">
+		<constructor-arg value="apiaccess" />
+	 	<property name="executorService" ref="executorService"/>
+	</bean>
+	
+	<bean id="apiOptHistoryInterceptor"
+		class="com.baidu.beidou.api.external.util.interceptor.OptHistoryInterceptor">
+		<property name="optHisFacade">
+			<ref bean="optHistoryFacade" />
+		</property>
+	</bean>
+	
+	<bean id="cacheInterceptor"
+		class="com.baidu.beidou.api.external.util.interceptor.CacheInterceptor">
+		<property name="GLOBAL_CACHE_EXPIRE_TIME">
+			<value>60</value>
+		</property>
+	</bean>
+	
+	<bean id="thruputControlInterceptor"
+		class="com.baidu.beidou.api.external.util.interceptor.ThruputControlInterceptor">
+	</bean>
+	
+	<!-- 0:无效  1:有效过滤editor group层级数据  2:有效过滤editor所有请求-->
+	<bean id="filterGroupReportInterceptor" 
+		class="com.baidu.beidou.api.external.util.interceptor.FilterGroupReportInterceptor">
+		<property name="editorSwitch">
+			<value>0</value>
+		</property>
+	</bean>
+
+	<bean id="accessLogAdvisor"
+		class="org.springframework.aop.aspectj.AspectJExpressionPointcutAdvisor">
+		<property name="advice" ref="accessLogInterceptor"></property>
+		<property name="expression"
+			value="(execution(* *.*(..)))">
+		</property>
+	</bean>
+	
+	<bean id="blacklistAdvisor"
+		class="org.springframework.aop.aspectj.AspectJExpressionPointcutAdvisor">
+		<property name="advice" ref="blacklistInterceptor"></property>
+		<property name="expression"
+			value="(execution(* *.*(..)))">
+		</property>
+	</bean>
+	
+	<bean id="intensityControlAdvisor"
+		class="org.springframework.aop.aspectj.AspectJExpressionPointcutAdvisor">
+		<property name="advice" ref="intensityControlInterceptor"></property>
+		<property name="expression"
+			value="(execution(* *.*(..)))">
+		</property>
+	</bean>
+	
+	<bean id="privilegeAdvisor"
+		class="org.springframework.aop.aspectj.AspectJExpressionPointcutAdvisor">
+		<property name="advice" ref="privilegeInterceptor"></property>
+		<property name="expression"
+			value="(execution(* *.get*(..)))||(execution(* *.add*(..)))||(execution(* *.update*(..)))||(execution(* *.set*(..)))
+			||(execution(* *.replace*(..)))||(execution(* *.copy*(..)))||(execution(* *.delete*(..)))">
+		</property>
+	</bean>
+	
+	<bean id="apiOptHistoryAdvisor"
+		class="org.springframework.aop.aspectj.AspectJExpressionPointcutAdvisor">
+		<property name="advice" ref="apiOptHistoryInterceptor"></property>
+		<property name="expression"
+			value="(execution(* *.add*(..)))||(execution(* *.update*(..)))||(execution(* *.set*(..)))
+			||(execution(* *.replace*(..)))||(execution(* *.copy*(..)))||(execution(* *.delete*(..)))">
+		</property>
+	</bean>
+	
+	<bean id="thruputControlAdvisor"
+		class="org.springframework.aop.aspectj.AspectJExpressionPointcutAdvisor">
+		<property name="advice" ref="thruputControlInterceptor"></property>
+		<property name="expression"
+			value="(execution(* *.*(..)))">
+		</property>
+	</bean>
+	
+	<bean id="filterReportAdvisor"
+		class="org.springframework.aop.aspectj.AspectJExpressionPointcutAdvisor">
+		<property name="advice" ref="filterGroupReportInterceptor"></property>
+		<property name="expression"
+			value="(execution(* *.getReportId(..)))">
+		</property>
+	</bean>
+
+	<bean id="monitorExternalAdvisor"
+		class="org.springframework.aop.aspectj.AspectJExpressionPointcutAdvisor">
+		<property name="advice" ref="traceMethodInterceptor"></property>
+		<property name="expression"
+			value="(execution(* *.add*(..)))||(execution(* *.update*(..)))||(execution(* *.set*(..)))
+			||(execution(* *.replace*(..)))||(execution(* *.copy*(..)))||(execution(* *.delete*(..)))">
+		</property>
+	</bean>
+
+	<bean id="apiExternalProxyBase"
+		class="org.springframework.aop.framework.ProxyFactoryBean"
+		abstract="true">
+		<property name="interceptorNames">
+			<list>
+				<value>privilegeAdvisor</value>
+				<value>blacklistAdvisor</value>
+				<value>accessLogAdvisor</value>
+				<value>filterReportAdvisor</value>
+				<value>prisonAdvisor</value>
+				<value>thruputControlAdvisor</value>
+				<value>apiOptHistoryAdvisor</value>
+				<value>intensityControlAdvisor</value>
+				<value>monitorExternalAdvisor</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="thruputControlConfigService"  class="com.baidu.beidou.api.external.util.config.impl.ThruputControlConfigServiceImpl" >
+	</bean>
+	
+	<bean id="prisonInterceptor"
+		class="com.baidu.beidou.api.external.util.interceptor.PrisonInterceptor">
+		<property name="PRISON_ENABLE">
+			<value>${PRISON_ENABLE}</value>
+		</property>
+		<property name="PRISON_LEVEL1_THRESHOLD">
+			<value>${PRISON_LEVEL1_THRESHOLD}</value>
+		</property>
+		<property name="PRISON_LEVEL2_THRESHOLD">
+			<value>${PRISON_LEVEL2_THRESHOLD}</value>
+		</property>
+		<property name="PRISON_LEVEL3_THRESHOLD">
+			<value>${PRISON_LEVEL3_THRESHOLD}</value>
+		</property>
+		<property name="PRISON_LEVEL1_REJECT_TIME">
+			<value>${PRISON_LEVEL1_REJECT_TIME}</value>
+		</property>
+		<property name="PRISON_LEVEL2_REJECT_TIME">
+			<value>${PRISON_LEVEL2_REJECT_TIME}</value>
+		</property>
+		<property name="PRISON_LEVEL3_REJECT_TIME">
+			<value>${PRISON_LEVEL3_REJECT_TIME}</value>
+		</property>
+		<property name="PRISON_PERIOD">
+			<value>${PRISON_PERIOD}</value>
+		</property>
+		<property name="EXPIRE">
+			<value>${EXPIRE}</value>
+		</property>
+	</bean>
+	
+	<bean id="prisonAdvisor"
+		class="org.springframework.aop.aspectj.AspectJExpressionPointcutAdvisor">
+		<property name="advice" ref="prisonInterceptor"></property>
+		<property name="expression"
+			value="(execution(* *.*(..)))">
+		</property>
+	</bean>
+	
+</beans>

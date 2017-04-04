@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN 2.0//EN" "http://www.springframework.org/dtd/spring-beans-2.0.dtd">
+
+<beans>
+
+	<bean id="simpleUserInfoMgr" class="com.baidu.beidou.api.internal.fcindex.service.impl.SimpleUserInfoMgrImpl">
+		<property name="cproPlanDao"><ref bean="cproPlanDao"/></property>
+		<property name="userAvgCostDao" ref="userAvgCostDao" />
+		<property name="mfcService"><ref bean="mfcService"/></property>
+	</bean>
+	
+	<!-- for ONE -->
+	 <bean class="com.baidu.rpc.server.RpcExporter" scope="singleton">
+        <property name="serviceInterfaceName" value="com.baidu.beidou.api.internal.fcindex.service.OneService"/>
+        <property name="serviceBean">
+            <ref bean="oneServiceImpl"/>
+        </property>
+    </bean>
+    
+    <bean id="oneServiceImpl" class="com.baidu.beidou.api.internal.fcindex.service.impl.OneServiceImpl">
+        <property name="cproPlanMgr" ref="cproPlanMgr" />
+        <property name="configConst" ref="configConst" />
+    </bean>
+    
+    <!-- cache configuartion for ONE -->
+    <bean id="configConst" class="com.baidu.beidou.api.internal.fcindex.OneConfigConst">
+        <property name="cacheEnable"><value>${one_cache_enable}</value></property>
+        <property name="expireTime"><value>${one_expire_time}</value></property>
+    </bean>
+</beans>

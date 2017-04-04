@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN 2.0//EN" "http://www.springframework.org/dtd/spring-beans-2.0.dtd">
+
+<!--
+	- Application context definition for "springapp" DispatcherServlet.
+-->
+
+<beans>
+
+	<!-- 查询beidoureport库 -->
+	<bean id="apiAccountFileTaskDao" 
+		class="com.baidu.beidou.api.external.accountfile.dao.impl.ApiAccountFileTaskDaoImpl" 
+		parent="xdbBaseDao" />
+		
+		
+	<bean id="unitAuditDao" class="com.baidu.beidou.api.internal.audit.dao.impl.UnitAuditDaoImpl" parent="addbBaseDao">
+		<property name="strategy">
+			<ref bean="unitPartitionStrategy" />
+		</property>
+	</bean>
+	<bean id="unitAuditDaoOnMultiAddb" class="com.baidu.beidou.api.internal.audit.dao.impl.UnitAuditDaoOnMultiAddbImpl" parent="addbBaseDao">
+		<property name="dataSourceSupport">
+			<ref bean="dataSourceSupport" />
+		</property>
+		<property name="strategy">
+			<ref bean="unitPartitionStrategy" />
+		</property>
+	</bean>
+
+</beans>

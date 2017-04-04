@@ -1,0 +1,373 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="https://api.baidu.com/sem/nms/v2" xmlns:common="http://api.baidu.com/sem/common/v2" name="AdService" targetNamespace="https://api.baidu.com/sem/nms/v2" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <xsd:schema targetNamespace="https://api.baidu.com/sem/nms/v2">
+      <xsd:import schemaLocation="http://tc-un-db64-02.tc:8222/sem/nms/v2/AdService?xsd=../../Common.xsd" namespace="http://api.baidu.com/sem/common/v2" />
+      <xsd:complexType name="AdType">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="1" name="adId" type="xsd:long" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="localId" type="xsd:long" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="groupId" type="xsd:long" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="status">
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:int" />
+            </xsd:simpleType>
+          </xsd:element>
+          <xsd:element minOccurs="0" maxOccurs="1" name="type">
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:int" />
+            </xsd:simpleType>
+          </xsd:element>
+          <xsd:element minOccurs="0" maxOccurs="1" name="title" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="displayUrl" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="destinationUrl" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="description1" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="description2" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="imageData" type="xsd:base64Binary" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="imageUrl" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="width" type="xsd:int" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="height" type="xsd:int" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="StatusType">
+        <xsd:sequence>
+          <xsd:element minOccurs="1" maxOccurs="1" name="adId" type="xsd:long" />
+          <xsd:element minOccurs="1" maxOccurs="1" name="status" type="xsd:int" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:element name="addAdRequest">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="1" maxOccurs="unbounded" name="adTypes" type="tns:AdType" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="addAdResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" maxOccurs="unbounded" name="adTypes" type="tns:AdType" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="copyAdRequest">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="1" maxOccurs="unbounded" name="groupIds" type="xsd:long" />
+            <xsd:element minOccurs="1" maxOccurs="unbounded" name="adIds" type="xsd:long" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="copyAdResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" name="response" type="xsd:string" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="deleteAdRequest">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="1" maxOccurs="unbounded" name="adIds" type="xsd:long" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="deleteAdResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" name="response" type="xsd:string" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="getAdByAdIdRequest">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="1" maxOccurs="unbounded" name="adIds" type="xsd:long" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="getAdByAdIdResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" maxOccurs="unbounded" name="adTypes" type="tns:AdType" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="getAdByGroupIdRequest">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="1" maxOccurs="1" name="groupId" type="xsd:long" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="getAdByGroupIdResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" maxOccurs="unbounded" name="adTypes" type="tns:AdType" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="getAdIdByGroupIdRequest">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="groupId" type="xsd:long" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="getAdIdByGroupIdResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" maxOccurs="unbounded" name="adIds" type="xsd:long" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="replaceAdRequest">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="1" maxOccurs="unbounded" name="adIds" type="xsd:long" />
+            <xsd:element name="adId" type="xsd:long" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="replaceAdResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" name="response" type="xsd:string" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="setAdStatusRequest">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="1" maxOccurs="unbounded" name="statusTypes" type="tns:StatusType" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="setAdStatusResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" name="response" type="xsd:string" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="updateAdRequest">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="1" maxOccurs="unbounded" name="adTypes" type="tns:AdType" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="updateAdResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" maxOccurs="unbounded" name="adTypes" type="tns:AdType" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="getAdByAdIdResponse">
+    <wsdl:part name="parameters" element="tns:getAdByAdIdResponse" />
+  </wsdl:message>
+  <wsdl:message name="replaceAdResponse">
+    <wsdl:part name="parameters" element="tns:replaceAdResponse" />
+  </wsdl:message>
+  <wsdl:message name="ResHeader">
+    <wsdl:part name="ResHeader" element="common:ResHeader" />
+  </wsdl:message>
+  <wsdl:message name="deleteAdResponse">
+    <wsdl:part name="parameters" element="tns:deleteAdResponse" />
+  </wsdl:message>
+  <wsdl:message name="getAdIdByGroupIdRequest">
+    <wsdl:part name="parameters" element="tns:getAdIdByGroupIdRequest" />
+  </wsdl:message>
+  <wsdl:message name="addAdRequest">
+    <wsdl:part name="parameters" element="tns:addAdRequest" />
+  </wsdl:message>
+  <wsdl:message name="getAdByGroupIdResponse">
+    <wsdl:part name="parameters" element="tns:getAdByGroupIdResponse" />
+  </wsdl:message>
+  <wsdl:message name="getAdByAdIdRequest">
+    <wsdl:part name="parameters" element="tns:getAdByAdIdRequest" />
+  </wsdl:message>
+  <wsdl:message name="replaceAdRequest">
+    <wsdl:part name="parameters" element="tns:replaceAdRequest" />
+  </wsdl:message>
+  <wsdl:message name="copyAdRequest">
+    <wsdl:part name="parameters" element="tns:copyAdRequest" />
+  </wsdl:message>
+  <wsdl:message name="copyAdResponse">
+    <wsdl:part name="parameters" element="tns:copyAdResponse" />
+  </wsdl:message>
+  <wsdl:message name="setAdStatusResponse">
+    <wsdl:part name="parameters" element="tns:setAdStatusResponse" />
+  </wsdl:message>
+  <wsdl:message name="getAdIdByGroupIdResponse">
+    <wsdl:part name="parameters" element="tns:getAdIdByGroupIdResponse" />
+  </wsdl:message>
+  <wsdl:message name="getAdByGroupIdRequest">
+    <wsdl:part name="parameters" element="tns:getAdByGroupIdRequest" />
+  </wsdl:message>
+  <wsdl:message name="deleteAdRequest">
+    <wsdl:part name="parameters" element="tns:deleteAdRequest" />
+  </wsdl:message>
+  <wsdl:message name="setAdStatusRequest">
+    <wsdl:part name="parameters" element="tns:setAdStatusRequest" />
+  </wsdl:message>
+  <wsdl:message name="updateAdRequest">
+    <wsdl:part name="parameters" element="tns:updateAdRequest" />
+  </wsdl:message>
+  <wsdl:message name="addAdResponse">
+    <wsdl:part name="parameters" element="tns:addAdResponse" />
+  </wsdl:message>
+  <wsdl:message name="AuthHeader">
+    <wsdl:part name="AuthHeader" element="common:AuthHeader" />
+  </wsdl:message>
+  <wsdl:message name="updateAdResponse">
+    <wsdl:part name="parameters" element="tns:updateAdResponse" />
+  </wsdl:message>
+  <wsdl:portType name="AdService">
+    <wsdl:operation name="addAd">
+      <wsdl:input message="tns:addAdRequest" />
+      <wsdl:output message="tns:addAdResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="copyAd">
+      <wsdl:input message="tns:copyAdRequest" />
+      <wsdl:output message="tns:copyAdResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="deleteAd">
+      <wsdl:input message="tns:deleteAdRequest" />
+      <wsdl:output message="tns:deleteAdResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getAdByAdId">
+      <wsdl:input message="tns:getAdByAdIdRequest" />
+      <wsdl:output message="tns:getAdByAdIdResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getAdByGroupId">
+      <wsdl:input message="tns:getAdByGroupIdRequest" />
+      <wsdl:output message="tns:getAdByGroupIdResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getAdIdByGroupId">
+      <wsdl:input message="tns:getAdIdByGroupIdRequest" />
+      <wsdl:output message="tns:getAdIdByGroupIdResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="replaceAd">
+      <wsdl:input message="tns:replaceAdRequest" />
+      <wsdl:output message="tns:replaceAdResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="setAdStatus">
+      <wsdl:input message="tns:setAdStatusRequest" />
+      <wsdl:output message="tns:setAdStatusResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="updateAd">
+      <wsdl:input message="tns:updateAdRequest" />
+      <wsdl:output message="tns:updateAdResponse" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="AdServiceSOAP" type="tns:AdService">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="addAd">
+      <soap:operation soapAction="https://api.baidu.com/sem/nms/v2/AdService/addAd" />
+      <wsdl:input>
+        <soap:header message="tns:AuthHeader" part="AuthHeader" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:header message="tns:ResHeader" part="ResHeader" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="copyAd">
+      <soap:operation soapAction="https://api.baidu.com/sem/nms/v2/AdService/copyAd" />
+      <wsdl:input>
+        <soap:header message="tns:AuthHeader" part="AuthHeader" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:header message="tns:ResHeader" part="ResHeader" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="deleteAd">
+      <soap:operation soapAction="https://api.baidu.com/sem/nms/v2/AdService/deleteAd" />
+      <wsdl:input>
+        <soap:header message="tns:AuthHeader" part="AuthHeader" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:header message="tns:ResHeader" part="ResHeader" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getAdByAdId">
+      <soap:operation soapAction="https://api.baidu.com/sem/nms/v2/AdService/getAdByAdId" />
+      <wsdl:input>
+        <soap:header message="tns:AuthHeader" part="AuthHeader" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:header message="tns:ResHeader" part="ResHeader" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getAdByGroupId">
+      <soap:operation soapAction="https://api.baidu.com/sem/nms/v2/AdService/getAdByGroupId" />
+      <wsdl:input>
+        <soap:header message="tns:AuthHeader" part="AuthHeader" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:header message="tns:ResHeader" part="ResHeader" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getAdIdByGroupId">
+      <soap:operation soapAction="https://api.baidu.com/sem/nms/v2/AdService/getAdIdByGroupId" />
+      <wsdl:input>
+        <soap:header message="tns:AuthHeader" part="AuthHeader" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:header message="tns:ResHeader" part="ResHeader" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="replaceAd">
+      <soap:operation soapAction="https://api.baidu.com/sem/nms/v2/AdService/replaceAd" />
+      <wsdl:input>
+        <soap:header message="tns:AuthHeader" part="AuthHeader" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:header message="tns:ResHeader" part="ResHeader" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="setAdStatus">
+      <soap:operation soapAction="https://api.baidu.com/sem/nms/v2/AdService/setAdStatus" />
+      <wsdl:input>
+        <soap:header message="tns:AuthHeader" part="AuthHeader" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:header message="tns:ResHeader" part="ResHeader" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="updateAd">
+      <soap:operation soapAction="https://api.baidu.com/sem/nms/v2/AdService/updateAd" />
+      <wsdl:input>
+        <soap:header message="tns:AuthHeader" part="AuthHeader" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:header message="tns:ResHeader" part="ResHeader" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="AdService">
+    <wsdl:port name="AdService" binding="tns:AdServiceSOAP">
+      <soap:address location="http://tc-un-db64-02.tc:8222/sem/nms/v2/AdService" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

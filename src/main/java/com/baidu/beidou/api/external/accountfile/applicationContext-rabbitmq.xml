@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:rabbit="http://www.springframework.org/schema/rabbit" xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+http://www.springframework.org/schema/rabbit http://www.springframework.org/schema/rabbit/spring-rabbit-1.3.xsd">
+     <!--  first following line creates a rabbit connection factory with specified parameters -->
+    <rabbit:connection-factory id="connectionFactory" addresses="${RABBITMQ-ADDRESSES}" username="${RABBITMQ-USER-API}" password="${RABBITMQ-PASSWORD-API}"  virtual-host="${RABBITMQ-VIRTUAL-HOST-API}" />
+    <!-- obtain admin rights to create the an exchange -->
+    <rabbit:admin connection-factory="connectionFactory" />
+ 	<bean id="messageConvert" class="com.baidu.beidou.api.external.accountfile.rabbitmq.FastJsonMessageConverter"></bean>
+    <!-- create a bean which can send message to TUTORIAL_EXCHANGE for the Java program to call -->
+    <rabbit:template id="rabbitmqTemplate" connection-factory="connectionFactory"  exchange="accountfileExchange" routing-key="api.accountfile" message-converter="messageConvert"/>
+</beans>

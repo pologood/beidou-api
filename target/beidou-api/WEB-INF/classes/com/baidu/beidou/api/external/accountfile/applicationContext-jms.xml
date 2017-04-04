@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:amq="http://activemq.apache.org/schema/core" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+  http://activemq.apache.org/schema/core http://activemq.apache.org/schema/core/activemq-core.xsd">
+
+	<bean id="accountFileMessageConverter" class="com.baidu.beidou.api.external.accountfile.facade.AccountFileMessageConverter" />
+
+	<!-- Spring JMS Template for Api report-->
+	<bean id="jmsTemplateAccountFile" class="org.springframework.jms.core.JmsTemplate">
+		<property name="connectionFactory">
+			<ref bean="jmsProducerFactory" />
+		</property>
+		<property name="defaultDestination" ref="queueDestinationApiAccountFile" />
+		<property name="messageConverter" ref="accountFileMessageConverter" />
+	</bean>
+	
+	<bean id="accountFileFacade" class="com.baidu.beidou.api.external.accountfile.facade.impl.AccountFileFacadeImpl">
+		<property name="accountFileMgr" ref="accountFileMgr"></property>
+		<property name="jmsTemplate" ref="jmsTemplateAccountFile"></property>
+		<property name="rabbitTemplate" ref="rabbitmqTemplate"></property>
+		<property name="enable" value="${AccountFileWebConstants.ENABLE_CONCURRENCE}"></property>
+	</bean>
+	
+	<bean id="accountFileMessageListener"
+		class="org.springframework.jms.listener.adapter.MessageListenerAdapter">
+		<constructor-arg>
+			<ref bean="accountFileFacade"/>
+		</constructor-arg>
+		<property name="defaultListenerMethod" value="handleMessage" />
+		<property name="messageConverter" ref="accountFileMessageConverter" />
+	</bean>
+	
+	<bean id="listenerContainerApiAccountFile"
+		class="org.springframework.jms.listener.DefaultMessageListenerContainer">
+		<property name="concurrentConsumers" value="16" />
+		<property name="connectionFactory" ref="jmsFactory" />
+		<property name="destination" ref="queueDestinationApiAccountFile" />
+		<property name="messageListener" ref="accountFileMessageListener" />
+	</bean>
+	
+</beans>

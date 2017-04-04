@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping  schema="beidoureport" >
+
+    <class name="com.baidu.beidou.api.external.accountfile.bo.ApiAccountFileTask" table="api_accountfile" lazy="false">
+        <id name="id" type="java.lang.Long" column="id">
+        	<meta attribute="use-in-equals">true</meta>
+        	<meta attribute="use-in-tostring">true</meta>
+            <generator class="native"/>
+        </id>        
+        <property name="userid" type="java.lang.Integer" column="userid"></property>
+        <property name="planids" type="java.lang.String" column="planids"></property>
+        <property name="status" type="java.lang.Integer" column="status"></property>
+        <property name="fileid" type="java.lang.String" column="fileid"></property>
+        <property name="md5" type="java.lang.String" column="md5"></property>
+        <property name="machineid" type="java.lang.String" column="machineid"></property>    
+        <property name="format" type="java.lang.Integer" column="format"></property>     
+        <property name="opuser" type="java.lang.Integer" column="opuser"></property>
+        <property name="addtime" type="java.util.Date" column="addtime"></property>			
+		<property name="modtime" type="java.util.Date" column="modtime"></property>
+		<property name="retry" type="java.lang.Integer" column="retry"></property>
+		<property name="handletime" type="java.util.Date" column="handletime"></property>	
+    </class>
+    
+</hibernate-mapping>

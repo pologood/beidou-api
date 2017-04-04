@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN 2.0//EN" 
+		"http://www.springframework.org/dtd/spring-beans-2.0.dtd">
+
+
+<beans>
+	<bean id="refreshBlacklistService" class="org.springframework.remoting.caucho.HessianProxyFactoryBean">
+	    <property name="serviceUrl" value="http://127.0.0.1:8080/beidou-api/rpc/refreshBlacklistCache.rpc"/>
+	    <property name="serviceInterface" value="com.baidu.ctclient.ITaskUsingErrorCode"/>
+        <property name="username" value="ctclient1"/>
+        <property name="password" value="ctclient1"/>
+	</bean>
+</beans>

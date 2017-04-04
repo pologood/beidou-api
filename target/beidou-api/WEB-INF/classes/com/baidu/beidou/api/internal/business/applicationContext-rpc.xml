@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN 2.0//EN" "http://www.springframework.org/dtd/spring-beans-2.0.dtd">
+
+<!--
+	- Application context definition for "springapp" DispatcherServlet.
+-->
+
+<beans>
+
+	<!-- interceptor定义 
+	<bean id="businesssInterceptor" class="com.baidu.beidou.business.interceptor.NameServiceInterceptor">
+	</bean>
+	
+	<bean id="businessAdvisor" class="org.springframework.aop.aspectj.AspectJExpressionPointcutAdvisor">
+		<property name="advice" ref="businesssInterceptor"></property>
+		<property name="expression" 
+			value="(execution(* *.get*(..)))">
+		</property>
+	</bean>
+
+
+	<bean id="businessProxyBase" class="org.springframework.aop.framework.ProxyFactoryBean" abstract="true">
+		<property name="interceptorNames">
+			<list>
+				<value>businessAdvisor</value>
+			</list>
+		</property>
+	</bean>-->
+	
+	<!-- service begin -->
+	<bean id="nameService" class="com.baidu.beidou.api.internal.business.exporter.impl.NameServiceImpl">
+		<property name="cproPlanMgr" ref="cproPlanMgr"/>
+		<property name="cproGroupMgr" ref="cproGroupMgr"/>
+		<property name="cproUnitMgr" ref="unitMgr"/>
+		<property name="userMgr" ref="userMgr"/>
+		<property name="cproKeywordMgr" ref="cproKeywordMgr"/>
+		<property name="statDAO" ref="statDAO2"/>
+		<property name="planNumMax"><value>1000</value></property>
+		<property name="groupNumMax"><value>1000</value></property>
+		<property name="unitNumMax"><value>1000</value></property>
+		<property name="siteNumMax"><value>1000</value></property>
+		<property name="keywordNumMax"><value>1000</value></property>
+    </bean>
+	<!-- service end --> 
+	
+	<!-- proxy && interceptor begin -->
+	<!-- 如果无需经过拦截器记录信息，则不配置proxy，对外暴露的RpcExporter直接注入service即可 -->
+	<bean id="nameServiceProxy" parent="apiInternalProxyBase">
+		<property name="target" ref="nameService"></property>
+		<property name="proxyInterfaces"
+			value="com.baidu.beidou.api.internal.business.exporter.NameService">
+		</property>
+	</bean>
+	<!-- proxy && interceptor end -->
+	
+	<!-- 代理定义
+ 	<bean id="nameServiceProxy"  parent="businessProxyBase">
+		<property name="target" ref="apiNameService"></property>
+		<property name="proxyInterfaces" value="com.baidu.beidou.business.exporter.NameService"></property>
+	</bean>
+	  -->
+	<!-- RpcExporter begin -->
+	<bean class="com.baidu.rpc.server.RpcExporter"
+		scope="singleton">
+		<property name="serviceInterfaceName" value="com.baidu.beidou.api.internal.business.exporter.NameService"/>
+		<property name="serviceBean">
+			<ref bean="nameServiceProxy"/>
+		</property>
+	</bean>
+	<!-- RpcExporter end -->
+	 
+</beans>

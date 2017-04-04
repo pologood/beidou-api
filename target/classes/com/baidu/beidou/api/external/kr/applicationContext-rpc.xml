@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN 2.0//EN" "http://www.springframework.org/dtd/spring-beans-2.0.dtd">
+
+<!--
+	- Application context definition for "springapp" DispatcherServlet.
+-->
+
+<beans>
+
+	<bean id="krKeywordFacade"
+		class="com.baidu.beidou.api.external.kr.facade.impl.KrKeywordFacadeImpl">
+		<property name="cproKeywordMgr">
+			<ref bean="cproKeywordMgr"/>
+		</property>
+		<property name="cproGroupMgr">
+			<ref bean="cproGroupMgr"/>
+		</property>
+		<property name="cproKTUserMGDao">
+			<ref bean="cproKTUserMGDao"/>
+		</property>
+		<property name="cproKTStatMGDao">
+			<ref bean="cproKTStatMGDao"/>
+		</property>
+		<property name="krService">
+			<ref bean="krService"/>
+		</property>
+	</bean>
+	
+	<bean id="keyRecommNVFacade"
+		class="com.baidu.beidou.api.external.kr.facade.impl.KeyRecommNVFacadeImpl">
+		<property name="cproKeywordMgr">
+			<ref bean="cproKeywordMgr"/>
+		</property>
+		<property name="cproKTUserMGDao">
+			<ref bean="cproKTUserMGDao"/>
+		</property>	
+		<property name="cproKTStatMGDao">
+			<ref bean="cproKTStatMGDao"/>
+		</property>	
+		<property name="cproGroupMgr">
+			<ref bean="cproGroupMgr"/>
+		</property>
+		<property name="reService">
+			<ref bean="reService"/>
+		</property>
+	</bean>
+
+	<bean id="apiKrService" class="com.baidu.beidou.api.external.kr.exporter.impl.KrServiceImpl">
+		<property name="krKeywordFacade">
+			<ref bean="krKeywordFacade"/>
+		</property>
+		<property name="keyRecommNVFacade">
+			<ref bean="keyRecommNVFacade"/>
+		</property>
+		<property name="cproGroupMgr">
+			<ref bean="cproGroupMgr"/>
+		</property>
+		<property name="packKeywordMgr">
+			<ref bean="wordPackKeywordMgr"/>
+		</property>
+	</bean>
+
+	<!-- 代理定义 -->
+	<bean id="krProxy" parent="apiExternalProxyBase">
+		<property name="target" ref="apiKrService"></property>
+		<property name="proxyInterfaces"
+			value="com.baidu.beidou.api.external.kr.exporter.KrService">
+		</property>
+		<property name="interceptorNames">
+			<list merge="true">
+				<!--  <value>groupPrivilegeAdvisor</value> -->
+			</list>
+		</property>
+	</bean>
+	
+	<!-- rpc定义 -->
+	<bean class="com.baidu.rpc.server.RpcExporter"
+		scope="singleton">
+		<property name="serviceInterfaceName" value="com.baidu.beidou.api.external.kr.exporter.KrService"/>
+		<property name="serviceBean">
+			<ref bean="krProxy"/>
+		</property>
+	</bean>
+
+</beans>

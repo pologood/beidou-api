@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mappings xmlns="http://dozer.sourceforge.net"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://dozer.sourceforge.net
+          http://dozer.sourceforge.net/schema/beanmapping.xsd">
+
+	<mapping>
+		<class-a>com.baidu.beidou.api.external.code.vo.Region</class-a>
+		<class-b>com.baidu.beidou.cprogroup.vo.RegionInfo</class-b>
+		<field>
+			<a>regionId</a>
+			<b>regionId</b>
+		</field>
+		<field>
+			<a>name</a>
+			<b>name</b>
+		</field>
+		<field>
+			<a>type</a>
+			<b>type</b>
+		</field>
+		<field>
+			<a>parentId</a>
+			<b>parentId</b>
+		</field>
+	</mapping>
+
+	<mapping>
+		<class-a>com.baidu.beidou.api.external.code.vo.Category</class-a>
+		<class-b>com.baidu.beidou.cprogroup.vo.TradeInfo</class-b>
+		<field>
+			<a>categoryId</a>
+			<b>tradeid</b>
+		</field>
+		<field>
+			<a>name</a>
+			<b>tradename</b>
+		</field>
+		<field>
+			<a>parentId</a>
+			<b>parentid</b>
+		</field>
+	</mapping>
+</mappings>

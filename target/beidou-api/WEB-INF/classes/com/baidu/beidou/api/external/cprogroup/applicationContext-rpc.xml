@@ -1,0 +1,523 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN 2.0//EN" "http://www.springframework.org/dtd/spring-beans-2.0.dtd">
+
+<!-- - Application context definition for "springapp" DispatcherServlet. -->
+
+<beans>
+	<bean id="apiGroupService"
+		class="com.baidu.beidou.api.external.cprogroup.service.impl.ApiGroupServiceImpl">
+		<property name="cproGroupMgr">
+			<ref bean="cproGroupMgr" />
+		</property>
+		<property name="cproPlanMgr">
+			<ref bean="cproPlanMgr" />
+		</property>
+		<property name="unitMgr">
+			<ref bean="unitMgr" />
+		</property>
+	</bean>
+
+	<bean id="groupExcludePeopleFacade"
+		class="com.baidu.beidou.api.external.cprogroup.facade.impl.GroupExcludePeopleFacadeImpl">
+		<property name="cproGroupVTMgr">
+			<ref bean="cproGroupVTMgr" />
+		</property>
+		<property name="vtPeopleMgr">
+			<ref bean="vtPeopleMgr" />
+		</property>
+		<property name="cproGroupMgr">
+			<ref bean="cproGroupMgr" />
+		</property>
+	</bean>
+
+	<bean id="groupPriceFacade"
+		class="com.baidu.beidou.api.external.cprogroup.facade.impl.GroupPriceFacadeImpl">
+		<property name="groupPackMgr">
+			<ref bean="groupPackMgr" />
+		</property>
+		<property name="cproGroupMgr">
+			<ref bean="cproGroupMgr" />
+		</property>
+		<property name="cproPlanMgr">
+			<ref bean="cproPlanMgr" />
+		</property>
+		<property name="groupITPriceMgr">
+			<ref bean="groupITPriceMgr" />
+		</property>
+		<property name="cproGroupITMgr">
+			<ref bean="cproGroupITMgr" />
+		</property>
+		<property name="customITMgr">
+			<ref bean="customITMgr" />
+		</property>
+		<property name="interestMgr">
+			<ref bean="interestMgr" />
+		</property>
+		<property name="packMgr">
+			<ref bean="packMgr" />
+		</property>
+	</bean>
+
+	<bean id="groupConfigSetService"
+		class="com.baidu.beidou.api.external.cprogroup.service.impl.GroupConfigSetServiceImpl">
+		<property name="groupSiteConfigMgr">
+			<ref bean="groupSiteConfigMgr" />
+		</property>
+		<property name="cproKeywordFacade">
+			<ref bean="cproKeywordFacade" />
+		</property>
+		<property name="groupExcludePeopleFacade">
+			<ref bean="groupExcludePeopleFacade" />
+		</property>
+		<property name="cproKeywordMgr">
+			<ref bean="cproKeywordMgr" />
+		</property>
+		<property name="cproGroupMgr">
+			<ref bean="cproGroupMgr" />
+		</property>
+		<property name="groupPriceFacade">
+			<ref bean="groupPriceFacade" />
+		</property>
+	</bean>
+
+	<bean id="groupConfigAddAndDeleteService"
+		class="com.baidu.beidou.api.external.cprogroup.service.impl.GroupConfigAddAndDeleteServiceImpl">
+		<property name="groupSiteConfigMgr">
+			<ref bean="groupSiteConfigMgr" />
+		</property>
+		<property name="cproKeywordFacade">
+			<ref bean="cproKeywordFacade" />
+		</property>
+		<property name="groupExcludePeopleFacade">
+			<ref bean="groupExcludePeopleFacade" />
+		</property>
+		<property name="cproKeywordMgr">
+			<ref bean="cproKeywordMgr" />
+		</property>
+		<property name="cproGroupMgr">
+			<ref bean="cproGroupMgr" />
+		</property>
+		<property name="cproGroupVTMgr">
+			<ref bean="cproGroupVTMgr" />
+		</property>
+		<property name="cproGroupVTDao">
+			<ref bean="cproGroupVTDao" />
+		</property>
+		<property name="vtPeopleMgr">
+			<ref bean="vtPeopleMgr" />
+		</property>
+		<property name="groupConfigValidator">
+			<ref bean="groupConfigValidator" />
+		</property>
+		<property name="cproITFacade">
+			<ref bean="cproITFacade" />
+		</property>
+		<property name="cproGroupITMgr">
+			<ref bean="cproGroupITMgr" />
+		</property>
+		<property name="interestMgr">
+			<ref bean="interestMgr" />
+		</property>
+		<property name="customITMgr">
+			<ref bean="customITMgr" />
+		</property>
+		<property name="groupTradePriceDao">
+			<ref bean="groupTradePriceDao" />
+		</property>
+		<property name="wordExcludeFacade">
+			<ref bean="wordExcludeFacade" />
+		</property>
+		<property name="groupPackFacade">
+			<ref bean="groupPackFacade" />
+		</property>
+		<property name="sequenceDriver">
+			<ref bean="sequenceDriver" />
+		</property>
+		<property name="appExcludeFacade">
+			<ref bean="appExcludeFacade" />
+		</property>
+		<property name="appExcludeMgr">
+			<ref bean="appExcludeMgr" />
+		</property>
+		<property name="userInfoMgr">
+			<ref bean="userInfoMgr" />
+		</property>
+		<property name="groupAttachInfoMgr">
+			<ref bean="groupAttachInfoMgr" />
+		</property>
+		<property name="bridgeService">
+			<ref bean="bridgeService" />
+		</property>
+		<property name="attachInfoMgr">
+			<ref bean="attachInfoMgr" />
+		</property>
+		<property name="unitMgr">
+			<ref bean="unitMgr" />
+		</property>
+	</bean>
+
+
+	<bean id="groupService"
+		class="com.baidu.beidou.api.external.cprogroup.exporter.impl.GroupServiceImpl">
+		<property name="cproGroupMgr">
+			<ref bean="cproGroupMgr" />
+		</property>
+		<property name="apiGroupService">
+			<ref bean="apiGroupService" />
+		</property>
+		<property name="addGroupMax">
+			<value>100</value>
+		</property>
+		<property name="getGroupByGroupIdMax">
+			<value>100</value>
+		</property>
+		<property name="updateGroupMax">
+			<value>100</value>
+		</property>
+	</bean>
+
+	<bean id="groupConfigService"
+		class="com.baidu.beidou.api.external.cprogroup.exporter.impl.GroupConfigServiceImpl">
+		<property name="cproPlanMgr">
+			<ref bean="cproPlanMgr" />
+		</property>
+		<property name="cproGroupMgr">
+			<ref bean="cproGroupMgr" />
+		</property>
+		<property name="cproKeywordMgr">
+			<ref bean="cproKeywordMgr" />
+		</property>
+		<property name="cproKeywordFacade">
+			<ref bean="cproKeywordFacade" />
+		</property>
+		<property name="groupSiteConfigMgr">
+			<ref bean="groupSiteConfigMgr" />
+		</property>
+		<property name="unitMgr">
+			<ref bean="unitMgr" />
+		</property>
+		<property name="vtPeopleMgr">
+			<ref bean="vtPeopleMgr" />
+		</property>
+		<property name="groupConfigSetService">
+			<ref bean="groupConfigSetService" />
+		</property>
+		<property name="groupConfigADService">
+			<ref bean="groupConfigAddAndDeleteService" />
+		</property>
+		<property name="groupConfigValidator">
+			<ref bean="groupConfigValidator" />
+		</property>
+		<property name="userMgr">
+			<ref bean="userMgr" />
+		</property>
+		<property name="userInfoMgr">
+			<ref bean="userInfoMgr" />
+		</property>
+		<property name="cproGroupVTMgr">
+			<ref bean="cproGroupVTMgr" />
+		</property>
+		<property name="cproITFacade">
+			<ref bean="cproITFacade" />
+		</property>
+		<property name="cproGroupITMgr">
+			<ref bean="cproGroupITMgr" />
+		</property>
+		<property name="interestMgr">
+			<ref bean="interestMgr" />
+		</property>
+		<property name="customITMgr">
+			<ref bean="customITMgr" />
+		</property>
+		<property name="wordExcludeFacade">
+			<ref bean="wordExcludeFacade" />
+		</property>
+		<property name="groupPackMgr">
+			<ref bean="groupPackMgr" />
+		</property>
+		<property name="groupPackFacade">
+			<ref bean="groupPackFacade" />
+		</property>
+		<property name="groupITPriceMgr">
+			<ref bean="groupITPriceMgr" />
+		</property>
+		<property name="appExcludeMgr">
+			<ref bean="appExcludeMgr" />
+		</property>
+		<property name="attachInfoMgr">
+			<ref bean="attachInfoMgr" />
+		</property>
+		<property name="groupAttachInfoMgr">
+			<ref bean="groupAttachInfoMgr" />
+		</property>
+		<property name="bridgeService">
+			<ref bean="bridgeService" />
+		</property>
+		<property name="similarPeopleMgr">
+			<ref bean="similarPeopleMgr" />
+		</property>
+		<property name="getSiteConfigMax">
+			<value>10</value>
+		</property>
+		<property name="getRegionConfigMax">
+			<value>100</value>
+		</property>
+		<property name="getExcludeIpMax">
+			<value>10</value>
+		</property>
+		<property name="getExcludeSiteMax">
+			<value>10</value>
+		</property>
+		<property name="getKeywordMax">
+			<value>1000</value>
+		</property>
+		<property name="getWordMax">
+			<value>1000</value>
+		</property>
+		<property name="getSiteUrlMax">
+			<value>10</value>
+		</property>
+		<property name="getTradeSitePriceMax">
+			<value>10</value>
+		</property>
+		<property name="getTargetInfoMax">
+			<value>10</value>
+		</property>
+		<property name="getExcludeKeywordMax">
+			<value>100</value>
+		</property>
+		<property name="getExcludePeopleMax">
+			<value>100</value>
+		</property>
+		<property name="getExcludeAppMax">
+			<value>100</value>
+		</property>
+		<property name="getPackInfoMax">
+			<value>100</value>
+		</property>
+		<property name="getPriceMax">
+			<value>100</value>
+		</property>
+		<property name="getSimilarPeopleMax">
+			<value>100</value>
+		</property>
+		<property name="updateSimilarPeopleMax">
+			<value>100</value>
+		</property>
+		<property name="getKTAccuracyMax">
+			<value>100</value>
+		</property>
+		<property name="updateKTAccuracyMax">
+			<value>100</value>
+		</property>
+	</bean>
+
+	<bean id="groupConfigValidator"
+		class="com.baidu.beidou.api.external.cprogroup.exporter.GroupConfigValidator">
+		<property name="cproPlanMgr">
+			<ref bean="cproPlanMgr" />
+		</property>
+		<property name="cproGroupMgr">
+			<ref bean="cproGroupMgr" />
+		</property>
+		<property name="groupSiteConfigMgr">
+			<ref bean="groupSiteConfigMgr" />
+		</property>
+	</bean>
+
+	<!-- interceptor定义 -->
+	<bean id="groupDataPrivilegeInterceptor" abstract="true"
+		class="com.baidu.beidou.api.external.cprogroup.interceptor.GroupDataPrivilege">
+		<property name="cproGroupMgr" ref="cproGroupMgr"></property>
+	</bean>
+	<bean id="wordDataPrivilegeInterceptor" abstract="true"
+		class="com.baidu.beidou.api.external.cprogroup.interceptor.WordDataPrivilege">
+		<property name="cproKeywordMgr" ref="cproKeywordMgr"></property>
+		<property name="userMgr" ref="userMgr"></property>
+	</bean>
+
+	<bean id="groupPrivilegeAdvisor"
+		class="org.springframework.aop.aspectj.AspectJExpressionPointcutAdvisor">
+		<property name="advice">
+			<bean parent="groupDataPrivilegeInterceptor">
+				<property name="ognlExp">
+					<list>
+						<value>groupTypes.{groupId}</value>		<!-- updateGroup -->
+						<value>groupIds</value>					<!-- getGroupByGroupId && GroupConfigService.get* && copyAd -->
+						<value>targetInfo.groupId</value>		<!-- setTargetInfo -->
+						<value>excludeIp.groupId</value>		<!-- setExcludeIp -->
+						<value>regionConfig.groupId</value>		<!-- setRegionConfig -->
+						<value>siteConfig.groupId</value>		<!-- setSiteConfig -->
+						<value>excludeSite.groupId</value>		<!-- setExcludeSite -->
+						<value>tradeSitePrice.groupId</value>	<!-- setTradeSitePrice -->
+						<value>siteUrl.groupId</value>			<!-- setSiteUrl -->
+						<value>interestInfo.groupId</value>		<!-- setInterestInfo -->
+
+						<value>adTypes.{groupId}</value>		<!-- addAd -->
+						<value>groupId</value>					<!-- getAdIdByGroupId && getAdByGroupId && getKRBySeed -->
+
+						<!-- add && delete interface -->
+						<value>interests.{groupId}</value>		<!-- addInterestInfo && deleteInterestInfo -->
+						<value>keywords.{groupId}</value>		<!-- addKeyword && deleteKeyword && setKeyword -->
+						<value>rtRelations.{groupId}</value>	<!-- addRtRelation && deleteRtRelation -->
+						<value>vtPeoples.{groupId}</value>		<!-- addVtPeople && deleteVtPeople -->
+						<value>sites.{groupId}</value>			<!-- addSite && deleteSite -->
+						<value>trades.{groupId}</value>			<!-- addTrade && deleteTrade -->
+						<value>sitePrices.{groupId}</value>		<!-- addSitePrice && deleteSitePrice -->
+						<value>tradePrices.{groupId}</value>	<!-- addTradePrice && deleteTradePrice -->
+						<value>regions.{groupId}</value>		<!-- addRegion && deleteRegion -->
+						<value>excludeIps.{groupId}</value>		<!-- addExcludeIp && deleteExcludeIp -->
+						<value>excludeSites.{groupId}</value>	<!-- addExcludeSite && deleteExcludeSite -->
+						<value>excludeApps.{groupId}</value>	<!-- addExcludeApp && deleteExcludeApp -->
+						<value>excludeKeywords.{groupId}</value><!-- addExcludeKeyword && deleteExcludeKeyword -->
+						<value>excludeKeyword.{groupId}</value>	<!-- setExcludeKeyword -->
+						<value>excludePeople.{groupId}</value>	<!-- setExcludePeople -->
+						<value>excludePeoples.{groupId}</value>	<!-- addExcludePeople && deleteExcludePeople -->
+						<value>packInfo.{groupId}</value>	<!-- setPackInfo -->
+						<value>packs.{groupId}</value>	<!-- addPackInfo && deletePackInfo -->
+						<value>prices.{groupId}</value>	<!-- setPrice -->
+						<value>attachInfos.{groupId}</value>
+						<value>similarPeoples.{groupId}</value>
+					</list>
+				</property>
+			</bean>
+		</property>
+		<property name="expression"
+			value="((execution(* *.updateGroup(..)))||(execution(* *.updateAdditionalGroup(..)))||(execution(* *.getGroupByGroupId(..)))
+		||(execution(* com.baidu.beidou.api.external.cprogroup.exporter.GroupConfigService.*(..)))
+		||(execution(* com.baidu.beidou.api.external.kr.exporter.KrService.*(..)))
+		||(execution(* *.addAd(..)))||(execution(* *.copyAd(..)))
+		||(execution(* *.getAdIdByGroupId(..)))||(execution(* *.getAdByGroupId(..))))">
+		</property>
+	</bean>
+
+	<bean id="wordPrivilegeAdvisor"
+		class="org.springframework.aop.aspectj.AspectJExpressionPointcutAdvisor">
+		<property name="advice">
+			<bean parent="wordDataPrivilegeInterceptor">
+				<property name="ognlExp">
+					<list>
+						<value>keywordIds</value>
+					</list>
+				</property>
+			</bean>
+		</property>
+		<property name="expression" value="((execution(* *.getKeyword(..))))">
+		</property>
+	</bean>
+
+	<!-- 代理定义 -->
+	<bean id="groupProxy" parent="apiExternalProxyBase">
+		<property name="target" ref="groupService"></property>
+		<property name="proxyInterfaces"
+			value="com.baidu.beidou.api.external.cprogroup.exporter.GroupService">
+		</property>
+		<property name="interceptorNames">
+			<list merge="true">
+				<value>planPrivilegeAdvisor</value>
+				<value>groupPrivilegeAdvisor</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="groupConfigProxy" parent="apiExternalProxyBase">
+		<property name="target" ref="groupConfigService"></property>
+		<property name="proxyInterfaces"
+			value="com.baidu.beidou.api.external.cprogroup.exporter.GroupConfigService">
+		</property>
+		<property name="interceptorNames">
+			<list merge="true">
+				<value>groupPrivilegeAdvisor</value>
+				<value>wordPrivilegeAdvisor</value>
+			</list>
+		</property>
+	</bean>
+
+	<!-- rpc定义 -->
+	<bean class="com.baidu.rpc.server.RpcExporter" scope="singleton">
+		<property name="serviceInterfaceName"
+			value="com.baidu.beidou.api.external.cprogroup.exporter.GroupService" />
+		<property name="serviceBean">
+			<ref bean="groupProxy" />
+		</property>
+	</bean>
+
+
+	<bean class="com.baidu.rpc.server.RpcExporter" scope="singleton">
+		<property name="serviceInterfaceName"
+			value="com.baidu.beidou.api.external.cprogroup.exporter.GroupConfigService" />
+		<property name="serviceBean">
+			<ref bean="groupConfigProxy" />
+		</property>
+	</bean>
+
+	<!-- CT function -->
+	<bean id="loadSiteInfotoMemery"
+		class="com.baidu.beidou.api.external.cprogroup.task.LoadSiteInfotoMemery">
+		<property name="unionSiteMgr">
+			<ref bean="unionSiteMgr" />
+		</property>
+	</bean>
+	<bean id="loadSiteCTTask"
+		class="com.baidu.beidou.api.external.cprogroup.task.LoadSiteCTTask">
+		<property name="task">
+			<ref bean="loadSiteInfotoMemery" />
+		</property>
+	</bean>
+	<bean id="loadSiteSizeCTTask"
+		class="com.baidu.beidou.api.external.cprogroup.task.LoadSiteSizeCTTask">
+		<property name="task">
+			<ref bean="loadSiteInfotoMemery" />
+		</property>
+	</bean>
+
+	<!-- 投放百度自有流量 -->
+	<bean id="loadSiteWhiteListCTTask"
+		class="com.baidu.beidou.api.external.cprogroup.task.LoadSiteWhiteListCTTask">
+		<property name="unionSiteMgr">
+			<ref bean="unionSiteMgr" />
+		</property>
+	</bean>
+	<bean id="loadUserWhiteListCTTask"
+		class="com.baidu.beidou.api.external.cprogroup.task.LoadUserWhiteListCTTask">
+		<property name="unionSiteMgr">
+			<ref bean="unionSiteMgr" />
+		</property>
+	</bean>
+
+	<!-- 贴片广告白名单 -->
+	<bean id="loadFilmWhiteListCTTask"
+		class="com.baidu.beidou.api.external.cprogroup.task.LoadFilmWhiteListCTTask">
+		<property name="unionSiteMgr">
+			<ref bean="unionSiteMgr" />
+		</property>
+	</bean>
+
+	<!--如果地域迁移到CT时再做调整 -->
+	<bean name="loadRegInfotoMemeryJob" class="org.springframework.scheduling.quartz.JobDetailBean">
+		<property name="jobClass">
+			<value>
+				com.baidu.beidou.api.external.cprogroup.task.LoadRegInfotoMemery
+			</value>
+		</property>
+		<property name="jobDataAsMap">
+			<map>
+				<entry key="timeout">
+					<value>3600000</value>
+				</entry>
+				<entry key="unionSiteMgr">
+					<ref bean="unionSiteMgr" />
+				</entry>
+			</map>
+		</property>
+	</bean>
+
+	<!-- added by genglei@ 增加影子创意白名单 -->
+	<bean id="loadShadowIdeaWhiteListCTTask"
+		class="com.baidu.beidou.api.external.cprogroup.task.LoadShadowIdeaWhiteListCTTask">
+		<property name="unionSiteMgr">
+			<ref bean="unionSiteMgr" />
+		</property>
+	</bean>
+
+</beans>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN 2.0//EN" "http://www.springframework.org/dtd/spring-beans-2.0.dtd">
+
+<!--
+	- Application context definition for "springapp" DispatcherServlet.
+-->
+
+<beans>
+
+	<bean class="com.baidu.beidou.api.external.site.constant.SiteFileConstant">
+		<property name="DOWNLOAD_FILE_URL" value="${SITEFILE.DOWNLOAD_URL_PREFIX}"></property>
+		<property name="DOWNLOAD_FILE_SAVEPATH" value="${SITEFILE.DOWNLOAD_FILE_SAVEPATH}"></property>
+	</bean>
+	
+	<bean id="siteFileMgr" class="com.baidu.beidou.api.external.site.service.impl.SiteFileMgrImpl">
+	</bean>
+
+	<!-- 服务定义 -->
+	<bean id="siteFileService" class="com.baidu.beidou.api.external.site.exporter.impl.SiteFileServiceImpl">
+	</bean>
+	
+	<!-- 代理定义 -->
+	<bean id="siteFileProxy"  parent="apiExternalProxyBase">
+		<property name="target" ref="siteFileService"></property>
+		<property name="proxyInterfaces" value="com.baidu.beidou.api.external.site.exporter.SiteFileService"></property>
+	</bean>
+	
+	<!-- rpc定义 -->
+	<bean class="com.baidu.rpc.server.RpcExporter"
+		scope="singleton">
+		<property name="serviceInterfaceName" value="com.baidu.beidou.api.external.site.exporter.SiteFileService"/>
+		<property name="serviceBean">
+			<ref bean="siteFileProxy"/>
+		</property>
+	</bean>
+
+</beans>

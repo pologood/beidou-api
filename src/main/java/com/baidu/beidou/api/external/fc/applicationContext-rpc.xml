@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN 2.0//EN" "http://www.springframework.org/dtd/spring-beans-2.0.dtd">
+
+<!--
+	- Application context definition for "springapp" DispatcherServlet.
+-->
+
+<beans>
+	<bean id="fcService" class="com.baidu.beidou.api.external.fc.exporter.impl.FCServiceImpl">
+		<property name="fcFacade" ref="fcFacade"></property>
+		<property name="getFCCampaignByFCCampaignIdMax">
+			<value>100</value>
+		</property>
+		<property name="getFCUnitByFCUnitIdMax">
+			<value>100</value>
+		</property>
+		<property name="getFCUnitByFCCampaignIdsMax">
+			<value>100</value>
+		</property>
+	</bean>
+	
+	<!-- 权限拦截器未启用
+	<bean abstract="true" id="fcDataPrivilegeInterceptor" class="com.baidu.beidou.api.external.fc.interceptor.FCDataPrivilege">
+	</bean>
+	
+	<bean id="fcPrivilegeAdvisor" class="org.springframework.aop.aspectj.AspectJExpressionPointcutAdvisor">
+		<property name="advice">
+			<bean parent="fcDataPrivilegeInterceptor">
+				<property name="ognlExp">
+					<list>
+						<value>campaignIds</value> 
+						<value>unitId</value>
+						<value>unitIds</value> 
+					</list>
+				</property>
+			</bean>
+		</property>
+		<property name="expression" 
+			value="((execution(* *.getXXX(..))))"></property>
+	</bean>
+	
+	-->
+	
+	<bean id="fcProxy"  parent="apiExternalProxyBase">
+		<property name="target" ref="fcService"></property>
+		<property name="proxyInterfaces" value="com.baidu.beidou.api.external.fc.exporter.FCService"></property>
+	</bean>
+	 
+	
+	<!-- rpc定义 -->
+	<bean class="com.baidu.rpc.server.RpcExporter"
+		scope="singleton">
+		<property name="serviceInterfaceName" value="com.baidu.beidou.api.external.fc.exporter.FCService"/>
+		<property name="serviceBean">
+			<ref bean="fcProxy"/>
+		</property>
+	</bean>
+
+</beans>

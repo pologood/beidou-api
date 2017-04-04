@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN 2.0//EN" "http://www.springframework.org/dtd/spring-beans-2.0.dtd">
+
+<!--
+	- Application context definition for "springapp" DispatcherServlet.
+-->
+
+<beans>
+
+	<!-- related service begin -->
+    <bean id="unitInfoService" class="com.baidu.beidou.api.internal.unit.exporter.impl.UnitInfoServiceImpl">
+		<property name="unitMgr" ref="unitMgr"/>
+		<property name="smartIdeaTemplateConfMgr" ref="smartIdeaTemplateConfMgr"/>
+		<property name="smartIdeaProductFilterMgr" ref="smartIdeaProductFilterMgr"/>
+		<property name="smartIdeaService" ref="smartIdeaService"/>
+		<property name="ubmcService" ref="ubmcService"/>
+    </bean>
+    
+    <bean id="unitTagFacade" class="com.baidu.beidou.api.internal.unit.facade.impl.UnitTagFacadeImpl">
+    	<property name="unitTagMgr" ref="unitTagMgr"/>
+    </bean>
+    
+    <bean id="unitTagService" class="com.baidu.beidou.api.internal.unit.exporter.impl.UnitTagServiceImpl">
+    	<property name="unitTagFacade" ref="unitTagFacade"/>
+    </bean>
+	<!-- related service end -->
+	
+	<!-- proxy && interceptor begin -->
+	<!-- 如果无需经过拦截器记录信息，则不配置proxy，对外暴露的RpcExporter直接注入service即可 -->
+	<bean id="unitInfoServiceProxy" parent="apiInternalProxyBase">
+		<property name="target" ref="unitInfoService"></property>
+		<property name="proxyInterfaces"
+			value="com.baidu.beidou.api.internal.unit.exporter.UnitInfoService">
+		</property>
+	</bean>
+	
+	<bean id="unitTagServiceProxy" parent="apiInternalProxyBase">
+		<property name="target" ref="unitTagService"></property>
+		<property name="proxyInterfaces"
+			value="com.baidu.beidou.api.internal.unit.exporter.UnitTagService">
+		</property>
+	</bean>	
+	<!-- proxy && interceptor end -->
+	
+	<!-- RpcExporter begin -->
+	<bean class="com.baidu.rpc.server.RpcExporter"
+		scope="singleton">
+		<property name="serviceInterfaceName" value="com.baidu.beidou.api.internal.unit.exporter.UnitInfoService"/>
+		<property name="serviceBean">
+			<ref bean="unitInfoServiceProxy"/>
+		</property>
+	</bean>
+	
+	<bean class="com.baidu.rpc.server.RpcExporter"
+		scope="singleton">
+		<property name="serviceInterfaceName" value="com.baidu.beidou.api.internal.unit.exporter.UnitTagService"/>
+		<property name="serviceBean">
+			<ref bean="unitTagServiceProxy"/>
+		</property>
+	</bean>
+	<!-- RpcExporter end -->
+	 
+</beans>

@@ -1,0 +1,288 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN 2.0//EN" "http://www.springframework.org/dtd/spring-beans-2.0.dtd">
+
+<!--
+	- Application context definition for "springapp" DispatcherServlet.utf-8编码
+-->
+
+<beans>
+
+	<bean id="paramConfig" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="ignoreUnresolvablePlaceholders" value="true"/>
+		<property name="order" value="101" />  
+		<property name="locations">
+			<list>
+				<value>classpath*:reportConfig.properties</value>
+				<value>classpath*:accountfileConfig.properties</value>
+				<value>classpath*:prisonConfig.properties</value>
+				<value>classpath*:api-config.properties</value>
+			</list>
+		</property>
+	</bean>
+	
+	<!-- API不会使用，为了能正确启动API，后续可以整理一下core中的bean配置 -->
+	<import resource="applicationContext-jms.xml"/>
+	<import resource="classpath*:/applicationContext-core-test.xml" />
+	<import resource="classpath*:/applicationContext-config.xml" />
+	
+	<bean id="api_addbMultiDataSourceProxy" parent="addbMultiDataSourceProxy"
+		class="org.springframework.aop.framework.autoproxy.BeanNameAutoProxyCreator">
+		<property name="beanNames">
+			<list merge="true">
+				<value>apiGroupService</value>
+				<value>apiGroupService2</value>
+				<value>groupConfigSetService</value>
+				<value>groupConfigAddAndDeleteService</value>
+				<value>apiPlanService</value>
+				<value>unitService</value>
+				<value>unitService2</value>
+				<value>peopleService</value>
+			</list>
+		</property>
+	</bean>
+	<bean id="beidou_capdbMultiDataSourceProxy" parent="capdbMultiDataSourceProxy"
+		class="org.springframework.aop.framework.autoproxy.BeanNameAutoProxyCreator">
+	</bean>
+	<bean id="api_xdbMultiDataSourceProxy" parent="xdbMultiDataSourceProxy"
+		class="org.springframework.aop.framework.autoproxy.BeanNameAutoProxyCreator" >
+		<property name="beanNames">
+			<list merge="true">
+				<value>apiReportTaskMgr</value>
+				<!--  <value>apiAccountFileTaskMgr</value> -->
+			</list>
+		</property>
+	</bean>
+	<bean id="beidou_clkdbMultiDataSourceProxy" parent="clkdbMultiDataSourceProxy"
+		class="org.springframework.aop.framework.autoproxy.BeanNameAutoProxyCreator">
+	</bean>
+	<!-- api external config begin -->
+	<import resource="classpath*:/com/baidu/beidou/api/external/util/applicationContext-rpc.xml"/>
+	<import resource="classpath*:/com/baidu/beidou/api/external/user/applicationContext-rpc.xml"/>
+	<import resource="classpath*:/com/baidu/beidou/api/external/code/applicationContext-rpc.xml"/>
+	<import resource="classpath*:/com/baidu/beidou/api/external/cprogroup/applicationContext-rpc.xml"/>
+	<import resource="classpath*:/com/baidu/beidou/api/external/cproplan/applicationContext-rpc.xml"/>
+	<import resource="classpath*:/com/baidu/beidou/api/external/cproplan2/applicationContext-rpc.xml"/>
+	<import resource="classpath*:/com/baidu/beidou/api/external/report/applicationContext-rpc.xml"/>
+	<import resource="classpath*:/com/baidu/beidou/api/external/people/applicationContext-rpc.xml"/>
+	<import resource="classpath*:/com/baidu/beidou/api/external/cprounit/applicationContext-rpc.xml"/>
+	<import resource="classpath*:/com/baidu/beidou/api/external/cprounit2/applicationContext-rpc.xml"/>
+	<import resource="classpath*:/com/baidu/beidou/api/external/accountfile/applicationContext-rpc.xml"/>
+	<import resource="classpath*:/com/baidu/beidou/api/external/fc/applicationContext-rpc.xml"/>
+	<import resource="classpath*:/com/baidu/beidou/api/external/interest/applicationContext-rpc.xml"/>
+	<import resource="classpath*:/com/baidu/beidou/api/external/kr/applicationContext-rpc.xml"/>
+	<import resource="classpath*:/com/baidu/beidou/api/external/tool/applicationContext-rpc.xml"/>
+	
+	<bean class="com.baidu.beidou.util.BeanMapperProxy">
+		<constructor-arg>
+			<bean id="beanMapper" class="org.dozer.DozerBeanMapper">
+				<property name="mappingFiles">
+					<list>
+						<value>dozerBeanMapping.xml</value>
+						<value>com/baidu/beidou/api/external/user/dozerBeanMapping.xml</value>
+						<value>com/baidu/beidou/api/external/code/dozerBeanMapping.xml</value>
+						<value>com/baidu/beidou/api/external/cprogroup/dozerBeanMapping.xml</value>
+						<value>com/baidu/beidou/api/external/cproplan/dozerBeanMapping.xml</value>
+						<value>com/baidu/beidou/api/external/cproplan2/dozerBeanMapping.xml</value>
+						<value>com/baidu/beidou/api/external/people/dozerBeanMapping.xml</value>
+						<value>com/baidu/beidou/api/external/cprounit/dozerBeanMapping.xml</value>
+						<value>com/baidu/beidou/api/external/cprounit2/dozerBeanMapping.xml</value>
+						<value>com/baidu/beidou/api/external/accountfile/dozerBeanMapping.xml</value>
+						<value>com/baidu/beidou/api/external/kr/dozerBeanMapping.xml</value>
+						<value>com/baidu/beidou/api/external/tool/dozerBeanMapping.xml</value>
+					</list>
+				</property>
+			</bean>
+		</constructor-arg>
+	</bean>
+	<!-- api external config end -->
+	
+	
+	<!-- api internal config begin -->
+	<import resource="classpath*:/com/baidu/beidou/api/internal/fcindex/applicationContext-rpc.xml"/>
+	<import resource="classpath*:/com/baidu/beidou/api/internal/util/applicationContext-rpc.xml"/>
+	<import resource="classpath*:/com/baidu/beidou/api/internal/business/applicationContext-rpc.xml"/>
+	<import resource="classpath*:/com/baidu/beidou/api/internal/tool/applicationContext-rpc.xml"/>
+	<import resource="classpath*:/com/baidu/beidou/api/internal/user/applicationContext-rpc.xml"/>
+	<import resource="classpath*:/com/baidu/beidou/api/internal/holmes/applicationContext-rpc.xml"/>
+	<import resource="classpath*:/com/baidu/beidou/api/internal/dsp/applicationContext-rpc.xml"/>
+	<import resource="classpath*:/com/baidu/beidou/api/internal/dmp/applicationContext-rpc.xml"/>
+
+	<bean class="com.baidu.beidou.cprogroup.constant.WhiteListCache">		
+		<property name="BAIDU_TRADE_COMMON_LIST">
+			<list>
+				<value>260</value>				
+			</list>
+		</property>
+	</bean>
+	<!-- api internal config end -->
+	
+	<!--QuarzJob 报告模块重试-->
+	<bean name="apiReportTaskMonitor"
+		class="org.springframework.scheduling.quartz.JobDetailBean">
+		<property name="jobClass">
+			<value>com.baidu.beidou.api.external.report.facade.impl.ApiReportTaskMonitor</value>
+		</property>
+		<property name="jobDataAsMap">
+			<map>
+				<entry key="apiReportTaskMgr">
+					<ref bean="apiReportTaskMgr" />
+				</entry>
+				<entry key="apiReportFacade">
+					<ref bean="apiReportFacade" />
+				</entry>
+			</map>
+		</property>
+	</bean>
+
+	<bean id="reportTaskRetryTrigger"
+		class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail">
+			<ref bean="apiReportTaskMonitor" />
+		</property>
+		<property name="cronExpression">
+			<value>0 0/5 * * * ?</value>
+		</property>
+	</bean>
+
+	<bean
+		class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+		<property name="triggers">
+			<list>
+				<ref local="reportTaskRetryTrigger" />
+			</list>
+		</property>
+	</bean>
+	
+	<!--QuarzJob 账户数据获取接口accountfile模块监控-->
+	<bean name="apiAccountFileTaskMonitor"
+		class="org.springframework.scheduling.quartz.JobDetailBean">
+		<property name="jobClass">
+			<value>com.baidu.beidou.api.external.accountfile.monitor.ApiAccountFileTaskMonitor</value>
+		</property>
+		<property name="jobDataAsMap">
+			<map>
+				<entry key="accountFileFacade">
+					<ref bean="accountFileFacade" />
+				</entry>
+				<entry key="apiAccountFileTaskMgr">
+					<ref bean="apiAccountFileTaskMgr" />
+				</entry>
+			</map>
+		</property>
+	</bean>
+
+	<bean id="accountFileTaskTrigger"
+		class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail">
+			<ref bean="apiAccountFileTaskMonitor" />
+		</property>
+		<property name="cronExpression">
+			<value>45 0/5 * * * ?</value>
+		</property>
+	</bean>
+
+	<bean
+		class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+		<property name="triggers">
+			<list>
+				<ref local="accountFileTaskTrigger" />
+			</list>
+		</property>
+	</bean>
+	
+	<!--QuarzJob 流量控制模块监控配置文件更新-->
+	<bean name="thruputControlConfigMonitor"
+		class="org.springframework.scheduling.quartz.JobDetailBean">
+		<property name="jobClass">
+			<value>com.baidu.beidou.api.external.util.config.monitor.ThruputControlConfigMonitor</value>
+		</property>
+		<property name="jobDataAsMap">
+			<map>
+				<entry key="thruputControlConfigService">
+					<ref bean="thruputControlConfigService" />
+				</entry>
+			</map>
+		</property>
+	</bean>
+
+	<bean id="thruputControlConfigTrigger"
+		class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail">
+			<ref bean="thruputControlConfigMonitor" />
+		</property>
+		<property name="cronExpression">
+			<value>15 0/1 * * * ?</value>
+		</property>
+	</bean>
+	
+	<!-- added by genglei, @beidou-api V3.0 -->
+	<!-- 地域缓存更新 -->
+	<bean id="loadRegInfotoMemeryTrigger"
+		class="org.springframework.scheduling.quartz.CronTriggerBean">
+
+		<property name="jobDetail">
+			<ref bean="loadRegInfotoMemeryJob" />
+		</property>
+		<!-- 每天2：45触发 -->
+		<property name="cronExpression">
+			<value>0 45 02 * * ?</value>
+		</property>
+	</bean>
+
+	<bean
+		class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+		<property name="triggers">
+			<list>
+				<ref local="thruputControlConfigTrigger" />
+			</list>
+		</property>
+	</bean>
+	
+	<bean class="com.baidu.beidou.api.external.util.constant.ApiConstant">
+		<property name="DRAPI2BEIDOUAPI_CLIENT_TYPE_CONVERT_MAP">
+			<map>
+				<!-- dr-api tokenType：API权限代码（token）的类型（0 普通；1 SEM；2 EDITOR； 3 内部）
+					 beidou 操作来源的类型（0 API；1 WEB端；2 EDITOR； 3 其他） 
+					 从dr-api到beidou-api作一个映射，用于历史操作查询client字段-->
+				<entry key="0" value="0"/>
+				<entry key="1" value="0"/>
+				<entry key="2" value="2"/>
+				<entry key="3" value="0"/>
+			</map>
+		</property>
+	</bean>
+	
+			
+	<bean name="runGcJob"
+		class="org.springframework.scheduling.quartz.JobDetailBean">
+		<property name="jobClass">
+			<value>com.baidu.beidou.api.external.util.RunGc</value>
+		</property>
+		<property name="jobDataAsMap">
+			<map>
+				<entry key="timeout">
+					<value>100000</value>
+				</entry>
+			</map>
+		</property>
+	</bean>
+
+	<bean id="runGcTrigger"
+		class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail">
+			<ref bean="runGcJob" />
+		</property>
+		<property name="cronExpression">
+			<value>0 33 7,12 * * ?</value>
+		</property>
+	</bean>
+	
+	<!-- DR-API访问通路 -->
+	<bean name="/DRAPIMountAPI" class="com.baidu.rpc.server.RpcExporter" lazy-init="true">
+        <property name="serviceBean" ref="DRAPIMountAPI"/>
+        <property name="serviceInterfaceName" value="com.baidu.fengchao.tools.api.common.DRAPIMountAPI"/>
+    </bean>
+    
+	<bean id="DRAPIMountAPI" class="com.baidu.fengchao.tools.api.common.impl.DRAPIMountAPIImpl" lazy-init="true"/>
+						
+</beans>

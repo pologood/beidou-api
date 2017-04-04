@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN 2.0//EN"
+			  "http://www.springframework.org/dtd/spring-beans-2.0.dtd">
+
+
+<!--
+	- Application context definition for Petclinic on Hibernate.
+-->
+<beans>
+	<import resource="applicationContext-core-hibernate-test.xml" />
+	
+	
+	<bean id="mailSender"
+		class="org.springframework.mail.javamail.JavaMailSenderImpl">
+		<property name="host">
+			<value>${mail.smtp.host}</value>
+		</property>
+		<property name="defaultEncoding" value="utf-8"></property>
+		<property name="javaMailProperties"> 
+          <props>   
+            <prop key="mail.smtp.timeout">${mail.readtimeout}</prop> 
+            <prop key="mail.smtp.connectiontimeout">${mail.connectiontimeout}</prop> 
+          </props> 
+		</property>
+	</bean>
+	
+	<bean id="coreFreeMarkerConfigurer"
+		class="org.springframework.ui.freemarker.FreeMarkerConfigurationFactoryBean">
+		<property name="defaultEncoding" value="UTF-8" />
+		<property name="templateLoaderPath"
+			value="classpath:/com/baidu/beidou/util/mail/template" />
+		<property name="freemarkerSettings">
+			<props>
+				<prop key="template_update_delay">3600</prop>
+				<prop key="locale">zh_CN</prop>
+			</props>
+		</property>
+	</bean>
+
+
+	<!--  ========================= import user applicationContext =========================== -->
+	<import resource="classpath*:applicationContext-mapping.xml" />
+	<import resource="classpath*:applicationContext-config.xml" />
+	<import
+		resource="classpath*:/com/baidu/beidou/cproplan/applicationContext-core.xml" />
+	<import
+		resource="classpath*:/com/baidu/beidou/cprogroup/applicationContext-core.xml" />
+	<import
+		resource="classpath*:/com/baidu/beidou/user/applicationContext-core.xml" />
+	<import
+		resource="classpath*:/com/baidu/beidou/cprounit/applicationContext-core.xml" />
+	<import
+		resource="classpath*:/com/baidu/beidou/auditmanager/applicationContext-core.xml" />
+	<import
+		resource="classpath*:/com/baidu/beidou/account/applicationContext-core.xml" />
+	<import
+		resource="classpath*:/com/baidu/beidou/stat/applicationContext-core.xml" />
+	<import
+		resource="classpath*:/com/baidu/beidou/report/applicationContext-core.xml" />
+	<import
+		resource="classpath*:/com/baidu/beidou/tool/applicationContext-core.xml" />
+    <import
+		resource="classpath*:/com/baidu/beidou/cprounit/icon/applicationContext-core.xml" />
+	<import 
+		resource="classpath*:/com/baidu/beidou/util/applicationContext-core.xml" />
+	<import 
+		resource="classpath*:/com/baidu/beidou/sop/applicationContext-core.xml" />
+
+    <!-- added by Zhu Zhenxing -->
+    <import
+        resource="classpath*:/com/baidu/beidou/pack/applicationContext-core.xml" />
+        
+    <import
+        resource="classpath*:/com/baidu/beidou/fengchao/applicationContext-core.xml" />
+    
+</beans>

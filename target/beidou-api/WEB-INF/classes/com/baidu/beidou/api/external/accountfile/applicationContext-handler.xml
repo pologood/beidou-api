@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+   http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+   http://www.springframework.org/schema/context
+   http://www.springframework.org/schema/context/spring-context-2.5.xsd">
+
+	<bean id="accountHandler" class="com.baidu.beidou.api.external.accountfile.handler.AccountHandler">
+		<property name="userMgr" ref="userMgr"></property>
+		<property name="mfcService" ref="mfcService"></property>
+	</bean>
+	
+	<bean id="planHandler" class="com.baidu.beidou.api.external.accountfile.handler.PlanHandler">
+		<property name="cproPlanMgr" ref="cproPlanMgr"></property>
+	</bean>
+	
+	<bean id="groupHandler" class="com.baidu.beidou.api.external.accountfile.handler.GroupHandler">
+		<property name="cproGroupMgr" ref="cproGroupMgr"></property>
+		<property name="groupSiteConfigMgr" ref="groupSiteConfigMgr"></property>
+		<property name="attachInfoMgr" ref="attachInfoMgr"></property>
+		<property name="groupAttachInfoMgr" ref="groupAttachInfoMgr"></property>
+	</bean>
+	
+	<bean id="adHandler" class="com.baidu.beidou.api.external.accountfile.handler.AdHandler">
+		<property name="cproUnitMgr" ref="unitMgr"></property>
+	</bean>
+	
+	<bean id="ktHandler" class="com.baidu.beidou.api.external.accountfile.handler.KtHandler">
+		<property name="cproKeywordMgr" ref="cproKeywordMgr"></property>
+	</bean>
+	
+	<bean id="rtHandler" class="com.baidu.beidou.api.external.accountfile.handler.RtHandler">
+	</bean>
+	
+	<bean id="vtHandler" class="com.baidu.beidou.api.external.accountfile.handler.VtHandler">
+		<property name="cproGroupVTMgr" ref="cproGroupVTMgr"></property>
+	</bean>
+	
+	<bean id="itHandler" class="com.baidu.beidou.api.external.accountfile.handler.ItHandler">
+		<property name="cproGroupITMgr" ref="cproGroupITMgr"/>
+		<property name="interestMgr" ref="interestMgr"/>
+		<property name="customITMgr" ref="customITMgr"/>
+		<property name="groupITPriceMgr" ref="groupITPriceMgr"/>
+	</bean>
+	
+	<bean id="siteHandler" class="com.baidu.beidou.api.external.accountfile.handler.SiteHandler">
+		<property name="groupSiteConfigMgr" ref="groupSiteConfigMgr"></property>
+	</bean>
+	
+	<bean id="tradeHandler" class="com.baidu.beidou.api.external.accountfile.handler.TradeHandler">
+		<property name="groupSiteConfigMgr" ref="groupSiteConfigMgr"></property>
+	</bean>
+	
+	<bean id="advancedHandler" class="com.baidu.beidou.api.external.accountfile.handler.AdvancedHandler">
+		<property name="groupPackMgr" ref="groupPackMgr"></property>
+	</bean>
+	
+	<bean id="excludekeywordHandler" class="com.baidu.beidou.api.external.accountfile.handler.ExcludeKeywordHandler">
+		<property name="wordExcludeFacade" ref="wordExcludeFacade"></property>
+	</bean>
+	
+	<bean id="excludeAppHandler" class="com.baidu.beidou.api.external.accountfile.handler.ExcludeAppHandler">
+		<property name="appExcludeMgr" ref="appExcludeMgr"></property>
+	</bean>
+	
+	<bean id="unionsiteHandler" class="com.baidu.beidou.api.external.accountfile.handler.UnionsiteHandler">
+	</bean>
+	
+</beans>

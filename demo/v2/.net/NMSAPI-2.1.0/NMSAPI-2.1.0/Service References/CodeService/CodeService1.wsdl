@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="https://api.baidu.com/sem/nms/v2" xmlns:common="http://api.baidu.com/sem/common/v2" name="CodeService" targetNamespace="https://api.baidu.com/sem/nms/v2" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <xsd:schema targetNamespace="https://api.baidu.com/sem/nms/v2">
+      <xsd:import schemaLocation="http://tc-un-db64-02.tc:8222/sem/nms/v2/CodeService?xsd=../../Common.xsd" namespace="http://api.baidu.com/sem/common/v2" />
+      <xsd:complexType name="RegionType">
+        <xsd:sequence>
+          <xsd:element name="type" type="xsd:int" />
+          <xsd:element name="regionId" type="xsd:int" />
+          <xsd:element name="name" type="xsd:string" />
+          <xsd:element name="parentId" type="xsd:int" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:element name="getAllRegionRequest">
+        <xsd:complexType>
+          <xsd:sequence />
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="getAllRegionResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" maxOccurs="unbounded" name="regions" type="tns:RegionType" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:complexType name="CategoryType">
+        <xsd:sequence>
+          <xsd:element name="categoryId" type="xsd:int" />
+          <xsd:element name="name" type="xsd:string" />
+          <xsd:element name="parentId" type="xsd:int" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:element name="getAllCategoryRequest">
+        <xsd:complexType>
+          <xsd:sequence />
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="getAllCategoryResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" maxOccurs="unbounded" name="categorys" type="tns:CategoryType" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="getAllRegionResponse">
+    <wsdl:part name="parameters" element="tns:getAllRegionResponse" />
+  </wsdl:message>
+  <wsdl:message name="getAllCategoryRequest">
+    <wsdl:part name="parameters" element="tns:getAllCategoryRequest" />
+  </wsdl:message>
+  <wsdl:message name="getAllRegionRequest">
+    <wsdl:part name="parameters" element="tns:getAllRegionRequest" />
+  </wsdl:message>
+  <wsdl:message name="ResHeader">
+    <wsdl:part name="ResHeader" element="common:ResHeader" />
+  </wsdl:message>
+  <wsdl:message name="getAllCategoryResponse">
+    <wsdl:part name="parameters" element="tns:getAllCategoryResponse" />
+  </wsdl:message>
+  <wsdl:message name="AuthHeader">
+    <wsdl:part name="AuthHeader" element="common:AuthHeader" />
+  </wsdl:message>
+  <wsdl:portType name="CodeService">
+    <wsdl:operation name="getAllRegion">
+      <wsdl:input message="tns:getAllRegionRequest" />
+      <wsdl:output message="tns:getAllRegionResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getAllCategory">
+      <wsdl:input message="tns:getAllCategoryRequest" />
+      <wsdl:output message="tns:getAllCategoryResponse" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="CodeServiceSOAP" type="tns:CodeService">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="getAllRegion">
+      <soap:operation soapAction="https://api.baidu.com/sem/nms/v2/CodeService/getAllRegion" />
+      <wsdl:input>
+        <soap:header message="tns:AuthHeader" part="AuthHeader" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:header message="tns:ResHeader" part="ResHeader" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getAllCategory">
+      <soap:operation soapAction="https://api.baidu.com/sem/nms/v2/CodeService/getAllCategory" />
+      <wsdl:input>
+        <soap:header message="tns:AuthHeader" part="AuthHeader" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:header message="tns:ResHeader" part="ResHeader" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="CodeService">
+    <wsdl:port name="CodeService" binding="tns:CodeServiceSOAP">
+      <soap:address location="http://tc-un-db64-02.tc:8222/sem/nms/v2/CodeService" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

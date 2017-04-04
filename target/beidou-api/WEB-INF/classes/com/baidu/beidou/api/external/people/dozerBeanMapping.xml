@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mappings xmlns="http://dozer.sourceforge.net"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://dozer.sourceforge.net
+          http://dozer.sourceforge.net/schema/beanmapping.xsd">
+
+	<mapping>
+		<class-a>com.baidu.beidou.api.external.people.vo.PeopleType</class-a>
+		<class-b>com.baidu.beidou.cprogroup.vo.VtPeopleVo</class-b>
+		<field>
+			<a>pid</a>
+			<b>pid</b>
+		</field>
+		<field>
+			<a>name</a>
+			<b>name</b>
+		</field>
+		<field>
+			<a>aliveDays</a>
+			<b>aliveDays</b>
+		</field>
+		<field>
+			<a>cookieNum</a>
+			<b>cookienum</b>
+		</field>
+	</mapping>
+	
+		<mapping>
+		<class-a>com.baidu.beidou.api.external.people.vo.PeopleType</class-a>
+		<class-b>com.baidu.beidou.cprogroup.bo.VtPeople</class-b>
+		<field>
+			<a>pid</a>
+			<b>pid</b>
+		</field>
+		<field>
+			<a>name</a>
+			<b>name</b>
+		</field>
+		<field>
+			<a>aliveDays</a>
+			<b>aliveDays</b>
+		</field>
+		<field>
+			<a>cookieNum</a>
+			<b>cookieNum</b>
+		</field>
+	</mapping>
+
+</mappings>

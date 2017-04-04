@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN 2.0//EN" "http://www.springframework.org/dtd/spring-beans-2.0.dtd">
+
+<!--
+	- Application context definition for "springapp" DispatcherServlet.
+-->
+
+<beans>
+	<bean id="codeService" class="com.baidu.beidou.api.external.code.exporter.impl.CodeServiceImpl">
+		<property name="userInfoMgr">
+			<ref bean="userInfoMgr" />
+		</property>
+	</bean>
+	
+	<!-- interceptor定义 -->
+	
+	<!-- 代理定义 -->
+	<bean id="codeProxy"  parent="apiExternalProxyBase">
+		<property name="target" ref="codeService"></property>
+		<property name="proxyInterfaces" value="com.baidu.beidou.api.external.code.exporter.CodeService"></property>
+	</bean>
+	
+	<!-- rpc定义 -->
+	<bean class="com.baidu.rpc.server.RpcExporter"
+		scope="singleton">
+		<property name="serviceInterfaceName" value="com.baidu.beidou.api.external.code.exporter.CodeService"/>
+		<property name="serviceBean">
+			<ref bean="codeProxy"/>
+		</property>
+	</bean>
+
+</beans>

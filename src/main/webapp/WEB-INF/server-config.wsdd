@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<deployment xmlns="http://xml.apache.org/axis/wsdd/"
+            xmlns:java="http://xml.apache.org/axis/wsdd/providers/java">
+  	
+<globalConfiguration>
+  <parameter name="sendMultiRefs" value="false"/>
+</globalConfiguration>
+
+<handler type="java:org.apache.axis.handlers.http.URLMapper" name="URLMapper"/>;
+  
+<!-- add by zhangxu-->
+<service name="user/account" provider="java:RPC">
+  <parameter name="allowedMethods" value="getUserBudget"/>
+  <parameter name="className" value="com.baidu.beidou.api.internal.fcindex.webservice.UserAccountManager"/>
+</service>
+
+<transport name="http">;
+  <requestFlow>;
+    <handler type="URLMapper"/>;
+  </requestFlow>;
+</transport>;
+ 
+</deployment>

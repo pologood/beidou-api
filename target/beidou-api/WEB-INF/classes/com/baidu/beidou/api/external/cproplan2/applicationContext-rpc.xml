@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN 2.0//EN" "http://www.springframework.org/dtd/spring-beans-2.0.dtd">
+
+<!--
+	- Application context definition for "springapp" DispatcherServlet.
+-->
+
+<beans>
+	<bean id="apiPlanService2" class="com.baidu.beidou.api.external.cproplan2.service.impl.ApiPlanServiceImpl">
+		<property name="planMgr">
+			<ref bean="cproPlanMgr" />
+		</property>
+	</bean>
+
+	<bean id="planFacade2" class="com.baidu.beidou.api.external.cproplan2.facade.impl.PlanFacadeImpl">
+		<property name="planMgr" ref="cproPlanMgr"></property>
+		<property name="apiPlanService" ref="apiPlanService2"></property>
+		<property name="userInfoMgr" ref="userInfoMgr"></property>
+	</bean>
+
+	<bean id="planService2" class="com.baidu.beidou.api.external.cproplan2.exporter.impl.CampaignServiceImpl2">
+		<property name="cproPlanMgr" ref="cproPlanMgr" />
+		<property name="planFacade" ref="planFacade2"></property>
+		<property name="userInfoMgr" ref="userInfoMgr" />
+		<property name="addCampaignMax">
+			<value>100</value>
+		</property>
+		<property name="getCampaignByCampaignIdMax">
+			<value>100</value>
+		</property>
+		<property name="updateCampaignMax">
+			<value>100</value>
+		</property>
+	</bean>
+
+
+	<!-- interceptor定义 -->
+	<bean id="planDataPrivilegeInterceptor2" abstract="true"
+		class="com.baidu.beidou.api.external.cproplan2.interceptor.PlanIdDataPrivilege">
+		<property name="planMgr" ref="cproPlanMgr"></property>
+	</bean>
+
+	<bean id="planPrivilegeAdvisor2"
+		class="org.springframework.aop.aspectj.AspectJExpressionPointcutAdvisor">
+		<property name="advice">
+			<bean parent="planDataPrivilegeInterceptor2">
+				<property name="ognlExp">
+					<list>
+						<value>campaignTypes.{campaignId}</value>	<!-- updateCampaign -->
+						<value>campaignIds</value>					<!-- getCampaignByCampaignId -->
+						<value>groupTypes.{campaignId}</value>		<!-- addGroup -->
+						<value>campaignId</value>					<!-- getGroupByCampaignId && getGroupIdByCampaignId -->
+					</list>
+				</property>
+			</bean>
+		</property>
+		<property name="expression"
+			value="((execution(* *.getCampaignByCampaignId(..)))||(execution(* *.updateCampaign(..)))||(execution(* *.addGroup(..)))
+			||(execution(* *.getGroupByCampaignId(..)))||(execution(* *.getGroupIdByCampaignId(..))))">
+		</property>
+	</bean>
+
+	<!-- 代理定义 -->
+	<bean id="planProxy2" parent="apiExternalProxyBase">
+		<property name="target" ref="planService2"></property>
+		<property name="proxyInterfaces"
+			value="com.baidu.beidou.api.external.cproplan2.exporter.CampaignService2">
+		</property>
+		<property name="interceptorNames">
+			<list merge="true">
+				<value>planPrivilegeAdvisor2</value>
+			</list>
+		</property>
+	</bean>
+
+	<!-- rpc定义 -->
+	<bean class="com.baidu.rpc.server.RpcExporter" scope="singleton">
+		<property name="serviceInterfaceName"
+			value="com.baidu.beidou.api.external.cproplan2.exporter.CampaignService2" />
+		<property name="serviceBean">
+			<ref bean="planProxy2" />
+		</property>
+	</bean>
+
+</beans>

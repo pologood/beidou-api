@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:amq="http://activemq.apache.org/schema/core" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+  http://activemq.apache.org/schema/core http://activemq.apache.org/schema/core/activemq-core.xsd">
+
+	<bean id="apiReportMessageConverter" class="com.baidu.beidou.api.external.report.facade.ApiReportMessageConverter" />
+
+	<!-- Spring JMS Template for Api report-->
+	<bean id="jmsTemplateApiReport" class="org.springframework.jms.core.JmsTemplate">
+		<property name="connectionFactory">
+			<ref bean="jmsProducerFactory" />
+		</property>
+		<property name="defaultDestination" ref="queueDestinationApiReport" />
+		<property name="messageConverter" ref="apiReportMessageConverter" />
+	</bean>
+	
+	<bean id="apiReportFacade" class="com.baidu.beidou.api.external.report.facade.impl.ApiReportFacadeImpl">
+		<property name="apiReportMgr" ref="apiReportMgr"></property>
+		<property name="jmsTemplate" ref="jmsTemplateApiReport"></property>
+	</bean>
+	
+	<bean id="apiReportMessageListener"
+		class="org.springframework.jms.listener.adapter.MessageListenerAdapter">
+		<constructor-arg>
+			<ref bean="apiReportFacade"/>
+		</constructor-arg>
+		<property name="defaultListenerMethod" value="handleMessage" />
+		<property name="messageConverter" ref="apiReportMessageConverter" />
+	</bean>
+	
+	<bean id="listenerContainerApiReport"
+		class="org.springframework.jms.listener.DefaultMessageListenerContainer">
+		<property name="concurrentConsumers" value="2" />
+		<property name="connectionFactory" ref="jmsFactory" />
+		<property name="destination" ref="queueDestinationApiReport" />
+		<property name="messageListener" ref="apiReportMessageListener" />
+	</bean>
+	
+</beans>

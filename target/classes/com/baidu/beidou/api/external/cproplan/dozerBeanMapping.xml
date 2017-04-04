@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mappings xmlns="http://dozer.sourceforge.net"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://dozer.sourceforge.net
+          http://dozer.sourceforge.net/schema/beanmapping.xsd">
+
+	<mapping>
+		<class-a>
+			com.baidu.beidou.api.external.cproplan.vo.CampaignType
+		</class-a>
+		<class-b>
+			com.baidu.beidou.cproplan.bo.CproPlan
+		</class-b>
+		<field>
+			<a>campaignId</a>
+			<b>planId</b>
+		</field>
+		<field>
+			<a>campaignName</a>
+			<b>planName</b>
+		</field>
+		<field>
+			<a>budget</a>
+			<b>budget</b>
+		</field>
+		<field>
+			<a>status</a>
+			<b>planState</b>
+		</field>
+		<field custom-converter="com.baidu.beidou.api.internal.util.converter.DateToStringConverter">
+			<a>startDate</a>
+			<b>startDate</b>
+		</field>
+		<field custom-converter="com.baidu.beidou.api.internal.util.converter.DateToStringConverter">
+			<a>endDate</a>
+			<b>endDate</b>
+		</field>
+
+	</mapping>
+</mappings>

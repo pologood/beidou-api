@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+    <item name="账户" id="1" >
+    	<filename>account.txt</filename>
+        <handler-bean>accountHandler</handler-bean>
+        <header>UserId,UserName,余额</header>
+    </item>
+    <item name="推广计划" id="2" >
+    	<filename>campaign.txt</filename>
+        <handler-bean>planHandler</handler-bean>
+        <header>CampaignId,CampaignName,预算,状态,起始时间,结束时间,投放日程,类型,移动出价比例,移动设备,移动操作系统,计划类型</header>
+    </item>
+    <item name="推广组" id="3" >
+    	<filename>group.txt</filename>
+        <handler-bean>groupHandler</handler-bean>
+        <header>GroupId,GroupName,CampaignId,推广组类型,推广组出价,状态,投放网络方式,自选网站列表,自选行业列表,定向方式,投放地域方式,投放地域列表,过滤网站,过滤IP,有效期,排除性别,关键词定向方式,是否启用兴趣,是否智能创意推广组,电话,电话状态,咨询,咨询状态,收信号码,短信内容,短信</header>
+    </item>    
+    <item name="创意" id="4" >
+    	<filename>ad.txt</filename>
+        <handler-bean>adHandler</handler-bean>
+        <header>AdId,GroupId,CampaignId,状态,创意类型,标题,目标Url,显示Url,描述1,描述2,imageUrl,width,height,移动目标Url,移动显示Url,是否智能创意</header>
+    </item>
+    <item name="自选行业出价" id="5" >
+    	<filename>tradeprice.txt</filename>
+        <handler-bean>tradeHandler</handler-bean>
+        <header>行业分类ID,行业名称,GroupId,CampaignId,行业出价信息</header>
+    </item>
+    <item name="自选网站出价" id="6" >
+    	<filename>siteprice.txt</filename>
+        <handler-bean>siteHandler</handler-bean>
+        <header>网站URL,GroupId,CampaignId,网站出价信息</header>
+    </item>
+    <item name="行为-关注指定关键词" id="7" >
+    	<filename>kt.txt</filename>
+        <handler-bean>ktHandler</handler-bean>
+        <header>关键词ID,GroupId,CampaignId,关键词字面,展现资格,匹配模式</header>
+    </item>
+    <item name="行为-点击过搜索推广" id="8" >
+    	<filename>rt.txt</filename>
+        <handler-bean>rtHandler</handler-bean>
+        <header>GroupId,CampaignId,RelationType,fcCampaignId,fcCampaignName,fcUnitId,fcUnitName</header>
+    </item>
+    <item name="行为-到访过特定网页" id="9" >
+    	<filename>vt.txt</filename>
+        <handler-bean>vtHandler</handler-bean>
+        <header>人群ID,RelationType,GroupId,CampaignId,人群名称,人群有效期</header>
+    </item>
+    <item name="兴趣" id="10" >
+    	<filename>it.txt</filename>
+        <handler-bean>itHandler</handler-bean>
+        <header>兴趣ID,GroupId,CampaignId,兴趣名称,是否为排除兴趣,是否为兴趣组合,兴趣出价信息</header>
+    </item>
+    <item name="高级组合投放" id="11" >
+    	<filename>advanced.txt</filename>
+        <handler-bean>advancedHandler</handler-bean>
+        <header>GroupId,CampaignId,受众组合类型,受众组合id,受众组合出价</header>
+    </item>
+    <item name="排除关键词" id="12" >
+    	<filename>excludekeyword.txt</filename>
+        <handler-bean>excludekeywordHandler</handler-bean>
+        <header>GroupId,排除类型,关键词组合id,关键词</header>
+    </item>
+    <item name="排除移动应用" id="13" >
+    	<filename>excludeapp.txt</filename>
+        <handler-bean>excludeAppHandler</handler-bean>
+        <header>GroupId,排除应用</header>
+    </item>
+    <item name="联盟网站" id="14" >
+    	<filename>unionsite.txt</filename>
+        <handler-bean>unionsiteHandler</handler-bean>
+        <header>siteurl,sitename,firstTradeId,secondTradeId</header>
+    </item>
+</config>

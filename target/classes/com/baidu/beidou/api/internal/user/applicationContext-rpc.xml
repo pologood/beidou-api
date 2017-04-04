@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN 2.0//EN" "http://www.springframework.org/dtd/spring-beans-2.0.dtd">
+
+<!--
+	- Application context definition for "springapp" DispatcherServlet.
+-->
+
+<beans>
+
+	<!-- service -->
+	<bean id="apiUserService" class="com.baidu.beidou.api.internal.user.exporter.impl.UserServiceImpl">
+		<property name="userMgr" ref="userMgr"/>
+	</bean>
+
+	<bean id="apiUserTagService" class="com.baidu.beidou.api.internal.user.exporter.impl.UserTagServiceImpl">
+		<property name="userTagMgr" ref="userTagMgr"/>
+	</bean>
+
+	<bean id="apiAccountService" class="com.baidu.beidou.api.internal.user.exporter.impl.AccountServiceImpl">
+		<property name="userMgr" ref="userMgr"/>
+		<property name="mfcService" ref="mfcService"/>
+	</bean>
+	
+	<bean id="userNoticeService" class="com.baidu.beidou.api.internal.user.service.impl.UserNoticeSerivceImpl">
+		<property name="userMgr" ref="userMgr"></property>
+	</bean>
+	<bean id="apiUcEventReceiverService" class="com.baidu.beidou.api.internal.user.exporter.impl.UcEventReceiverImpl">
+		<property name="userNoticeService" ref="userNoticeService"/>
+	</bean>
+	
+	<!--  proxy -->
+	<bean id="userServiceProxy" parent="apiInternalProxyBase">
+		<property name="target" ref="apiUserService"></property>
+		<property name="proxyInterfaces"
+			value="com.baidu.beidou.api.internal.user.exporter.UserService">
+		</property>
+	</bean>
+
+	<bean id="userTagServiceProxy" parent="apiInternalProxyBase">
+		<property name="target" ref="apiUserTagService"></property>
+		<property name="proxyInterfaces"
+				  value="com.baidu.beidou.api.internal.user.exporter.UserTagService">
+		</property>
+	</bean>
+
+	<bean id="accountServiceProxy" parent="apiInternalProxyBase">
+		<property name="target" ref="apiAccountService"></property>
+		<property name="proxyInterfaces"
+			value="com.baidu.beidou.api.internal.user.exporter.AccountService">
+		</property>
+	</bean>
+	
+	<bean id="ucEventReceiverProxy" parent="apiInternalProxyBase">
+		<property name="target" ref="apiUcEventReceiverService"></property>
+		<property name="proxyInterfaces"
+			value="com.baidu.beidou.api.internal.user.exporter.UcEventReceiver">
+		</property>
+	</bean>
+	
+	<!-- exporter -->
+	<bean class="com.baidu.rpc.server.RpcExporter" scope="singleton">
+		<property name="serviceInterfaceName" value="com.baidu.beidou.api.internal.user.exporter.UserService"/>
+		<property name="serviceBean">
+			<ref bean="userServiceProxy"/>
+		</property>
+	</bean>
+
+	<bean class="com.baidu.rpc.server.RpcExporter" scope="singleton">
+		<property name="serviceInterfaceName" value="com.baidu.beidou.api.internal.user.exporter.UserTagService"/>
+		<property name="serviceBean">
+			<ref bean="userTagServiceProxy"/>
+		</property>
+	</bean>
+	
+	<bean class="com.baidu.rpc.server.RpcExporter" scope="singleton">
+		<property name="serviceInterfaceName" value="com.baidu.beidou.api.internal.user.exporter.AccountService"/>
+		<property name="serviceBean">
+			<ref bean="accountServiceProxy"/>
+		</property>
+	</bean>	
+	
+	<bean class="com.baidu.rpc.server.RpcExporter" scope="singleton">
+		<property name="serviceInterfaceName" value="com.baidu.beidou.api.internal.user.exporter.UcEventReceiver"/>
+		<property name="serviceBean">
+			<ref bean="ucEventReceiverProxy"/>
+		</property>
+	</bean>
+
+</beans>

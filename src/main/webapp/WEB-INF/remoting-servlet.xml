@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+   http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+   http://www.springframework.org/schema/context
+   http://www.springframework.org/schema/context/spring-context-2.5.xsd">
+	
+	<bean name="/loadSite"
+		class="org.springframework.remoting.caucho.HessianServiceExporter">
+		<property name="service" ref="loadSiteCTTask" />
+		<property name="serviceInterface"
+			value="com.baidu.ctclient.ITaskUsingErrorCode" />
+	</bean>
+	
+	<bean name="/loadSiteSize"
+		class="org.springframework.remoting.caucho.HessianServiceExporter">
+		<property name="service" ref="loadSiteSizeCTTask" />
+		<property name="serviceInterface"
+			value="com.baidu.ctclient.ITaskUsingErrorCode" />
+	</bean>
+	
+	<!-- added by zhuqian@1.2.16 投放百度自有流量 -->
+	<bean name="/loadSiteWhiteList"
+		class="org.springframework.remoting.caucho.HessianServiceExporter">
+		<property name="service" ref="loadSiteWhiteListCTTask" />
+		<property name="serviceInterface"
+			value="com.baidu.ctclient.ITaskUsingErrorCode" />
+	</bean>
+	
+	<!-- added by zhuqian@1.2.16 投放百度自有流量 -->
+	<bean name="/loadUserWhiteList"
+		class="org.springframework.remoting.caucho.HessianServiceExporter">
+		<property name="service" ref="loadUserWhiteListCTTask" />
+		<property name="serviceInterface"
+			value="com.baidu.ctclient.ITaskUsingErrorCode" />
+	</bean>
+	
+	<!-- added by yangyun@1.2.33 贴片广告 -->
+	<bean name="/loadFilmWhiteList"
+		class="org.springframework.remoting.caucho.HessianServiceExporter">
+		<property name="service" ref="loadFilmWhiteListCTTask" />
+		<property name="serviceInterface"
+			value="com.baidu.ctclient.ITaskUsingErrorCode" />
+	</bean>
+	
+	<!-- 更新beidou-api黑名单那缓存 @2.0.0 -->
+	<bean name="/refreshBlacklistCache.rpc"
+        class="org.springframework.remoting.caucho.HessianServiceExporter">
+        <property name="service" ref="refreshBlacklistCacheCTTask" />
+        <property name="serviceInterface"
+            value="com.baidu.ctclient.ITaskUsingErrorCode" />
+    </bean>
+    
+    <!-- 刷IT兴趣点的缓存 -->
+	<bean name="/reloadInterestCache"
+		class="org.springframework.remoting.caucho.HessianServiceExporter">
+		<property name="service" ref="reloadInterestCacheTask" />
+		<property name="serviceInterface"
+			value="com.baidu.ctclient.ITaskUsingErrorCode" />
+	</bean>	
+	
+	<!-- added by wangxiaokun 刷IT兴趣点的统计数据缓存 -->
+	<bean name="/reloadInterestStat"
+		class="org.springframework.remoting.caucho.HessianServiceExporter">
+		<property name="service" ref="reloadInterestStatTask" />
+		<property name="serviceInterface"
+			value="com.baidu.ctclient.ITaskUsingErrorCode" />
+	</bean>	
+	
+	<!-- added by wangxiaokun 刷IT推荐兴趣的缓存 -->
+	<bean name="/loadInterestRecommend"
+		class="org.springframework.remoting.caucho.HessianServiceExporter">
+		<property name="service" ref="reloadInterestRecommendTask" />
+		<property name="serviceInterface"
+			value="com.baidu.ctclient.ITaskUsingErrorCode" />
+	</bean>	
+	
+	<!-- added by wangchongjie 刷App移动应用的缓存 -->
+	<bean name="/reloadAppInfo"
+		class="org.springframework.remoting.caucho.HessianServiceExporter">
+		<property name="service" ref="reloadAppInfoTask" />
+		<property name="serviceInterface"
+			value="com.baidu.ctclient.ITaskUsingErrorCode" />
+	</bean>	
+	
+	<!-- added by wangchongjie 刷Tc非联盟站点的缓存 -->
+	<bean name="/reloadTcSiteInfo"
+		class="org.springframework.remoting.caucho.HessianServiceExporter">
+		<property name="service" ref="reloadTcSiteInfoTask" />
+		<property name="serviceInterface"
+			value="com.baidu.ctclient.ITaskUsingErrorCode" />
+	</bean>	
+</beans>

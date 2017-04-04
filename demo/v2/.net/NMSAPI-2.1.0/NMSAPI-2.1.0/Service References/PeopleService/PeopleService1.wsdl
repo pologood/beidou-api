@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="https://api.baidu.com/sem/nms/v2" xmlns:common="http://api.baidu.com/sem/common/v2" name="PeopleService" targetNamespace="https://api.baidu.com/sem/nms/v2" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <xsd:schema targetNamespace="https://api.baidu.com/sem/nms/v2">
+      <xsd:import schemaLocation="http://tc-un-db64-02.tc:8222/sem/nms/v2/PeopleService?xsd=../../Common.xsd" namespace="http://api.baidu.com/sem/common/v2" />
+      <xsd:complexType name="PeopleType">
+        <xsd:sequence>
+          <xsd:element name="pid" type="xsd:long" />
+          <xsd:element name="name" type="xsd:string" />
+          <xsd:element name="aliveDays" type="xsd:int" />
+          <xsd:element name="cookieNum" type="xsd:long" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:element name="getAllPeopleRequest">
+        <xsd:complexType>
+          <xsd:sequence />
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="getAllPeopleResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" maxOccurs="unbounded" name="peoples" type="tns:PeopleType" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="getPeopleRequest">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="1" maxOccurs="unbounded" name="peopleIds" type="xsd:long" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="getPeopleResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" maxOccurs="unbounded" name="peoples" type="tns:PeopleType" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="getPeopleResponse">
+    <wsdl:part name="parameters" element="tns:getPeopleResponse" />
+  </wsdl:message>
+  <wsdl:message name="getPeopleRequest">
+    <wsdl:part name="parameters" element="tns:getPeopleRequest" />
+  </wsdl:message>
+  <wsdl:message name="ResHeader">
+    <wsdl:part name="ResHeader" element="common:ResHeader" />
+  </wsdl:message>
+  <wsdl:message name="getAllPeopleResponse">
+    <wsdl:part name="parameters" element="tns:getAllPeopleResponse" />
+  </wsdl:message>
+  <wsdl:message name="AuthHeader">
+    <wsdl:part name="AuthHeader" element="common:AuthHeader" />
+  </wsdl:message>
+  <wsdl:message name="getAllPeopleRequest">
+    <wsdl:part name="parameters" element="tns:getAllPeopleRequest" />
+  </wsdl:message>
+  <wsdl:portType name="PeopleService">
+    <wsdl:operation name="getAllPeople">
+      <wsdl:input message="tns:getAllPeopleRequest" />
+      <wsdl:output message="tns:getAllPeopleResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getPeople">
+      <wsdl:input message="tns:getPeopleRequest" />
+      <wsdl:output message="tns:getPeopleResponse" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="PeopleServiceSOAP" type="tns:PeopleService">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="getAllPeople">
+      <soap:operation soapAction="https://api.baidu.com/sem/nms/v2/PeopleService/getAllPeople" />
+      <wsdl:input>
+        <soap:header message="tns:AuthHeader" part="AuthHeader" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:header message="tns:ResHeader" part="ResHeader" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getPeople">
+      <soap:operation soapAction="https://api.baidu.com/sem/nms/v2/PeopleService/getPeople" />
+      <wsdl:input>
+        <soap:header message="tns:AuthHeader" part="AuthHeader" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:header message="tns:ResHeader" part="ResHeader" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="PeopleService">
+    <wsdl:port name="PeopleService" binding="tns:PeopleServiceSOAP">
+      <soap:address location="http://tc-un-db64-02.tc:8222/sem/nms/v2/PeopleService" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

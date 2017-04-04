@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN 2.0//EN" "http://www.springframework.org/dtd/spring-beans-2.0.dtd">
+
+<!--
+	- Application context definition for "springapp" DispatcherServlet.
+-->
+
+<beans>
+	<!-- interceptor定义 -->
+	<bean id="dataLogInterceptor"
+		class="com.baidu.beidou.api.internal.util.interceptor.DataLogInterceptor">
+	</bean>
+
+	<bean id="dataLogAdvisor"
+		class="org.springframework.aop.aspectj.AspectJExpressionPointcutAdvisor">
+		<property name="advice" ref="dataLogInterceptor"></property>
+		<property name="expression" value="(execution(* *.*(..)))"></property>
+	</bean>
+	
+	<bean id="userIdContextInterceptor" class="com.baidu.beidou.api.internal.util.interceptor.UseridContextInterceptor">
+		<property name="methodNameMap">
+			<map>
+				<entry key="getPlanNamebyId"><value>0</value></entry>
+				<entry key="getGroupNamebyId"><value>0</value></entry>
+				<entry key="getUnitMaterialbyId"><value>0</value></entry>
+				<entry key="isKtEnabledByUserid"><value>0</value></entry>
+				<entry key="isKtEnabledByUseridAndPlanid"><value>0</value></entry>
+				<entry key="isKtEnabledByUseridAndGroupid"><value>0</value></entry>
+				<entry key="getEffectivePlansByUserid"><value>0</value></entry>
+				<entry key="getEffectiveGroupsByUseridAndPlanid"><value>0</value></entry>
+				<entry key="addHolmesPeople"><value>0</value></entry>
+				<entry key="updateHolmesPeopleName"><value>0</value></entry>
+				<entry key="updateHolmesPeopleAlivedays"><value>0</value></entry>
+				<entry key="deleteHolmesPeople"><value>0</value></entry>
+				<entry key="getKeywordLiteral2"><value>0</value></entry>
+				<entry key="getOneUnitMaterialbyId"><value>0</value></entry>
+				<entry key="getDspPeopleCode"><value>0</value></entry>
+				<entry key="getDspPeoplePid"><value>0</value></entry>
+				<entry key="getPeoples"><value>0</value></entry>
+				<entry key="getPlanList"><value>0</value></entry>
+				
+				<!-- beidou audit -->
+				<entry key="getUnitAuditList"><value>0</value></entry>
+				<entry key="getUnitAuditNum"><value>0</value></entry>
+				<entry key="getUnitReauditList"><value>0</value></entry>
+				<entry key="modifyRefuseReason"><value>0</value></entry>
+				<entry key="findAuditingUnitIds"><value>0</value></entry>
+				<entry key="getProductViewList"><value>0</value></entry>
+				<entry key="refuseProduct"><value>0</value></entry>
+				<entry key="getData"><value>0</value></entry>
+				<!-- beidou audit -->
+				
+				<!--  riskmgt audit -->
+				<entry key="auditResult"><value>0</value></entry>
+				<entry key="getReauditUnitList"><value>0</value></entry>
+				<entry key="getElementUrlList"><value>0</value></entry>
+				<!--  riskmgt audit -->
+				
+				<entry key="getHtmlSnippetForSmartUnit"><value>1</value></entry>
+				
+				<entry key="getUnitTag"><value>0</value></entry>
+				<entry key="getVtCodeList"><value>0</value></entry>
+			</map>
+		</property>
+	</bean>
+	
+	<bean id="userIdContextedAdvisor" class="org.springframework.aop.aspectj.AspectJExpressionPointcutAdvisor">
+		<property name="advice" ref="userIdContextInterceptor"></property>
+		<property name="expression" value="(execution(* *.*(..)))"></property>
+	</bean>
+	
+	<bean id="monitorInternalAdvisor"
+		class="org.springframework.aop.aspectj.AspectJExpressionPointcutAdvisor">
+		<property name="advice" ref="traceMethodInterceptor"></property>
+		<property name="expression"
+			value="(execution(* *.add*(..)))||(execution(* *.update*(..)))||(execution(* *.set*(..)))
+			||(execution(* *.replace*(..)))||(execution(* *.copy*(..)))||(execution(* *.delete*(..)))
+			||execution(* *.pass*(..)))||(execution(* *.refuse*(..)))||(execution(* *.modifyTrade*(..)))
+			||(execution(* *.auditResult*(..)))">
+		</property>
+	</bean>
+	<bean id="apiInternalProxyBase"
+		class="org.springframework.aop.framework.ProxyFactoryBean"
+		abstract="true">
+		<property name="interceptorNames">
+			<list>
+				<value>userIdContextedAdvisor</value>
+				<value>dataLogAdvisor</value>
+				<value>monitorInternalAdvisor</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="cacheRefreshService" class="com.baidu.beidou.api.internal.util.exporter.impl.CacheRefreshServiceImpl">
+    	<property name="unionSiteMgr" ref="unionSiteMgr"/>
+    </bean>
+	
+	<bean class="com.baidu.rpc.server.RpcExporter"
+		scope="singleton">
+		<property name="serviceInterfaceName" value="com.baidu.beidou.api.internal.util.exporter.CacheRefreshService"/>
+		<property name="serviceBean">
+			<ref bean="cacheRefreshService"/>
+		</property>
+	</bean>
+
+</beans>

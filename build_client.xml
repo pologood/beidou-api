@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project basedir="." default="zip" name="beidou-api-client-build">
+
+	<property environment="env" />
+	<property name="output.dir" value="output" />
+	<property name="classes.dir" value="classes" />
+	<property name="java.project.name" value="baidu_nms_demo_api_java" />
+	<property name="java.project.version" value="1.0.0" />
+	<property name="java.src.dir" value="demo/v2/java" />
+	<property name="java.lib.dir" value="client-lib/jar" />
+	<property name="java.jar" value="${java.project.name}_${java.project.version}.jar" />
+	<property name="java.dr.javadoc.dir" value="client-lib/javadoc" />
+	
+	<property name="python.project.name" value="baidu_nms_demo_api_python" />
+	<property name="python.project.version" value="1.0.0" />
+	<property name="python.src.dir" value="demo/v2/python" />
+	
+	<property name="php.project.name" value="baidu_nms_demo_api_php" />
+	<property name="php.project.version" value="1.0.0" />
+	<property name="php.src.dir" value="demo/v2/php" />
+		
+	<property name="encoding" value="UTF-8" />
+
+	<path id="project.classpath">
+		<fileset dir="${java.lib.dir}">
+			<include name="**/*.jar" />
+		</fileset>
+	</path>
+
+	<target name="build">
+		<mkdir dir="${output.dir}/${classes.dir}" />
+		<javac destdir="${output.dir}/${classes.dir}" deprecation="true" encoding="${encoding}">
+			<src path="${java.src.dir}" />
+			<classpath refid="project.classpath" />
+		</javac>
+		<jar destfile="${output.dir}/${java.jar}">
+			<fileset dir="${output.dir}/classes" includes="**/*.class" />
+		</jar>
+	</target>
+
+	<target name="clean">
+		<delete dir="${output.dir}" />
+		<mkdir dir="${output.dir}" />
+	</target>
+
+
+	<target depends="clean,build" name="zip">
+		<zip destfile="${output.dir}/${java.project.name}_${java.project.version}.zip">
+			<zipfileset dir="${java.src.dir}" prefix="src" />
+			<zipfileset dir="${java.lib.dir}" prefix="lib" />
+			<zipfileset dir="${output.dir}/${classes.dir}" prefix="bin" />
+			<zipfileset dir="${java.dr.javadoc.dir}" prefix="javadoc" />
+			<zipfileset dir="${output.dir}" includes="${java.jar}" fullpath="${java.jar}" />
+			<zipfileset dir="${java.src.dir}" includes="*.properties,*.txt,*.zip" />
+		</zip>
+		<zip destfile="${output.dir}/${python.project.name}_${python.project.version}.zip">
+			<zipfileset dir="${python.src.dir}" />
+		</zip>
+		<zip destfile="${output.dir}/${php.project.name}_${php.project.version}.zip">
+			<zipfileset dir="${php.src.dir}" />
+		</zip>
+	</target>
+
+</project>

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN 2.0//EN" "http://www.springframework.org/dtd/spring-beans-2.0.dtd">
+
+<!--
+	- Application context definition for "springapp" DispatcherServlet.
+-->
+
+<beans>
+
+	<bean id="peopleService" class="com.baidu.beidou.api.external.people.exporter.impl.PeopleServiceImpl">
+		<property name="vtPeopleMgr">
+			<ref bean="vtPeopleMgr"/>
+		</property>
+		<property name="pidListMax">
+			<value>100</value>
+		</property>
+	</bean>
+	
+	<!-- interceptor定义 -->
+	<bean abstract="true" id="peopleDataPrivilegeInterceptor" class="com.baidu.beidou.api.external.people.interceptor.PeopleDataPrivilege">
+		<property name="vtPeopleMgr">
+			<ref bean="vtPeopleMgr"/>
+		</property>
+	</bean>
+	
+	<bean id="peoplePrivilegeAdvisor" class="org.springframework.aop.aspectj.AspectJExpressionPointcutAdvisor">
+		<property name="advice">
+			<bean parent="peopleDataPrivilegeInterceptor">
+				<property name="ognlExp">
+					<list>
+						<value>peopleIds</value> <!-- getPeople -->
+					</list>
+				</property>
+			</bean>
+		</property>
+		<property name="expression" 
+			value="((execution(* *.getPeople(..))))"></property>
+	</bean>
+	
+	<!-- 代理定义 -->
+	<bean id="peopleProxy"  parent="apiExternalProxyBase">
+		<property name="target" ref="peopleService"></property>
+		<property name="proxyInterfaces" value="com.baidu.beidou.api.external.people.exporter.PeopleService"></property>
+		<property name="interceptorNames">
+			<list merge="true">
+				<value>peoplePrivilegeAdvisor</value>
+			</list>
+		</property>
+	</bean>
+	
+	<!-- rpc定义 -->
+	<bean class="com.baidu.rpc.server.RpcExporter"
+		scope="singleton">
+		<property name="serviceInterfaceName" value="com.baidu.beidou.api.external.people.exporter.PeopleService"/>
+		<property name="serviceBean">
+			<ref bean="peopleProxy"/>
+		</property>
+	</bean>
+
+	
+
+</beans>

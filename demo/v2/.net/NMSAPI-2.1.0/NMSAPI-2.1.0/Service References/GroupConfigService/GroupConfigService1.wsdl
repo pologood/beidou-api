@@ -1,0 +1,1639 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="https://api.baidu.com/sem/nms/v2" xmlns:common="http://api.baidu.com/sem/common/v2" name="GroupConfigService" targetNamespace="https://api.baidu.com/sem/nms/v2" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <xsd:schema targetNamespace="https://api.baidu.com/sem/nms/v2">
+      <xsd:import schemaLocation="http://tc-un-db64-02.tc:8222/sem/nms/v2/GroupConfigService?xsd=../../Common.xsd" namespace="http://api.baidu.com/sem/common/v2" />
+      <xsd:complexType name="TargetInfoType">
+        <xsd:sequence>
+          <xsd:element name="type" type="xsd:int" />
+          <xsd:element name="groupId" type="xsd:long" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="ktItem" type="tns:KtItemType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="rtItem" type="tns:RtItemType" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="vtItem" type="tns:VtItemType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="KtItemType">
+        <xsd:sequence>
+          <xsd:element minOccurs="1" maxOccurs="1" name="targetType" type="xsd:int" />
+          <xsd:element minOccurs="1" maxOccurs="1" name="aliveDays" type="xsd:int" />
+          <xsd:element minOccurs="1" maxOccurs="unbounded" name="ktWordList" type="tns:KeywordType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="KeywordType">
+        <xsd:sequence>
+          <xsd:element minOccurs="1" maxOccurs="1" name="keyword" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="qualification" type="xsd:int" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="pattern" type="xsd:int" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="RtItemType">
+        <xsd:sequence>
+          <xsd:element minOccurs="1" maxOccurs="1" name="aliveDays" type="xsd:int" />
+          <xsd:element minOccurs="1" maxOccurs="unbounded" name="rtRelationList" type="tns:RtRelationType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="RtRelationType">
+        <xsd:sequence>
+          <xsd:element minOccurs="1" maxOccurs="1" name="relationType" type="xsd:int" />
+          <xsd:element minOccurs="1" maxOccurs="1" name="fcPlanId" type="xsd:long" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="fcUnitId" type="xsd:long" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="fcPlanName" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="fcUnitName" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="VtItemType">
+        <xsd:sequence>
+          <xsd:element minOccurs="1" maxOccurs="unbounded" name="relatedPeopleIds" type="xsd:long" />
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="unRelatePeopleIds" type="xsd:long" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="InterestInfoType">
+        <xsd:sequence>
+          <xsd:element minOccurs="1" maxOccurs="1" name="groupId" type="xsd:long" />
+          <xsd:element minOccurs="1" maxOccurs="1" name="enable" type="xsd:boolean" />
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="interestIds" type="xsd:int" />
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="exceptInterestIds" type="xsd:int" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="GroupKeywordItemType">
+        <xsd:sequence>
+          <xsd:element minOccurs="1" maxOccurs="1" name="groupId" type="xsd:long" />
+          <xsd:element minOccurs="1" maxOccurs="1" name="keyword" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="1" name="pattern" type="xsd:int" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="GroupInterestInfoType">
+        <xsd:sequence>
+          <xsd:element minOccurs="1" maxOccurs="1" name="groupId" type="xsd:long" />
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="interestIds" type="xsd:long" />
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="exceptInterestIds" type="xsd:long" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="GroupTradePriceType">
+        <xsd:sequence>
+          <xsd:element minOccurs="1" maxOccurs="1" name="groupId" type="xsd:long" />
+          <xsd:element minOccurs="1" maxOccurs="1" name="trade" type="xsd:int" />
+          <xsd:element minOccurs="1" maxOccurs="1" name="price" type="xsd:float" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="GroupSitePriceType">
+        <xsd:sequence>
+          <xsd:element minOccurs="1" maxOccurs="1" name="groupId" type="xsd:long" />
+          <xsd:element minOccurs="1" maxOccurs="1" name="site" type="xsd:string" />
+          <xsd:element minOccurs="1" maxOccurs="1" name="price" type="xsd:float" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:element name="getInterestInfoRequest">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="1" maxOccurs="unbounded" name="groupIds" type="xsd:long" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="getInterestInfoResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" maxOccurs="unbounded" name="interestInfos" type="tns:InterestInfoType" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="getKeywordRequest">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="1" maxOccurs="unbounded" name="keywordIds" type="xsd:long" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="getKeywordResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" maxOccurs="unbounded" name="keywordTypes" type="tns:KeywordType" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="setInterestInfoRequest">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="1" maxOccurs="1" name="interestInfo" type="tns:InterestInfoType" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="setInterestInfoResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" name="response" type="xsd:string" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="setKeywordRequest">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="1" maxOccurs="unbounded" name="keywords" type="tns:GroupKeywordItemType" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="setKeywordResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" name="response" type="xsd:string" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="addKeywordRequest">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="1" maxOccurs="unbounded" name="keywords" type="tns:GroupKeywordItemType" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="addKeywordResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" name="response" type="xsd:string" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="deleteKeywordRequest">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="1" maxOccurs="unbounded" name="keywords" type="tns:GroupKeywordItemType" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="deleteKeywordResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" name="response" type="xsd:string" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="addInterestInfoRequest">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="1" maxOccurs="unbounded" name="interests" type="tns:GroupInterestInfoType" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="addInterestInfoResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" name="response" type="xsd:string" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="deleteInterestInfoRequest">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="1" maxOccurs="unbounded" name="interests" type="tns:GroupInterestInfoType" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="deleteInterestInfoResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" name="response" type="xsd:string" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="addTradePriceRequest">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="1" maxOccurs="unbounded" name="tradePrices" type="tns:GroupTradePriceType" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="addTradePriceResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" name="response" type="xsd:string" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="deleteTradePriceRequest">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="1" maxOccurs="unbounded" name="tradePrices" type="tns:GroupTradeType" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="deleteTradePriceResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" name="response" type="xsd:string" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="addSitePriceRequest">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="1" maxOccurs="unbounded" name="sitePrices" type="tns:GroupSitePriceType" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="addSitePriceResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" name="response" type="xsd:string" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="deleteSitePriceRequest">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="1" maxOccurs="unbounded" name="sitePrices" type="tns:GroupSiteType" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="deleteSitePriceResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" name="response" type="xsd:string" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="getTargetInfoRequest">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="1" maxOccurs="unbounded" name="groupIds" type="xsd:long" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="getTargetInfoResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" maxOccurs="unbounded" name="targetInfos" type="tns:TargetInfoType" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="setTargetInfoRequest">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="targetInfo" type="tns:TargetInfoType" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="setTargetInfoResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" name="response" type="xsd:string" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:complexType name="TradeSitePriceType">
+        <xsd:sequence>
+          <xsd:element minOccurs="1" maxOccurs="1" name="groupId" type="xsd:long" />
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="tradePriceList" type="tns:TradePriceType" />
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="sitePriceList" type="tns:SitePriceType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="TradePriceType">
+        <xsd:sequence>
+          <xsd:element minOccurs="1" maxOccurs="1" name="tradeId" type="xsd:int" />
+          <xsd:element minOccurs="1" maxOccurs="1" name="price" type="xsd:float" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="SitePriceType">
+        <xsd:sequence>
+          <xsd:element minOccurs="1" maxOccurs="1" name="site" type="xsd:string" />
+          <xsd:element minOccurs="1" maxOccurs="1" name="price" type="xsd:float" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:element name="getTradeSitePriceRequest">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="1" maxOccurs="unbounded" name="groupIds" type="xsd:long" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="getTradeSitePriceResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" maxOccurs="unbounded" name="tradeSitePrices" type="tns:TradeSitePriceType" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="setTradeSitePriceRequest">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="tradeSitePrice" type="tns:TradeSitePriceType" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="setTradeSitePriceResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" name="response" type="xsd:string" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:complexType name="SiteUrlType">
+        <xsd:sequence>
+          <xsd:element minOccurs="1" maxOccurs="1" name="groupId" type="xsd:long" />
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="siteUrlList" type="tns:SiteUrlItemType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="SiteUrlItemType">
+        <xsd:sequence>
+          <xsd:element minOccurs="1" maxOccurs="1" name="siteUrl" type="xsd:string" />
+          <xsd:element minOccurs="1" maxOccurs="1" name="targetUrl" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:element name="getSiteUrlRequest">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="1" maxOccurs="unbounded" name="groupIds" type="xsd:long" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="getSiteUrlResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" maxOccurs="unbounded" name="siteUrls" type="tns:SiteUrlType" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="setSiteUrlRequest">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="1" maxOccurs="1" name="siteUrl" type="tns:SiteUrlType" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="setSiteUrlResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" name="response" type="xsd:string" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:complexType name="SiteConfigType">
+        <xsd:sequence>
+          <xsd:element minOccurs="1" maxOccurs="1" name="groupId" type="xsd:long" />
+          <xsd:element minOccurs="1" maxOccurs="1" name="allSite" type="xsd:boolean" />
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="siteList" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="categoryList" type="xsd:int" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:element name="getSiteConfigRequest">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="1" maxOccurs="unbounded" name="groupIds" type="xsd:long" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="getSiteConfigResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" maxOccurs="unbounded" name="siteConfigs" type="tns:SiteConfigType" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="setSiteConfigRequest">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="1" maxOccurs="1" name="siteConfig" type="tns:SiteConfigType" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="setSiteConfigResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" name="response" type="xsd:string" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:complexType name="RegionConfigType">
+        <xsd:sequence>
+          <xsd:element minOccurs="1" maxOccurs="1" name="groupId" type="xsd:long" />
+          <xsd:element minOccurs="1" maxOccurs="1" name="allRegion" type="xsd:boolean" />
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="regionList" type="tns:RegionItemType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="RegionItemType">
+        <xsd:sequence>
+          <xsd:element name="type" type="xsd:int" />
+          <xsd:element name="regionId" type="xsd:int" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:element name="getRegionConfigRequest">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="1" maxOccurs="unbounded" name="groupIds" type="xsd:long" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="getRegionConfigResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" maxOccurs="unbounded" name="regionConfigs" type="tns:RegionConfigType" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="setRegionConfigRequest">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="1" maxOccurs="1" name="regionConfig" type="tns:RegionConfigType" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="setRegionConfigResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" name="response" type="xsd:string" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:complexType name="ExcludeSiteType">
+        <xsd:sequence>
+          <xsd:element minOccurs="1" maxOccurs="1" name="groupId" type="xsd:long" />
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="excludeSite" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:element name="getExcludeSiteRequest">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="1" maxOccurs="unbounded" name="groupIds" type="xsd:long" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="getExcludeSiteResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" maxOccurs="unbounded" name="excludeSites" type="tns:ExcludeSiteType" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="setExcludeSiteRequest">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="excludeSite" type="tns:ExcludeSiteType" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="setExcludeSiteResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" name="response" type="xsd:string" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:complexType name="ExcludeIpType">
+        <xsd:sequence>
+          <xsd:element minOccurs="1" maxOccurs="1" name="groupId" type="xsd:long" />
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="excludeIp" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:element name="getExcludeIpRequest">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="1" maxOccurs="unbounded" name="groupIds" type="xsd:long" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="getExcludeIpResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" maxOccurs="unbounded" name="excludeIps" type="tns:ExcludeIpType" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="setExcludeIpRequest">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="excludeIp" type="tns:ExcludeIpType" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="setExcludeIpResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" name="response" type="xsd:string" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:complexType name="CtKeywordType">
+        <xsd:sequence>
+          <xsd:element name="ctKeywordId" type="xsd:long" />
+          <xsd:element name="word" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="QtKeywordType">
+        <xsd:sequence>
+          <xsd:element name="qtKeywordId" type="xsd:long" />
+          <xsd:element name="word" type="xsd:string" />
+          <xsd:element name="qualification" type="xsd:int" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="GroupCtItemType">
+        <xsd:sequence>
+          <xsd:element name="groupId" type="xsd:long" />
+          <xsd:element name="ctKeyword" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="GroupQtItemType">
+        <xsd:sequence>
+          <xsd:element name="groupId" type="xsd:long" />
+          <xsd:element name="qtKeyword" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="GroupRtItemType">
+        <xsd:sequence>
+          <xsd:element name="groupId" type="xsd:long" />
+          <xsd:element name="relationType" type="xsd:int" />
+          <xsd:element name="fcPlanId" type="xsd:long" />
+          <xsd:element minOccurs="0" name="fcUnitId" type="xsd:long" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:element name="addRtRelationRequest">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="1" maxOccurs="unbounded" name="rtRelations" type="tns:GroupRtItemType" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="addRtRelationResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="response" type="xsd:string" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:complexType name="GroupVtItemType">
+        <xsd:sequence>
+          <xsd:element name="groupId" type="xsd:long" />
+          <xsd:element name="relationType" type="xsd:int" />
+          <xsd:element name="peopleId" type="xsd:long" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:element name="addVtPeopleRequest">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="1" maxOccurs="unbounded" name="vtPeoples" type="tns:GroupVtItemType" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="addVtPeopleResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="response" type="xsd:string" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:complexType name="GroupSiteType">
+        <xsd:sequence>
+          <xsd:element name="groupId" type="xsd:long" />
+          <xsd:element name="site" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:element name="addSiteRequest">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="1" maxOccurs="unbounded" name="sites" type="tns:GroupSiteType" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="addSiteResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="response" type="xsd:string" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:complexType name="GroupTradeType">
+        <xsd:sequence>
+          <xsd:element name="groupId" type="xsd:long" />
+          <xsd:element name="trade" type="xsd:int" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:element name="addTradeRequest">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="1" maxOccurs="unbounded" name="trades" type="tns:GroupTradeType" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="addTradeResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="response" type="xsd:string" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:complexType name="GroupRegionType">
+        <xsd:sequence>
+          <xsd:element name="groupId" type="xsd:long" />
+          <xsd:element name="type" type="xsd:int" />
+          <xsd:element name="regionId" type="xsd:int" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:element name="addRegionRequest">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="1" maxOccurs="unbounded" name="regions" type="tns:GroupRegionType" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="addRegionResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="response" type="xsd:string" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:complexType name="GroupExcludeIpType">
+        <xsd:sequence>
+          <xsd:element name="groupId" type="xsd:long" />
+          <xsd:element name="excludeIp" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:element name="addExcludeIpRequest">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="1" maxOccurs="unbounded" name="excludeIps" type="tns:GroupExcludeIpType" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="addExcludeIpResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="response" type="xsd:string" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:complexType name="GroupExcludeSiteType">
+        <xsd:sequence>
+          <xsd:element name="groupId" type="xsd:long" />
+          <xsd:element name="excludeSite" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:element name="addExcludeSiteRequest">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="1" maxOccurs="unbounded" name="excludeSites" type="tns:GroupExcludeSiteType" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="addExcludeSiteResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="response" type="xsd:string" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="deleteRtRelationRequest">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="1" maxOccurs="unbounded" name="rtRelations" type="tns:GroupRtItemType" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="deleteRtRelationResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="response" type="xsd:string" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="deleteVtPeopleRequest">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="1" maxOccurs="unbounded" name="vtPeoples" type="tns:GroupVtItemType" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="deleteVtPeopleResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="response" type="xsd:string" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="deleteSiteRequest">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="1" maxOccurs="unbounded" name="sites" type="tns:GroupSiteType" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="deleteSiteResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="response" type="xsd:string" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="deleteTradeRequest">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="1" maxOccurs="unbounded" name="trades" type="tns:GroupTradeType" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="deleteTradeResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="response" type="xsd:string" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="deleteRegionRequest">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="1" maxOccurs="unbounded" name="regions" type="tns:GroupRegionType" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="deleteRegionResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="response" type="xsd:string" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="deleteExcludeIpRequest">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="1" maxOccurs="unbounded" name="excludeIps" type="tns:GroupExcludeIpType" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="deleteExcludeIpResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="response" type="xsd:string" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="deleteExcludeSiteRequest">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="1" maxOccurs="unbounded" name="excludeSites" type="tns:GroupExcludeSiteType" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="deleteExcludeSiteResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="response" type="xsd:string" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="deleteInterestInfoRequest">
+    <wsdl:part name="parameters" element="tns:deleteInterestInfoRequest" />
+  </wsdl:message>
+  <wsdl:message name="addExcludeSiteResponse">
+    <wsdl:part name="parameters" element="tns:addExcludeSiteResponse" />
+  </wsdl:message>
+  <wsdl:message name="addExcludeSiteRequest">
+    <wsdl:part name="parameters" element="tns:addExcludeSiteRequest" />
+  </wsdl:message>
+  <wsdl:message name="deleteSiteRequest">
+    <wsdl:part name="parameters" element="tns:deleteSiteRequest" />
+  </wsdl:message>
+  <wsdl:message name="getSiteConfigRequest">
+    <wsdl:part name="parameters" element="tns:getSiteConfigRequest" />
+  </wsdl:message>
+  <wsdl:message name="getRegionConfigResponse">
+    <wsdl:part name="parameters" element="tns:getRegionConfigResponse" />
+  </wsdl:message>
+  <wsdl:message name="addTradePriceRequest">
+    <wsdl:part name="parameters" element="tns:addTradePriceRequest" />
+  </wsdl:message>
+  <wsdl:message name="deleteTradeRequest">
+    <wsdl:part name="parameters" element="tns:deleteTradeRequest" />
+  </wsdl:message>
+  <wsdl:message name="getSiteUrlResponse">
+    <wsdl:part name="parameters" element="tns:getSiteUrlResponse" />
+  </wsdl:message>
+  <wsdl:message name="getExcludeIpRequest">
+    <wsdl:part name="parameters" element="tns:getExcludeIpRequest" />
+  </wsdl:message>
+  <wsdl:message name="addExcludeIpResponse">
+    <wsdl:part name="parameters" element="tns:addExcludeIpResponse" />
+  </wsdl:message>
+  <wsdl:message name="addRtRelationResponse">
+    <wsdl:part name="parameters" element="tns:addRtRelationResponse" />
+  </wsdl:message>
+  <wsdl:message name="deleteTradePriceResponse">
+    <wsdl:part name="parameters" element="tns:deleteTradePriceResponse" />
+  </wsdl:message>
+  <wsdl:message name="getRegionConfigRequest">
+    <wsdl:part name="parameters" element="tns:getRegionConfigRequest" />
+  </wsdl:message>
+  <wsdl:message name="getInterestInfoRequest">
+    <wsdl:part name="parameters" element="tns:getInterestInfoRequest" />
+  </wsdl:message>
+  <wsdl:message name="addKeywordRequest">
+    <wsdl:part name="parameters" element="tns:addKeywordRequest" />
+  </wsdl:message>
+  <wsdl:message name="addRegionResponse">
+    <wsdl:part name="parameters" element="tns:addRegionResponse" />
+  </wsdl:message>
+  <wsdl:message name="addVtPeopleResponse">
+    <wsdl:part name="parameters" element="tns:addVtPeopleResponse" />
+  </wsdl:message>
+  <wsdl:message name="addSiteRequest">
+    <wsdl:part name="parameters" element="tns:addSiteRequest" />
+  </wsdl:message>
+  <wsdl:message name="deleteRegionRequest">
+    <wsdl:part name="parameters" element="tns:deleteRegionRequest" />
+  </wsdl:message>
+  <wsdl:message name="setRegionConfigRequest">
+    <wsdl:part name="parameters" element="tns:setRegionConfigRequest" />
+  </wsdl:message>
+  <wsdl:message name="deleteExcludeIpRequest">
+    <wsdl:part name="parameters" element="tns:deleteExcludeIpRequest" />
+  </wsdl:message>
+  <wsdl:message name="setSiteConfigRequest">
+    <wsdl:part name="parameters" element="tns:setSiteConfigRequest" />
+  </wsdl:message>
+  <wsdl:message name="addTradePriceResponse">
+    <wsdl:part name="parameters" element="tns:addTradePriceResponse" />
+  </wsdl:message>
+  <wsdl:message name="setSiteConfigResponse">
+    <wsdl:part name="parameters" element="tns:setSiteConfigResponse" />
+  </wsdl:message>
+  <wsdl:message name="setExcludeSiteResponse">
+    <wsdl:part name="parameters" element="tns:setExcludeSiteResponse" />
+  </wsdl:message>
+  <wsdl:message name="getInterestInfoResponse">
+    <wsdl:part name="parameters" element="tns:getInterestInfoResponse" />
+  </wsdl:message>
+  <wsdl:message name="setTradeSitePriceRequest">
+    <wsdl:part name="parameters" element="tns:setTradeSitePriceRequest" />
+  </wsdl:message>
+  <wsdl:message name="getExcludeSiteResponse">
+    <wsdl:part name="parameters" element="tns:getExcludeSiteResponse" />
+  </wsdl:message>
+  <wsdl:message name="addExcludeIpRequest">
+    <wsdl:part name="parameters" element="tns:addExcludeIpRequest" />
+  </wsdl:message>
+  <wsdl:message name="setTargetInfoResponse">
+    <wsdl:part name="parameters" element="tns:setTargetInfoResponse" />
+  </wsdl:message>
+  <wsdl:message name="deleteInterestInfoResponse">
+    <wsdl:part name="parameters" element="tns:deleteInterestInfoResponse" />
+  </wsdl:message>
+  <wsdl:message name="ResHeader">
+    <wsdl:part name="ResHeader" element="common:ResHeader" />
+  </wsdl:message>
+  <wsdl:message name="setExcludeSiteRequest">
+    <wsdl:part name="parameters" element="tns:setExcludeSiteRequest" />
+  </wsdl:message>
+  <wsdl:message name="addKeywordResponse">
+    <wsdl:part name="parameters" element="tns:addKeywordResponse" />
+  </wsdl:message>
+  <wsdl:message name="setTradeSitePriceResponse">
+    <wsdl:part name="parameters" element="tns:setTradeSitePriceResponse" />
+  </wsdl:message>
+  <wsdl:message name="getSiteConfigResponse">
+    <wsdl:part name="parameters" element="tns:getSiteConfigResponse" />
+  </wsdl:message>
+  <wsdl:message name="getTradeSitePriceResponse">
+    <wsdl:part name="parameters" element="tns:getTradeSitePriceResponse" />
+  </wsdl:message>
+  <wsdl:message name="deleteKeywordRequest">
+    <wsdl:part name="parameters" element="tns:deleteKeywordRequest" />
+  </wsdl:message>
+  <wsdl:message name="deleteTradePriceRequest">
+    <wsdl:part name="parameters" element="tns:deleteTradePriceRequest" />
+  </wsdl:message>
+  <wsdl:message name="getKeywordResponse">
+    <wsdl:part name="parameters" element="tns:getKeywordResponse" />
+  </wsdl:message>
+  <wsdl:message name="setRegionConfigResponse">
+    <wsdl:part name="parameters" element="tns:setRegionConfigResponse" />
+  </wsdl:message>
+  <wsdl:message name="setExcludeIpResponse">
+    <wsdl:part name="parameters" element="tns:setExcludeIpResponse" />
+  </wsdl:message>
+  <wsdl:message name="getKeywordRequest">
+    <wsdl:part name="parameters" element="tns:getKeywordRequest" />
+  </wsdl:message>
+  <wsdl:message name="setTargetInfoRequest">
+    <wsdl:part name="parameters" element="tns:setTargetInfoRequest" />
+  </wsdl:message>
+  <wsdl:message name="addSiteResponse">
+    <wsdl:part name="parameters" element="tns:addSiteResponse" />
+  </wsdl:message>
+  <wsdl:message name="getSiteUrlRequest">
+    <wsdl:part name="parameters" element="tns:getSiteUrlRequest" />
+  </wsdl:message>
+  <wsdl:message name="deleteExcludeIpResponse">
+    <wsdl:part name="parameters" element="tns:deleteExcludeIpResponse" />
+  </wsdl:message>
+  <wsdl:message name="addTradeResponse">
+    <wsdl:part name="parameters" element="tns:addTradeResponse" />
+  </wsdl:message>
+  <wsdl:message name="addInterestInfoResponse">
+    <wsdl:part name="parameters" element="tns:addInterestInfoResponse" />
+  </wsdl:message>
+  <wsdl:message name="setInterestInfoRequest">
+    <wsdl:part name="parameters" element="tns:setInterestInfoRequest" />
+  </wsdl:message>
+  <wsdl:message name="getTradeSitePriceRequest">
+    <wsdl:part name="parameters" element="tns:getTradeSitePriceRequest" />
+  </wsdl:message>
+  <wsdl:message name="addSitePriceResponse">
+    <wsdl:part name="parameters" element="tns:addSitePriceResponse" />
+  </wsdl:message>
+  <wsdl:message name="getExcludeIpResponse">
+    <wsdl:part name="parameters" element="tns:getExcludeIpResponse" />
+  </wsdl:message>
+  <wsdl:message name="setInterestInfoResponse">
+    <wsdl:part name="parameters" element="tns:setInterestInfoResponse" />
+  </wsdl:message>
+  <wsdl:message name="addRegionRequest">
+    <wsdl:part name="parameters" element="tns:addRegionRequest" />
+  </wsdl:message>
+  <wsdl:message name="deleteRtRelationRequest">
+    <wsdl:part name="parameters" element="tns:deleteRtRelationRequest" />
+  </wsdl:message>
+  <wsdl:message name="addVtPeopleRequest">
+    <wsdl:part name="parameters" element="tns:addVtPeopleRequest" />
+  </wsdl:message>
+  <wsdl:message name="deleteVtPeopleRequest">
+    <wsdl:part name="parameters" element="tns:deleteVtPeopleRequest" />
+  </wsdl:message>
+  <wsdl:message name="deleteTradeResponse">
+    <wsdl:part name="parameters" element="tns:deleteTradeResponse" />
+  </wsdl:message>
+  <wsdl:message name="deleteSiteResponse">
+    <wsdl:part name="parameters" element="tns:deleteSiteResponse" />
+  </wsdl:message>
+  <wsdl:message name="setExcludeIpRequest">
+    <wsdl:part name="parameters" element="tns:setExcludeIpRequest" />
+  </wsdl:message>
+  <wsdl:message name="getTargetInfoResponse">
+    <wsdl:part name="parameters" element="tns:getTargetInfoResponse" />
+  </wsdl:message>
+  <wsdl:message name="addSitePriceRequest">
+    <wsdl:part name="parameters" element="tns:addSitePriceRequest" />
+  </wsdl:message>
+  <wsdl:message name="setKeywordResponse">
+    <wsdl:part name="parameters" element="tns:setKeywordResponse" />
+  </wsdl:message>
+  <wsdl:message name="deleteVtPeopleResponse">
+    <wsdl:part name="parameters" element="tns:deleteVtPeopleResponse" />
+  </wsdl:message>
+  <wsdl:message name="deleteSitePriceRequest">
+    <wsdl:part name="parameters" element="tns:deleteSitePriceRequest" />
+  </wsdl:message>
+  <wsdl:message name="addRtRelationRequest">
+    <wsdl:part name="parameters" element="tns:addRtRelationRequest" />
+  </wsdl:message>
+  <wsdl:message name="deleteRtRelationResponse">
+    <wsdl:part name="parameters" element="tns:deleteRtRelationResponse" />
+  </wsdl:message>
+  <wsdl:message name="deleteKeywordResponse">
+    <wsdl:part name="parameters" element="tns:deleteKeywordResponse" />
+  </wsdl:message>
+  <wsdl:message name="setKeywordRequest">
+    <wsdl:part name="parameters" element="tns:setKeywordRequest" />
+  </wsdl:message>
+  <wsdl:message name="setSiteUrlResponse">
+    <wsdl:part name="parameters" element="tns:setSiteUrlResponse" />
+  </wsdl:message>
+  <wsdl:message name="addTradeRequest">
+    <wsdl:part name="parameters" element="tns:addTradeRequest" />
+  </wsdl:message>
+  <wsdl:message name="getTargetInfoRequest">
+    <wsdl:part name="parameters" element="tns:getTargetInfoRequest" />
+  </wsdl:message>
+  <wsdl:message name="getExcludeSiteRequest">
+    <wsdl:part name="parameters" element="tns:getExcludeSiteRequest" />
+  </wsdl:message>
+  <wsdl:message name="addInterestInfoRequest">
+    <wsdl:part name="parameters" element="tns:addInterestInfoRequest" />
+  </wsdl:message>
+  <wsdl:message name="deleteSitePriceResponse">
+    <wsdl:part name="parameters" element="tns:deleteSitePriceResponse" />
+  </wsdl:message>
+  <wsdl:message name="deleteRegionResponse">
+    <wsdl:part name="parameters" element="tns:deleteRegionResponse" />
+  </wsdl:message>
+  <wsdl:message name="deleteExcludeSiteRequest">
+    <wsdl:part name="parameters" element="tns:deleteExcludeSiteRequest" />
+  </wsdl:message>
+  <wsdl:message name="setSiteUrlRequest">
+    <wsdl:part name="parameters" element="tns:setSiteUrlRequest" />
+  </wsdl:message>
+  <wsdl:message name="deleteExcludeSiteResponse">
+    <wsdl:part name="parameters" element="tns:deleteExcludeSiteResponse" />
+  </wsdl:message>
+  <wsdl:message name="AuthHeader">
+    <wsdl:part name="AuthHeader" element="common:AuthHeader" />
+  </wsdl:message>
+  <wsdl:portType name="GroupConfigService">
+    <wsdl:operation name="getTargetInfo">
+      <wsdl:input message="tns:getTargetInfoRequest" />
+      <wsdl:output message="tns:getTargetInfoResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="setTargetInfo">
+      <wsdl:input message="tns:setTargetInfoRequest" />
+      <wsdl:output message="tns:setTargetInfoResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getTradeSitePrice">
+      <wsdl:input message="tns:getTradeSitePriceRequest" />
+      <wsdl:output message="tns:getTradeSitePriceResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="setTradeSitePrice">
+      <wsdl:input message="tns:setTradeSitePriceRequest" />
+      <wsdl:output message="tns:setTradeSitePriceResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getSiteUrl">
+      <wsdl:input message="tns:getSiteUrlRequest" />
+      <wsdl:output message="tns:getSiteUrlResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="setSiteUrl">
+      <wsdl:input message="tns:setSiteUrlRequest" />
+      <wsdl:output message="tns:setSiteUrlResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getSiteConfig">
+      <wsdl:input message="tns:getSiteConfigRequest" />
+      <wsdl:output message="tns:getSiteConfigResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="setSiteConfig">
+      <wsdl:input message="tns:setSiteConfigRequest" />
+      <wsdl:output message="tns:setSiteConfigResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getRegionConfig">
+      <wsdl:input message="tns:getRegionConfigRequest" />
+      <wsdl:output message="tns:getRegionConfigResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="setRegionConfig">
+      <wsdl:input message="tns:setRegionConfigRequest" />
+      <wsdl:output message="tns:setRegionConfigResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getExcludeSite">
+      <wsdl:input message="tns:getExcludeSiteRequest" />
+      <wsdl:output message="tns:getExcludeSiteResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="setExcludeSite">
+      <wsdl:input message="tns:setExcludeSiteRequest" />
+      <wsdl:output message="tns:setExcludeSiteResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getExcludeIp">
+      <wsdl:input message="tns:getExcludeIpRequest" />
+      <wsdl:output message="tns:getExcludeIpResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="setExcludeIp">
+      <wsdl:input message="tns:setExcludeIpRequest" />
+      <wsdl:output message="tns:setExcludeIpResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="addRtRelation">
+      <wsdl:input message="tns:addRtRelationRequest" />
+      <wsdl:output message="tns:addRtRelationResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="addVtPeople">
+      <wsdl:input message="tns:addVtPeopleRequest" />
+      <wsdl:output message="tns:addVtPeopleResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="addSite">
+      <wsdl:input message="tns:addSiteRequest" />
+      <wsdl:output message="tns:addSiteResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="addTrade">
+      <wsdl:input message="tns:addTradeRequest" />
+      <wsdl:output message="tns:addTradeResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="addRegion">
+      <wsdl:input message="tns:addRegionRequest" />
+      <wsdl:output message="tns:addRegionResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="addExcludeIp">
+      <wsdl:input message="tns:addExcludeIpRequest" />
+      <wsdl:output message="tns:addExcludeIpResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="addExcludeSite">
+      <wsdl:input message="tns:addExcludeSiteRequest" />
+      <wsdl:output message="tns:addExcludeSiteResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="deleteRtRelation">
+      <wsdl:input message="tns:deleteRtRelationRequest" />
+      <wsdl:output message="tns:deleteRtRelationResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="deleteVtPeople">
+      <wsdl:input message="tns:deleteVtPeopleRequest" />
+      <wsdl:output message="tns:deleteVtPeopleResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="deleteSite">
+      <wsdl:input message="tns:deleteSiteRequest" />
+      <wsdl:output message="tns:deleteSiteResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="deleteTrade">
+      <wsdl:input message="tns:deleteTradeRequest" />
+      <wsdl:output message="tns:deleteTradeResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="deleteRegion">
+      <wsdl:input message="tns:deleteRegionRequest" />
+      <wsdl:output message="tns:deleteRegionResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="deleteExcludeIp">
+      <wsdl:input message="tns:deleteExcludeIpRequest" />
+      <wsdl:output message="tns:deleteExcludeIpResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="deleteExcludeSite">
+      <wsdl:input message="tns:deleteExcludeSiteRequest" />
+      <wsdl:output message="tns:deleteExcludeSiteResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getInterestInfo">
+      <wsdl:input message="tns:getInterestInfoRequest" />
+      <wsdl:output message="tns:getInterestInfoResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="setKeyword">
+      <wsdl:input message="tns:setKeywordRequest" />
+      <wsdl:output message="tns:setKeywordResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getKeyword">
+      <wsdl:input message="tns:getKeywordRequest" />
+      <wsdl:output message="tns:getKeywordResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="setInterestInfo">
+      <wsdl:input message="tns:setInterestInfoRequest" />
+      <wsdl:output message="tns:setInterestInfoResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="addKeyword">
+      <wsdl:input message="tns:addKeywordRequest" />
+      <wsdl:output message="tns:addKeywordResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="deleteKeyword">
+      <wsdl:input message="tns:deleteKeywordRequest" />
+      <wsdl:output message="tns:deleteKeywordResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="addInterestInfo">
+      <wsdl:input message="tns:addInterestInfoRequest" />
+      <wsdl:output message="tns:addInterestInfoResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="deleteInterestInfo">
+      <wsdl:input message="tns:deleteInterestInfoRequest" />
+      <wsdl:output message="tns:deleteInterestInfoResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="addTradePrice">
+      <wsdl:input message="tns:addTradePriceRequest" />
+      <wsdl:output message="tns:addTradePriceResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="deleteTradePrice">
+      <wsdl:input message="tns:deleteTradePriceRequest" />
+      <wsdl:output message="tns:deleteTradePriceResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="addSitePrice">
+      <wsdl:input message="tns:addSitePriceRequest" />
+      <wsdl:output message="tns:addSitePriceResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="deleteSitePrice">
+      <wsdl:input message="tns:deleteSitePriceRequest" />
+      <wsdl:output message="tns:deleteSitePriceResponse" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="GroupConfigServiceSOAP" type="tns:GroupConfigService">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="getTargetInfo">
+      <soap:operation soapAction="https://api.baidu.com/sem/nms/v2/GroupConfigService/getTargetInfo" />
+      <wsdl:input>
+        <soap:header message="tns:AuthHeader" part="AuthHeader" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:header message="tns:ResHeader" part="ResHeader" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="setTargetInfo">
+      <soap:operation soapAction="https://api.baidu.com/sem/nms/v2/GroupConfigService/setTargetInfo" />
+      <wsdl:input>
+        <soap:header message="tns:AuthHeader" part="AuthHeader" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:header message="tns:ResHeader" part="ResHeader" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getTradeSitePrice">
+      <soap:operation soapAction="https://api.baidu.com/sem/nms/v2/GroupConfigService/getTradeSitePrice" />
+      <wsdl:input>
+        <soap:header message="tns:AuthHeader" part="AuthHeader" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:header message="tns:ResHeader" part="ResHeader" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="setTradeSitePrice">
+      <soap:operation soapAction="https://api.baidu.com/sem/nms/v2/GroupConfigService/setTradeSitePrice" />
+      <wsdl:input>
+        <soap:header message="tns:AuthHeader" part="AuthHeader" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:header message="tns:ResHeader" part="ResHeader" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getSiteUrl">
+      <soap:operation soapAction="https://api.baidu.com/sem/nms/v2/GroupConfigService/getSiteUrl" />
+      <wsdl:input>
+        <soap:header message="tns:AuthHeader" part="AuthHeader" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:header message="tns:ResHeader" part="ResHeader" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="setSiteUrl">
+      <soap:operation soapAction="https://api.baidu.com/sem/nms/v2/GroupConfigService/setSiteUrl" />
+      <wsdl:input>
+        <soap:header message="tns:AuthHeader" part="AuthHeader" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:header message="tns:ResHeader" part="ResHeader" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getSiteConfig">
+      <soap:operation soapAction="https://api.baidu.com/sem/nms/v2/GroupConfigService/getSiteConfig" />
+      <wsdl:input>
+        <soap:header message="tns:AuthHeader" part="AuthHeader" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:header message="tns:ResHeader" part="ResHeader" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="setSiteConfig">
+      <soap:operation soapAction="https://api.baidu.com/sem/nms/v2/GroupConfigService/setSiteConfig" />
+      <wsdl:input>
+        <soap:header message="tns:AuthHeader" part="AuthHeader" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:header message="tns:ResHeader" part="ResHeader" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getRegionConfig">
+      <soap:operation soapAction="https://api.baidu.com/sem/nms/v2/GroupConfigService/getRegionConfig" />
+      <wsdl:input>
+        <soap:header message="tns:AuthHeader" part="AuthHeader" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:header message="tns:ResHeader" part="ResHeader" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="setRegionConfig">
+      <soap:operation soapAction="https://api.baidu.com/sem/nms/v2/GroupConfigService/setRegionConfig" />
+      <wsdl:input>
+        <soap:header message="tns:AuthHeader" part="AuthHeader" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:header message="tns:ResHeader" part="ResHeader" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getExcludeSite">
+      <soap:operation soapAction="https://api.baidu.com/sem/nms/v2/GroupConfigService/getExcludeSite" />
+      <wsdl:input>
+        <soap:header message="tns:AuthHeader" part="AuthHeader" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:header message="tns:ResHeader" part="ResHeader" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="setExcludeSite">
+      <soap:operation soapAction="https://api.baidu.com/sem/nms/v2/GroupConfigService/setExcludeSite" />
+      <wsdl:input>
+        <soap:header message="tns:AuthHeader" part="AuthHeader" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:header message="tns:ResHeader" part="ResHeader" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getExcludeIp">
+      <soap:operation soapAction="https://api.baidu.com/sem/nms/v2/GroupConfigService/getExcludeIp" />
+      <wsdl:input>
+        <soap:header message="tns:AuthHeader" part="AuthHeader" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:header message="tns:ResHeader" part="ResHeader" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="setExcludeIp">
+      <soap:operation soapAction="https://api.baidu.com/sem/nms/v2/GroupConfigService/setExcludeIp" />
+      <wsdl:input>
+        <soap:header message="tns:AuthHeader" part="AuthHeader" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:header message="tns:ResHeader" part="ResHeader" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="addRtRelation">
+      <soap:operation soapAction="https://api.baidu.com/sem/nms/v2/GroupConfigService/addRtRelation" />
+      <wsdl:input>
+        <soap:header message="tns:AuthHeader" part="AuthHeader" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:header message="tns:ResHeader" part="ResHeader" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="addVtPeople">
+      <soap:operation soapAction="https://api.baidu.com/sem/nms/v2/GroupConfigService/addVtPeople" />
+      <wsdl:input>
+        <soap:header message="tns:AuthHeader" part="AuthHeader" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:header message="tns:ResHeader" part="ResHeader" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="addSite">
+      <soap:operation soapAction="https://api.baidu.com/sem/nms/v2/GroupConfigService/addSite" />
+      <wsdl:input>
+        <soap:header message="tns:AuthHeader" part="AuthHeader" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:header message="tns:ResHeader" part="ResHeader" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="addTrade">
+      <soap:operation soapAction="https://api.baidu.com/sem/nms/v2/GroupConfigService/addTrade" />
+      <wsdl:input>
+        <soap:header message="tns:AuthHeader" part="AuthHeader" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:header message="tns:ResHeader" part="ResHeader" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="addRegion">
+      <soap:operation soapAction="https://api.baidu.com/sem/nms/v2/GroupConfigService/addRegion" />
+      <wsdl:input>
+        <soap:header message="tns:AuthHeader" part="AuthHeader" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:header message="tns:ResHeader" part="ResHeader" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="addExcludeIp">
+      <soap:operation soapAction="https://api.baidu.com/sem/nms/v2/GroupConfigService/addExcludeIp" />
+      <wsdl:input>
+        <soap:header message="tns:AuthHeader" part="AuthHeader" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:header message="tns:ResHeader" part="ResHeader" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="addExcludeSite">
+      <soap:operation soapAction="https://api.baidu.com/sem/nms/v2/GroupConfigService/addExcludeSite" />
+      <wsdl:input>
+        <soap:header message="tns:AuthHeader" part="AuthHeader" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:header message="tns:ResHeader" part="ResHeader" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="deleteRtRelation">
+      <soap:operation soapAction="https://api.baidu.com/sem/nms/v2/GroupConfigService/deleteRtRelation" />
+      <wsdl:input>
+        <soap:header message="tns:AuthHeader" part="AuthHeader" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:header message="tns:ResHeader" part="ResHeader" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="deleteVtPeople">
+      <soap:operation soapAction="https://api.baidu.com/sem/nms/v2/GroupConfigService/deleteVtPeople" />
+      <wsdl:input>
+        <soap:header message="tns:AuthHeader" part="AuthHeader" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:header message="tns:ResHeader" part="ResHeader" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="deleteSite">
+      <soap:operation soapAction="https://api.baidu.com/sem/nms/v2/GroupConfigService/deleteSite" />
+      <wsdl:input>
+        <soap:header message="tns:AuthHeader" part="AuthHeader" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:header message="tns:ResHeader" part="ResHeader" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="deleteTrade">
+      <soap:operation soapAction="https://api.baidu.com/sem/nms/v2/GroupConfigService/deleteTrade" />
+      <wsdl:input>
+        <soap:header message="tns:AuthHeader" part="AuthHeader" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:header message="tns:ResHeader" part="ResHeader" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="deleteRegion">
+      <soap:operation soapAction="https://api.baidu.com/sem/nms/v2/GroupConfigService/deleteRegion" />
+      <wsdl:input>
+        <soap:header message="tns:AuthHeader" part="AuthHeader" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:header message="tns:ResHeader" part="ResHeader" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="deleteExcludeIp">
+      <soap:operation soapAction="https://api.baidu.com/sem/nms/v2/GroupConfigService/deleteExcludeIp" />
+      <wsdl:input>
+        <soap:header message="tns:AuthHeader" part="AuthHeader" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:header message="tns:ResHeader" part="ResHeader" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="deleteExcludeSite">
+      <soap:operation soapAction="https://api.baidu.com/sem/nms/v2/GroupConfigService/deleteExcludeSite" />
+      <wsdl:input>
+        <soap:header message="tns:AuthHeader" part="AuthHeader" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:header message="tns:ResHeader" part="ResHeader" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getInterestInfo">
+      <soap:operation soapAction="https://api.baidu.com/sem/nms/v2/GroupConfigService/getInterestInfo" />
+      <wsdl:input>
+        <soap:header message="tns:AuthHeader" part="AuthHeader" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:header message="tns:ResHeader" part="ResHeader" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="setKeyword">
+      <soap:operation soapAction="https://api.baidu.com/sem/nms/v2/GroupConfigService/setKeyword" />
+      <wsdl:input>
+        <soap:header message="tns:AuthHeader" part="AuthHeader" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:header message="tns:ResHeader" part="ResHeader" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getKeyword">
+      <soap:operation soapAction="https://api.baidu.com/sem/nms/v2/GroupConfigService/getKeyword" />
+      <wsdl:input>
+        <soap:header message="tns:AuthHeader" part="AuthHeader" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:header message="tns:ResHeader" part="ResHeader" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="setInterestInfo">
+      <soap:operation soapAction="https://api.baidu.com/sem/nms/v2/GroupConfigService/setInterestInfo" />
+      <wsdl:input>
+        <soap:header message="tns:AuthHeader" part="AuthHeader" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:header message="tns:ResHeader" part="ResHeader" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="addKeyword">
+      <soap:operation soapAction="https://api.baidu.com/sem/nms/v2/GroupConfigService/addKeyword" />
+      <wsdl:input>
+        <soap:header message="tns:AuthHeader" part="AuthHeader" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:header message="tns:ResHeader" part="ResHeader" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="deleteKeyword">
+      <soap:operation soapAction="https://api.baidu.com/sem/nms/v2/GroupConfigService/deleteKeyword" />
+      <wsdl:input>
+        <soap:header message="tns:AuthHeader" part="AuthHeader" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:header message="tns:ResHeader" part="ResHeader" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="addInterestInfo">
+      <soap:operation soapAction="https://api.baidu.com/sem/nms/v2/GroupConfigService/addInterestInfo" />
+      <wsdl:input>
+        <soap:header message="tns:AuthHeader" part="AuthHeader" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:header message="tns:ResHeader" part="ResHeader" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="deleteInterestInfo">
+      <soap:operation soapAction="https://api.baidu.com/sem/nms/v2/GroupConfigService/deleteInterestInfo" />
+      <wsdl:input>
+        <soap:header message="tns:AuthHeader" part="AuthHeader" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:header message="tns:ResHeader" part="ResHeader" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="addTradePrice">
+      <soap:operation soapAction="https://api.baidu.com/sem/nms/v2/GroupConfigService/addTradePrice" />
+      <wsdl:input>
+        <soap:header message="tns:AuthHeader" part="AuthHeader" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:header message="tns:ResHeader" part="ResHeader" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="deleteTradePrice">
+      <soap:operation soapAction="https://api.baidu.com/sem/nms/v2/GroupConfigService/deleteTradePrice" />
+      <wsdl:input>
+        <soap:header message="tns:AuthHeader" part="AuthHeader" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:header message="tns:ResHeader" part="ResHeader" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="addSitePrice">
+      <soap:operation soapAction="https://api.baidu.com/sem/nms/v2/GroupConfigService/addSitePrice" />
+      <wsdl:input>
+        <soap:header message="tns:AuthHeader" part="AuthHeader" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:header message="tns:ResHeader" part="ResHeader" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="deleteSitePrice">
+      <soap:operation soapAction="https://api.baidu.com/sem/nms/v2/GroupConfigService/deleteSitePrice" />
+      <wsdl:input>
+        <soap:header message="tns:AuthHeader" part="AuthHeader" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:header message="tns:ResHeader" part="ResHeader" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="GroupConfigService">
+    <wsdl:port name="GroupConfigService" binding="tns:GroupConfigServiceSOAP">
+      <soap:address location="http://tc-un-db64-02.tc:8222/sem/nms/v2/GroupConfigService" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

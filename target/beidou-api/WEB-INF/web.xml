@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app id="WebApp_9" version="2.4"
+	xmlns="http://java.sun.com/xml/ns/j2ee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
+	<display-name>beidou-api</display-name>
+
+	<context-param>
+		<param-name>log4jConfigLocation</param-name>
+		<param-value>/WEB-INF/classes/log4j.properties</param-value>
+	</context-param>
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>classpath*:applicationContext.xml</param-value>
+	</context-param>
+
+	<filter>
+		<filter-name>monitorFilter</filter-name>
+		<filter-class>com.baidu.unbiz.monitor.collector.web.MonitorFilter</filter-class>
+		<init-param>
+			<param-name>configPath</param-name>
+			<param-value>/WEB-INF/monitor.properties</param-value>
+		</init-param>
+	</filter>
+
+	<filter-mapping>
+		<filter-name>monitorFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	
+	<listener>
+		<listener-class>
+			org.springframework.web.context.ContextLoaderListener
+		</listener-class>
+	</listener>
+	 
+	<listener>
+		<listener-class>
+			com.baidu.beidou.api.util.web.InitSystemListener
+		</listener-class>
+	</listener>
+	
+	<servlet>
+		<display-name>mcpack-rpc servlet</display-name>
+		<servlet-name>mcpackRpcServlet</servlet-name>
+		<servlet-class>com.baidu.rpc.server.RpcServlet</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	
+	<servlet-mapping>
+		<servlet-name>mcpackRpcServlet</servlet-name>
+		<url-pattern>/api/*</url-pattern>
+	</servlet-mapping>
+	
+	<servlet-mapping>
+		<servlet-name>mcpackRpcServlet</servlet-name>
+		<url-pattern>/api/external/*</url-pattern>
+	</servlet-mapping>
+	
+	 
+	<servlet>
+		<servlet-name>remoting</servlet-name>
+		<servlet-class>
+			org.springframework.web.servlet.DispatcherServlet
+		</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	
+	<servlet-mapping>
+		<servlet-name>remoting</servlet-name>
+		<url-pattern>/rpc/*</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+    	<servlet-name>AxisServlet</servlet-name>
+    	<display-name>Apache-Axis Servlet</display-name>
+    	<servlet-class>
+        	org.apache.axis.transport.http.AxisServlet
+    	</servlet-class>
+  	</servlet>
+
+  	<servlet-mapping>
+   		<servlet-name>AxisServlet</servlet-name>
+    	<url-pattern>/beidou-api/services/*</url-pattern>
+  	</servlet-mapping>
+
+	<security-constraint>
+		<web-resource-collection>
+			<web-resource-name>
+				beidou application
+			</web-resource-name>
+			<url-pattern>/rpc/*</url-pattern>
+		</web-resource-collection>
+		<auth-constraint>
+			<role-name>ctclient</role-name>
+		</auth-constraint>
+	</security-constraint>
+	<login-config>
+		<auth-method>BASIC</auth-method>
+		<realm-name>Tomcat Supported Realm</realm-name>
+	</login-config>
+	<security-role>
+		<description>
+			An role defined in "conf/tomcat-users.xml"
+		</description>
+		<role-name>ctclient</role-name>
+	</security-role>
+
+</web-app>

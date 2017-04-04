@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN 2.0//EN" "http://www.springframework.org/dtd/spring-beans-2.0.dtd">
+
+<!--
+	- Application context definition for "springapp" DispatcherServlet.
+-->
+
+<beans>
+
+	<bean id="unitService"
+		class="com.baidu.beidou.api.external.cprounit.service.impl.UnitServiceImpl">
+		<property name="unitMgr" ref="unitMgr" />
+		<property name="userMgr" ref="userMgr" />
+		<property name="cproGroupMgr" ref="cproGroupMgr" />
+		<property name="iconMgr" ref="iconMgr" />
+		<property name="ubmcService" ref="ubmcService" />
+		<property name="amService" ref="amService" />
+		<property name="planMgr" ref="cproPlanMgr" />
+		<property name="unitIconDao" ref="unitIconDao" />
+	</bean>
+
+	<bean id="adService"
+		class="com.baidu.beidou.api.external.cprounit.exporter.impl.AdServiceImpl">
+		<property name="userMgr" ref="userMgr" />
+		<property name="unitMgr" ref="unitMgr" />
+		<property name="cproGroupMgr" ref="cproGroupMgr" />
+		<property name="unitService" ref="unitService" />
+		<property name="amService" ref="amService" />
+		<property name="addAdMax">
+			<value>100</value>
+		</property>
+		<property name="getAdByAdIdMax">
+			<value>100</value>
+		</property>
+		<property name="updateAdMax">
+			<value>100</value>
+		</property>
+		<property name="deleteAdMax">
+			<value>100</value>
+		</property>
+		<property name="setAdStatusMax">
+			<value>100</value>
+		</property>
+		<property name="replaceAdMax">
+			<value>100</value>
+		</property>
+		<property name="copyAdForAdMax">
+			<value>100</value>
+		</property>
+		<property name="copyAdForGroupMax">
+			<value>100</value>
+		</property>
+	</bean>
+
+	<!-- interceptor定义 -->
+	<bean abstract="true" id="adDataPrivilegeInterceptor"
+		class="com.baidu.beidou.api.external.cprounit.interceptor.AdIdDataPrivilege">
+		<property name="unitMgr" ref="unitMgr"></property>
+	</bean>
+
+	<bean id="adPrivilegeAdvisor"
+		class="org.springframework.aop.aspectj.AspectJExpressionPointcutAdvisor">
+		<property name="advice">
+			<bean parent="adDataPrivilegeInterceptor">
+				<property name="ognlExp">
+					<list>
+						<value>adTypes.{adId}</value>		<!-- updateAd -->
+						<value>adIds</value>				<!-- deleteAd && getAdByAdId && replaceAd && copyAd && getAdInfo-->
+						<value>statusTypes.{adId}</value>	<!-- setAdStatus -->
+						<value>adId</value>					<!-- replaceAd -->
+					</list>
+				</property>
+			</bean>
+		</property>
+		<property name="expression"
+			value="((execution(* *.deleteAd(..)))||(execution(* *.getAdByAdId(..)))
+			||(execution(* *.setAdStatus(..)))||(execution(* *.replaceAd(..)))
+			||(execution(* *.copyAd(..)))||(execution(* *.getAdInfo(..)))||(execution(* *.updateAd(..))))">
+		</property>
+	</bean>
+
+	<!-- 代理定义 -->
+	<bean id="adProxy" parent="apiExternalProxyBase">
+		<property name="target" ref="adService"></property>
+		<property name="proxyInterfaces"
+			value="com.baidu.beidou.api.external.cprounit.exporter.AdService">
+		</property>
+		<property name="interceptorNames">
+			<list merge="true">
+				<value>groupPrivilegeAdvisor</value>
+				<value>adPrivilegeAdvisor</value>
+			</list>
+		</property>
+	</bean>
+
+	<!-- rpc定义 -->
+	<bean class="com.baidu.rpc.server.RpcExporter" scope="singleton">
+		<property name="serviceInterfaceName"
+			value="com.baidu.beidou.api.external.cprounit.exporter.AdService" />
+		<property name="serviceBean">
+			<ref bean="adProxy" />
+		</property>
+	</bean>
+
+</beans>
